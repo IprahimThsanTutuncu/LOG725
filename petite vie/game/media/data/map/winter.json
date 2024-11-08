@@ -1,0 +1,121 @@
+{
+    "image_static": [],
+    "lights": [
+        {
+            "ambient": {
+                "a": 255,
+                "b": 128,
+                "g": 128,
+                "r": 128
+            },
+            "attenuationConstant": 0.0,
+            "attenuationLinear": 0.0,
+            "attenuationQuadratic": 0.0,
+            "diffuse": {
+                "a": 255,
+                "b": 56,
+                "g": 56,
+                "r": 56
+            },
+            "direction": {
+                "x": 0.7682897448539734,
+                "y": -0.18771794438362122,
+                "z": -0.6119582056999207
+            },
+            "isCursor": false,
+            "isDirection": true,
+            "isEnable": false,
+            "isPoint": false,
+            "isSpot": false,
+            "name": "directional",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "specular": {
+                "a": 255,
+                "b": 254,
+                "g": 254,
+                "r": 255
+            }
+        },
+        {
+            "ambient": {
+                "a": 255,
+                "b": 255,
+                "g": 233,
+                "r": 0
+            },
+            "attenuationConstant": 1.100000023841858,
+            "attenuationLinear": 29.799999237060547,
+            "attenuationQuadratic": 300.0,
+            "diffuse": {
+                "a": 255,
+                "b": 254,
+                "g": 255,
+                "r": 255
+            },
+            "direction": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isCursor": false,
+            "isDirection": false,
+            "isEnable": true,
+            "isPoint": true,
+            "isSpot": false,
+            "name": "pointLight",
+            "position": {
+                "x": -23.0,
+                "y": 197.0,
+                "z": 0.0
+            },
+            "specular": {
+                "a": 255,
+                "b": 255,
+                "g": 0,
+                "r": 0
+            }
+        }
+    ],
+    "seed": [],
+    "sprite_static": [],
+    "version": 0.353,
+    "voxel_terrain": {
+        "FOV": 900,
+        "LOD": 0.0,
+        "LOD_startAt": 0.0,
+        "SpriteRenderDistance": 1024.0,
+        "angle": 5.8429999351501465,
+        "blur_type": 2,
+        "height": 20.0,
+        "horizon": 374.0,
+        "isViewTypeFixed": true,
+        "normal_blur_iteration": 5,
+        "normal_blurr": {
+            "x": 10.0,
+            "y": 0.10000000149011612
+        },
+        "offsetCameraPosition": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "position": {
+            "x": -77.0,
+            "y": 153.0,
+            "z": 122.0
+        },
+        "scaleHeight": 1024.0,
+        "screen_height": 600.0,
+        "screen_width": 900.0,
+        "shininess": 32.0,
+        "terrainRenderDistance": 1024.0,
+        "terrain_collision_height_path": "media/image/terrain_height.png",
+        "terrain_collision_mask_path": "media/image/peak/terrain_mask.png",
+        "terrain_color_path": "media/image/2048/terrain_color.png",
+        "terrain_height_path": "media/image/2048/terrain.png"
+    }
+}

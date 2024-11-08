@@ -1,0 +1,5 @@
+%p timerPerChar(0.01) pause(0.3) 
+	\color(255,128,0) Hi,\n
+
+%p timerPerChar(0.01) pause(0) clear
+	\color(255,255,255) Want some \color(255,255,0) light \color(255,0,0) ?

@@ -1,0 +1,21 @@
+%p timerPerChar(0.00) pause(0.0) 
+	\color(40,255,255) edit Option\n
+
+%p timerPerChar(0.0) pause(0.0) clear
+	\color(40,200,200) P - add Point Light\n
+	H - increase horizon\n
+	Y - decrease horizon\n
+	J - increase distance\n
+	U - decrease distance\n
+	K - increase camera height\n
+	I - decrease camera height\n
+	L - increase level Of Detail (LOD)\n
+	O - decrease LOD\n
+	ENTER - show this window\n
+	terrain's png path: media/terrain.png & media/terrainColor.png\n
+
+
+	
+	
+	
+	
