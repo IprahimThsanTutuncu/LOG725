@@ -87,7 +87,7 @@
     <ClCompile Include="src\thsan\vendors\RichText.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\thsan\ressourceManager\SoundBuffferManager.cpp">
+    <ClCompile Include="src\thsan\ressourceManager\SoundManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="src\thsan\ressourceManager\MapDataManager.cpp">
@@ -151,6 +151,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="src\thsan\graphic\RendererPseudo3D_preRender.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thsan\ressourceManager\MusicManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -245,7 +248,7 @@
     <ClInclude Include="src\thsan\vendors\RichText.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="src\thsan\ressourceManager\SoundBuffferManager.h">
+    <ClInclude Include="src\thsan\ressourceManager\SoundManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="src\thsan\ressourceManager\MapDataManager.h">
@@ -342,6 +345,9 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="src\pch.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\thsan\ressourceManager\MusicManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

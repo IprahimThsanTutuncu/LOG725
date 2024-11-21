@@ -107,7 +107,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\SFML-2.5.1\include;%(AdditionalUsingDirectories);$(SolutionDir)Tsue\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\SFML-2.6.2\include;%(AdditionalUsingDirectories);$(SolutionDir)Tsue\src</AdditionalIncludeDirectories>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -155,7 +155,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\SFML-2.5.1\include;%(AdditionalUsingDirectories);$(SolutionDir)Tsue\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\glm;$(SolutionDir)dependencies\SFML-2.6.2\include;%(AdditionalUsingDirectories);$(SolutionDir)Tsue\src</AdditionalIncludeDirectories>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -184,6 +184,7 @@
     <ClCompile Include="src\thsan\gameObject\GameObjectFactory.cpp" />
     <ClCompile Include="src\thsan\graphic\PostProcess.cpp" />
     <ClCompile Include="src\thsan\graphic\RendererPseudo3D_preRender.cpp" />
+    <ClCompile Include="src\thsan\ressourceManager\MusicManager.cpp" />
     <ClCompile Include="src\thsan\ressourceManager\StateManager.cpp" />
     <ClCompile Include="src\thsan\ressourceManager\ThemeManager.cpp" />
     <ClCompile Include="src\thsan\scene\SerializerStaticGameObject.cpp" />
@@ -195,7 +196,7 @@
     <ClCompile Include="src\thsan\gameObject\spriteAnimation\SpriteAnimationRenderComponent.cpp" />
     <ClCompile Include="src\thsan\gameObject\terrain\TerrainRenderComponent.cpp" />
     <ClCompile Include="src\thsan\ressourceManager\MapDataManager.cpp" />
-    <ClCompile Include="src\thsan\ressourceManager\SoundBuffferManager.cpp" />
+    <ClCompile Include="src\thsan\ressourceManager\SoundManager.cpp" />
     <ClCompile Include="src\thsan\config\ControlSetting.cpp" />
     <ClCompile Include="src\thsan\Game.cpp" />
     <ClCompile Include="src\thsan\state\State.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="src\thsan\gameObject\component\NativeScriptComponent.h" />
     <ClInclude Include="src\thsan\gameObject\GameObjectFactory.h" />
     <ClInclude Include="src\thsan\graphic\PostProcess.h" />
+    <ClInclude Include="src\thsan\ressourceManager\MusicManager.h" />
     <ClInclude Include="src\thsan\ressourceManager\StateManager.h" />
     <ClInclude Include="src\thsan\ressourceManager\ThemeManager.h" />
     <ClInclude Include="src\thsan\scene\SerializerStaticGameObject.h" />
@@ -245,7 +247,7 @@
     <ClInclude Include="src\thsan\gameObject\spriteAnimation\SpriteAnimationRenderComponent.h" />
     <ClInclude Include="src\thsan\gameObject\terrain\TerrainRenderComponent.h" />
     <ClInclude Include="src\thsan\ressourceManager\MapDataManager.h" />
-    <ClInclude Include="src\thsan\ressourceManager\SoundBuffferManager.h" />
+    <ClInclude Include="src\thsan\ressourceManager\SoundManager.h" />
     <ClInclude Include="src\thsan\config\ControlSetting.h" />
     <ClInclude Include="src\Thsan.h" />
     <ClInclude Include="src\thsan\Game.h" />

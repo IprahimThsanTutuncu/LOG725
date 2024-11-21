@@ -468,9 +468,11 @@ GameObject* Scene::get_child(const std::string& name)
 
 void Scene::delete_child(const std::string& name)
 {
-    std::unordered_map<std::string, GameObject*>::iterator child_location = m_childrenMap.find(name);
+    auto child_location = m_childrenMap.find(name);
     if (child_location != m_childrenMap.end()) {
         GameObject* go = m_childrenMap[name];
+
+        // Remove from component vectors
         m_inputComponents.erase(
             std::remove_if(
                 m_inputComponents.begin(), m_inputComponents.end(),
@@ -492,20 +494,28 @@ void Scene::delete_child(const std::string& name)
             m_renderComponents.end()
         );
 
-        m_childrenMap[name]->onDelete(*this);
-        collisionEngine->remove(m_childrenMap[name]);
+        // Remove from component maps
+        m_inputComponentsMap.erase(go);
+        m_physicComponentsMap.erase(go);
+        m_renderComponentsMap.erase(go);
+        m_nativeScriptComponentsMap.erase(go);
+
+        // Handle deletion and cleanup
+        go->onDelete(*this);
+        collisionEngine->remove(go);
 
         m_children.erase(
             std::remove_if(
                 m_children.begin(), m_children.end(),
-                [&name](GameObject* go) { return go->getName() == name; }),
+                [&name](GameObject* child) { return child->getName() == name; }),
             m_children.end()
         );
 
-        delete m_childrenMap[name];
+        delete go;
         m_childrenMap.erase(child_location);
     }
 }
+
 
 void Scene::delete_all_child()
 {
