@@ -34,5 +34,6 @@ class PlayerSpriteRenderComponent : public RenderComponent
 
         HitBox attack_hitbox_start;
         HitBox attack_hitbox_mid;
+        HitBox player_hitbox;
 };
 

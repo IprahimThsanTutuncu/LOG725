@@ -11,6 +11,7 @@
 #include  <thsan/UI/CustomButton.h>
 
 #include <thsan/ressourceManager/StateManager.h>
+#include <thsan/ressourceManager/SoundManager.h>
 #include <thsan/ressourceManager/ThemeManager.h>
 
 UIFactory::UIFactory(std::shared_ptr<State> current):

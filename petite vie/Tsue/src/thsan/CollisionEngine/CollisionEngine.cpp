@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CollisionEngine.h"
 #include <glm/glm.hpp>
+#include <glm/gtx/norm.hpp>
 
 CollisionEngine::CollisionEngine()
 {
@@ -185,17 +186,35 @@ std::vector<GameObject*> CollisionEngine::getAllOverlapingGameObjectWithGroups(G
 	return overlapsed;
 }
 
-std::vector<GameObject*> CollisionEngine::getAllOverlapingGameObjectWithGroups(const std::string& name, const std::initializer_list<std::string> groups)
+std::vector<GameObject*> CollisionEngine::getAllOverlapingGameObjectWithGroups(const std::string& name, const std::initializer_list<std::string> groups, bool is_closest_ordered)
 {
-	std::vector<GameObject*> overlapsed;
+	std::vector<GameObject*> overlapped;
 	std::vector<GameObject*> gameObjects = curr_scene->getAllGameObjectFromGroups(groups);
 
 	for (GameObject* other_go : gameObjects) {
 		if (overlap(name, other_go))
-			overlapsed.push_back(other_go);
+			overlapped.push_back(other_go);
 	}
 
-	return overlapsed;
+	if (is_closest_ordered) {
+		if (curr_scene)
+		{
+			Volume name_volume = name_volumes[curr_scene][name];
+			glm::vec3 origin = name_volume.transform->position + name_volume.hitBox->position;
+
+			std::sort(overlapped.begin(), overlapped.end(), [&origin](GameObject* a, GameObject* b) {
+				glm::vec3 pos_a = a->getData<Transform>(DATA_TYPE::TRANSFORM)->position;
+				glm::vec3 pos_b = b->getData<Transform>(DATA_TYPE::TRANSFORM)->position;
+
+				float dist_a = glm::length2(pos_a - origin);
+				float dist_b = glm::length2(pos_b - origin);
+
+				return dist_a < dist_b;
+				});
+		}
+	}
+
+	return overlapped;
 }
 
 

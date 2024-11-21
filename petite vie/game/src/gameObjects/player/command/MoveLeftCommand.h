@@ -1,5 +1,4 @@
-#ifndef MOVELEFTCOMMAND_H
-#define MOVELEFTCOMMAND_H
+#pragma once
 
 #include <thsan/gameObject/component/Input/Command.h>
 
@@ -12,5 +11,3 @@ class MoveLeftCommand : public Command
         void execute(GameObject &parent, Scene &scene, const sf::Time& dt) override;
         void undo(GameObject &parent, Scene &scene, const sf::Time& dt) override;
 };
-
-#endif // MOVELEFTCOMMAND_H

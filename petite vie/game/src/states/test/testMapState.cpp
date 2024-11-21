@@ -13,6 +13,9 @@
 #include "gameObjects/NPC/FixedOnGroundPhysicComponent.h"
 #include "gameObjects/NPC/SimpleDialogNPCInputComponent.h"
 
+#include "gameObjects/enemy/EnemyRenderComponent.h"
+#include "gameObjects/enemy/EnemyPhysicComponent.h"
+
 #include "gameObjects/bar/BarRenderComponent.h"
 
 #include <thsan/gameObject/GameObjectFactory.h>
@@ -79,6 +82,57 @@ void TestMapState::init()
     scene.setGameObjectInputComponent<SimpleDialogNPCInputComponent>(truc);
     scene.setGameObjectPhysicComponent<FixedOnGroundPhysicComponent>(truc);
     scene.setGameObjectRenderComponent<OrangeCuteRenderComponent>(truc);
+
+    GameObject* mechant = scene.createGameObject("motobug");
+    scene.setGameObjectPhysicComponent<EnemyPhysicComponent>(mechant);
+    scene.setGameObjectRenderComponent<EnemyRenderComponent>(mechant);
+
+
+    class BasicEnemyController : public NativeScriptComponent {
+    private:
+        float speed = 0.0f;   
+        glm::vec3 targetDirection; 
+        float changeDirectionInterval = 2.0f;
+        float timeSinceLastDirectionChange = 0.0f;
+
+        glm::vec3 getRandomDirection() 
+        {
+            float angle = static_cast<float>(rand()) / RAND_MAX * glm::two_pi<float>();
+            return glm::normalize(glm::vec3(cos(angle), 0.0f, sin(angle)));
+        }
+
+    public:
+        void init(Scene& scene) override {
+            targetDirection = getRandomDirection();
+        }
+
+        void update(Scene& scene, const sf::Time& dt) override {
+            physicBodyData* physics = parent->getData<physicBodyData>(DATA_TYPE::PHYSIC_BODY);
+            Transform* transform = parent->getData<Transform>(DATA_TYPE::TRANSFORM);
+
+            if (physics && transform) 
+            {
+                timeSinceLastDirectionChange += dt.asSeconds();
+                if (timeSinceLastDirectionChange >= changeDirectionInterval) {
+                    targetDirection = getRandomDirection();
+                    timeSinceLastDirectionChange = 0.0f;
+                }
+
+                // Update physics data
+                physics->force = speed;
+                physics->direction = targetDirection;
+
+
+               
+            }
+        }
+    };
+
+
+    mechant->setNativeScript<BasicEnemyController>();
+
+    Transform* et = mechant->getData<Transform>(DATA_TYPE::TRANSFORM);
+    et->position.z = 100;
 
     GameObject* go = scene.createGameObject("camera");
     scene.setGameObjectPhysicComponent<FollowCameraPhysicComponent>(go, player);

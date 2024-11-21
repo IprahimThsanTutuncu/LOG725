@@ -105,7 +105,7 @@ void PlayerSpriteRenderComponent::init(Scene& scene)
     slashSprite = createSpriteAnimation("media/image/effect/slash_fire.png", "slashSprite");
     attack_hitbox_start.spheres.push_back(Sphere{ 50.f, glm::vec3(0.f) });
     attack_hitbox_mid.spheres.push_back(Sphere{ 200.f, glm::vec3(0.f) });
-
+    player_hitbox.spheres.push_back(Sphere{ 24.f, glm::vec3(0.f) });
     slashSprite->enableLoop(false);
     slashSprite->setKeyColor(sf::Color(0, 0, 0, 0));
     slashSprite->setCurrAnimation("slash");
@@ -119,6 +119,7 @@ void PlayerSpriteRenderComponent::init(Scene& scene)
     slashSprite->addFrame("slash", sf::IntRect(170 * 2, 172 * 2, 170 * 1, 172 * 1), sf::seconds(0.05f));
     slashSprite->addFrame("slash", sf::IntRect(170 * 3, 172 * 2, 170 * 1, 172 * 1), sf::seconds(0.05f));
 
+    CollisionEngine::add("player_hitbox", temp, &player_hitbox);
 
     //make these line of code exist after the animation
     parent->addOnSpriteAnimationRenderEvent("slash", 0.2f, false, [&](GameObject& go, Scene& scene, const sf::Time& at) {
@@ -288,7 +289,8 @@ void PlayerSpriteRenderComponent::update(Scene& scene, const sf::Time& dt, sf::R
         slashSprite->update(dt);
 
         float t = slashSprite->getCurrTimeReached().asSeconds() / slashSprite->getCurrTimeDuration().asSeconds();
-        if (t >= 1.0f) {
+        if (t >= 1.0f) 
+        {
             show_attack_animation = false;
             player_data->curr_state = PlayerData::State::idle;
             slashSprite->resetCurrAnimation();

@@ -43,6 +43,7 @@ void PlayerPhysicComponent::update(Scene& scene,  const sf::Time& dt)
 	Transform* temp = parent->getData<Transform>(DATA_TYPE::TRANSFORM);
 	physicBodyData* phy = parent->getData<physicBodyData>(DATA_TYPE::PHYSIC_BODY);
 	PlayerData* pd = parent->getData<PlayerData>(DATA_TYPE::PLAYER);
+	auto* p = parent->getData<PlayerData>(DATA_TYPE::PLAYER);
 
 	phy->friction = 0.95; // avoir une carte de terrain pour determiner les biomes
 	const float g = 12.5f; // devrait être offert par la scene
@@ -52,6 +53,27 @@ void PlayerPhysicComponent::update(Scene& scene,  const sf::Time& dt)
 	phy->acceleration.x = 0.1f;
 	phy->acceleration.z = 0.1f;
 
+	if (p->curr_state != PlayerData::State::attack && p->curr_state != PlayerData::State::charge)
+	{
+		std::vector<GameObject*> overlapsed_go = CollisionEngine::getAllOverlapingGameObjectWithGroups("player_hitbox", { "enemy" }, true);
+		if (overlapsed_go.size() > 0)
+		{
+			Transform* player_position = parent->getData<Transform>(DATA_TYPE::TRANSFORM);
+			Transform* enemy_position = overlapsed_go[0]->getData<Transform>(DATA_TYPE::TRANSFORM);
+
+			glm::vec3 distance = player_position->position - enemy_position->position;
+
+			p->hp -= 5.f;
+			glm::vec3 force_direction = glm::normalize(distance);
+
+			float knockback_strength = glm::length(distance) * 100.f * ( 1 / (1 - phy->friction));
+
+			phy->force = knockback_strength;
+			phy->direction = force_direction;
+		}
+
+	}
+
 	float weight;
 	phy->masse = 0.29f;
 
@@ -60,7 +82,8 @@ void PlayerPhysicComponent::update(Scene& scene,  const sf::Time& dt)
 			t += dt.asSeconds();
 		weight = phy->masse * g * t;
 	}
-	else {
+	else 
+	{
 		t = 0.f;
 		weight = phy->masse * g;
 	}
@@ -239,7 +262,8 @@ void PlayerPhysicComponent::update(Scene& scene,  const sf::Time& dt)
 		x0 = temp->position.x;
 		z0 = temp->position.z;
 	}
-	else if (isAiming) {
+	else if (isAiming)
+	{
 		glm::vec3 target_position = target_aim->getData<Transform>(DATA_TYPE::TRANSFORM)->position;
 		glm::vec3 dir = glm::normalize(temp->position - target_position);
 		float longeur = glm::length(temp->position - target_position);
@@ -267,7 +291,6 @@ void PlayerPhysicComponent::update(Scene& scene,  const sf::Time& dt)
 	/// maybe some form of inheritance might help out.
 	///
 
-	auto* p = parent->getData<PlayerData>(DATA_TYPE::PLAYER);
 	if (p->curr_state == PlayerData::State::attack) {
 		std::vector<GameObject*> overlapsed_go = CollisionEngine::getAllOverlapingGameObjectWithGroups("player_attack_hitbox", { "plant" });
 

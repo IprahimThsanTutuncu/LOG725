@@ -20,10 +20,13 @@
 #include <thsan/state/transition/transition/Transition.h>
 #include <thsan/ressourceManager/StateManager.h>
 #include <thsan/ressourceManager/ThemeManager.h>
+#include <thsan/ressourceManager/SoundManager.h>
+#include <thsan/ressourceManager/MusicManager.h>
 #include <thsan/util/helper.h>
 
 #include "gameObjects/bar/BarRenderComponent.h"
 #include <states/test/TestMapState.h>
+
 
 MainMenuState::MainMenuState(Game* parent) :
 	State(parent)
@@ -46,6 +49,11 @@ std::string MainMenuState::getType()
 void MainMenuState::init()
 {
 	m_scene = new Scene(this, "media/data/map/shop-1.json", VIEW_TYPE::DYNAMIC_VIEW);
+
+	RessourceManager::SoundManager::setVolume(50);
+	RessourceManager::MusicManager::stop();
+	RessourceManager::MusicManager::setVolume(25);
+	RessourceManager::MusicManager::play("media/music/shop.mp3");
 
 	UI::ShaderUIparam shader_param;
 	shader_param.borderSize[0] = 0.25f;
@@ -79,6 +87,30 @@ void MainMenuState::init()
 
 	lbl_bttn_2->left = lbl_bttn_1;
 	lbl_bttn_2->right = lbl_bttn_1;
+
+
+
+	/*	TODO
+
+		for yulia:
+		->add a setting window which will ask if you want to modify sound or music
+			note:there's a dialogue in media/data/dialogue/mainmenu_setting.txt for the shopkeeper
+
+		le sound mixer faut que tu le fasse toi même dans un
+		pour le sound y'a "RessourceManager::SoundManager::setVolume(100);"
+		pour la music y'a "RessourceManager::MusicManager::setVolume(25);"
+
+		Faudra faire un "std::shared_ptr<DialogueState> dialogueSetting = RessourceManager::StateManager::create<DialogueState>(...);
+"			lbl_bttn_2->connect(UI::Action::pressed, [&]() { m_parent->changeState(dialogueSetting, true); });
+
+		sois créatif I guess pour le UI
+
+		aaah, also, les position sont tous être 0 et 1, c'éest relatif au panel parent.
+		si t'as un panel a position x 0.5, bah c'est 50% de l'ecran.
+		Si ton text est a 0.25, bien c'est size du panel parent multiplier par 0.25
+		confusing to work with, I hate it. Dans le new engine ca existe pas.
+
+	*/
 
 	lbl_bttn_2->connect(UI::Action::pressed, [&]() { /*SHOW LES SETTINGS*/ });
 	lbl_bttn_1->connect(UI::Action::crossed, [lbl_bttn_1]() {lbl_bttn_1->setFontColor(sf::Color::White); });

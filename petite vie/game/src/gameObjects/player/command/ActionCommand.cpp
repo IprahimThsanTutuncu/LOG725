@@ -9,10 +9,12 @@ ActionCommand::ActionCommand()
 void ActionCommand::execute(GameObject& parent, Scene& scene, const sf::Time& dt)
 {
 	std::shared_ptr<State> current = RessourceManager::StateManager::get<State>(scene.getParent()->getId());
-	UIFactory uiFactory(current);
+	if (current) {
+		UIFactory uiFactory(current);
 
-	std::shared_ptr<State> playerlistChoiceBox = uiFactory.createPlayerListChoiceBox(parent, scene);
-	current->getParent()->changeState(playerlistChoiceBox, true);
+		std::shared_ptr<State> playerlistChoiceBox = uiFactory.createPlayerListChoiceBox(parent, scene);
+		current->getParent()->changeState(playerlistChoiceBox, true);
+	}
 }
 
 void ActionCommand::undo(GameObject& parent, Scene& scene, const sf::Time& dt)

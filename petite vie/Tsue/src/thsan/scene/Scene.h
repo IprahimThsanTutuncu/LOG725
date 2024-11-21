@@ -174,7 +174,7 @@ class Scene
 
             updateGameObjectComponent(go);
         }
-        
+
         template<typename T, typename... Args>
         void setGameObjectInputComponent(const std::string& name, Args... args) {
             setGameObjectInputComponent<T>(m_childrenMap[name], args...);

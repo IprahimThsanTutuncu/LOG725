@@ -1,6 +1,7 @@
 #include "PlantCommand.h"
-#include <iostream>
+
 #include <glm/gtx/string_cast.hpp>
+#include <thsan/ressourceManager/SoundManager.h>
 
 PlantCommand::PlantCommand()
 {
@@ -22,6 +23,9 @@ void PlantCommand::execute(GameObject& parent, Scene& scene, const sf::Time& dt)
 	//remove the seed from existence
 
 	//make these line of code exist after the animation
+
+	RessourceManager::SoundManager::play("media/sound/crop.mp3");
+
 	parent.addOnSpriteAnimationRenderEvent("plant", 0.8f, true, [&](GameObject& go, Scene& scene, const sf::Time& at) {
 		plantFactory = new PlantFactory(&scene);
 		GameObject* plant = plantFactory->createTrilleRouge();

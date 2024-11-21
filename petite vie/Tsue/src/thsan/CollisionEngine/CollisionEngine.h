@@ -33,7 +33,7 @@ public:
 	static GameObject* getOneClosestGameObjectWithinRadius(const Transform* transform, float radius, float bottom, float height, Collision_object object);
 	static std::vector<GameObject*> getAllClosestGameObjectWithinRadius(const Transform* transform, float radius, float bottom, float height, Collision_object object);
 	static std::vector<GameObject*> getAllOverlapingGameObjectWithGroups(GameObject* go, const std::initializer_list<std::string> groups);
-	static std::vector<GameObject*> getAllOverlapingGameObjectWithGroups(const std::string& name, const std::initializer_list<std::string> groups);
+	static std::vector<GameObject*> getAllOverlapingGameObjectWithGroups(const std::string& name, const std::initializer_list<std::string> groups, bool is_closest_ordered = false);
 	static bool overlap(GameObject* a, GameObject* b);
 	static bool overlap(GameObject* a, const std::string& b);
 	static bool overlap(const std::string& a, GameObject* b);

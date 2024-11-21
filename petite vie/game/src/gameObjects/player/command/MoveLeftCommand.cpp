@@ -1,8 +1,9 @@
 #include "MoveLeftCommand.h"
-#include <iostream>
+#include <thsan/ressourceManager/SoundManager.h>
+
 MoveLeftCommand::MoveLeftCommand()
 {
-    //ctor
+
 }
 
 MoveLeftCommand::~MoveLeftCommand()
@@ -42,7 +43,6 @@ void MoveLeftCommand::execute(GameObject &parent, Scene &scene, const sf::Time& 
 	phy->direction += -n;
 	
 	phy->force = 2.f;
-
 }
 
 void MoveLeftCommand::undo(GameObject &parent, Scene &scene, const sf::Time& dt)

@@ -41,6 +41,8 @@
     <ClCompile Include="src\gameObjects\player\command\RunCommand.cpp" />
     <ClCompile Include="src\gameObjects\player\command\StopRunCommand.cpp" />
     <ClCompile Include="src\states\test\testMapState.cpp" />
+    <ClCompile Include="src\gameObjects\Enemy\EnemyRenderComponent.cpp" />
+    <ClCompile Include="src\gameObjects\enemy\EnemyPhysicComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\states\choiceBox\ChoiceBoxState.h" />
@@ -82,6 +84,8 @@
     <ClInclude Include="src\gameObjects\player\command\RunCommand.h" />
     <ClInclude Include="src\gameObjects\player\command\StopRunCommand.h" />
     <ClInclude Include="src\states\test\testMapState.h" />
+    <ClInclude Include="src\gameObjects\enemy\EnemyRenderComponent.h" />
+    <ClInclude Include="src\gameObjects\enemy\EnemyPhysicComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="media\shader\postProcess\postprocess.frag" />
