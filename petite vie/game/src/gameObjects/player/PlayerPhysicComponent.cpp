@@ -33,7 +33,7 @@ void PlayerPhysicComponent::init(Scene& scene)
 	temp->position.y = scene.getPhysicalHeightOnPosition(sf::Vector2f(temp->position.x, temp->position.z));
 	hitbox->position = glm::vec3(0.f, 0.f, 0.f);
 	hitbox->collision_object = Collision_object::real;
-	CollisionEngine::add(parent, temp, hitbox);
+	
 	//scene.enableDebugRendering(Debug_rendering::debug_normal);
 }
 
@@ -62,8 +62,9 @@ void PlayerPhysicComponent::update(Scene& scene,  const sf::Time& dt)
 			Transform* enemy_position = overlapsed_go[0]->getData<Transform>(DATA_TYPE::TRANSFORM);
 
 			glm::vec3 distance = player_position->position - enemy_position->position;
+			CharacterStatData* character_stat_data = parent->getData<CharacterStatData>(DATA_TYPE::CHARACTER_STAT);
 
-			p->hp -= 5.f;
+			character_stat_data->curr.hp -= 1.f;
 			glm::vec3 force_direction = glm::normalize(distance);
 
 			float knockback_strength = glm::length(distance) * 100.f * ( 1 / (1 - phy->friction));
@@ -145,7 +146,6 @@ void PlayerPhysicComponent::update(Scene& scene,  const sf::Time& dt)
 		} while (isNextWayHigher);
 
 	}
-
 
 	sf::Vector3f terrain_normal_1 = scene.getNormalOnPosition(sf::Vector2f(temp->position.x + f_dir.x, temp->position.z + f_dir.z));
 	sf::Vector3f terrain_normal_2 = scene.getNormalOnPosition(sf::Vector2f(temp->position.x + f_dir.x + 2, temp->position.z + f_dir.z));
@@ -299,6 +299,21 @@ void PlayerPhysicComponent::update(Scene& scene,  const sf::Time& dt)
 				if (go->hasData(DATA_TYPE::PLANT)) {
 					PlantData* data = go->getData<PlantData>(DATA_TYPE::PLANT);
 					data->current_state = PlantData::State::physical_item;
+				}
+			}
+		}
+
+	}
+
+	if (p->curr_state == PlayerData::State::attack) {
+		std::vector<GameObject*> overlapsed_go = CollisionEngine::getAllOverlapingGameObjectWithGroups("player_attack_hitbox", { "enemy" });
+
+		if (overlapsed_go.size() > 0) {
+			for (GameObject* go : overlapsed_go) {
+				if (go->hasData(DATA_TYPE::CHARACTER_STAT)) {
+					CharacterStatData* data = go->getData<CharacterStatData>(DATA_TYPE::CHARACTER_STAT);
+					CharacterStatData* player_data = parent->getData<CharacterStatData>(DATA_TYPE::CHARACTER_STAT);
+					data->curr.hp -= player_data->atk;
 				}
 			}
 		}

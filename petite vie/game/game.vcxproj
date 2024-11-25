@@ -164,6 +164,7 @@
     <ClCompile Include="src\gameObjects\gear\weapon\faucille\FaucillePhysicComponent.cpp" />
     <ClCompile Include="src\gameObjects\gear\weapon\WeaponFactory.cpp" />
     <ClCompile Include="src\gameObjects\gear\weapon\WeaponPhysicComponent.cpp" />
+    <ClCompile Include="src\gameObjects\healthbar\HealthBarRenderComponent.cpp" />
     <ClCompile Include="src\gameObjects\NPC\FixedOnGroundPhysicComponent.cpp" />
     <ClCompile Include="src\gameObjects\NPC\OrangeCuteRenderComponent.cpp" />
     <ClCompile Include="src\gameObjects\NPC\SimpleDialogNPCInputComponent.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="src\gameObjects\gear\weapon\faucille\FaucillePhysicComponent.h" />
     <ClInclude Include="src\gameObjects\gear\weapon\WeaponFactory.h" />
     <ClInclude Include="src\gameObjects\gear\weapon\WeaponPhysicComponent.h" />
+    <ClInclude Include="src\gameObjects\healthbar\HealthBarRenderComponent.h" />
     <ClInclude Include="src\gameObjects\NPC\FixedOnGroundPhysicComponent.h" />
     <ClInclude Include="src\gameObjects\NPC\OrangeCuteRenderComponent.h" />
     <ClInclude Include="src\gameObjects\NPC\SimpleDialogNPCInputComponent.h" />

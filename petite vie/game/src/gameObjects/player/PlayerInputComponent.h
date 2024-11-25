@@ -48,6 +48,7 @@ class PlayerInputComponent : public InputComponent
         PlayerData* player_data;
         BagData* bag_data;
         CharacterStatData* character_stat_data;
+        GameObject* healthBar;
 };
 
 #endif // PLAYERINPUTCOMPONENT_H

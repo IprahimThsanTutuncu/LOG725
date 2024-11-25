@@ -79,6 +79,8 @@ void MainMenuState::init()
 
 	std::shared_ptr<DialogueState> dialogue = RessourceManager::StateManager::create<DialogueState>(m_parent, curr_state, sf::Vector2f(0.45f, 0.20f), sf::Vector2f(0.4, 0.2), "media/data/dialogue/mainmenu.txt", *shader_param_ptr, sf::Color::Red, 0.3f, 0.0f);
 
+	id_dialogue = dialogue->getId();
+
 	std::vector<UI::LabelButton*> bttns;
 	UI::LabelButton* lbl_bttn_1 = new UI::LabelButton("lbl_bttn_1", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, -0.15), "Play", 0.75f, sf::Color::White);
 	UI::LabelButton* lbl_bttn_2 = new UI::LabelButton("lbl_bttn_2", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.55, -0.15), "Setting", 0.75f, sf::Color::White);
@@ -87,8 +89,6 @@ void MainMenuState::init()
 
 	lbl_bttn_2->left = lbl_bttn_1;
 	lbl_bttn_2->right = lbl_bttn_1;
-
-
 
 	/*	TODO
 
@@ -112,7 +112,71 @@ void MainMenuState::init()
 
 	*/
 
-	lbl_bttn_2->connect(UI::Action::pressed, [&]() { /*SHOW LES SETTINGS*/ });
+	lbl_bttn_2->connect(UI::Action::pressed, [&]()
+		{
+		std::shared_ptr<UI::ShaderUIparam> shader_param_ptr = RessourceManager::ThemeManager::get("media/data/theme/FF7.json");
+		std::shared_ptr<State> curr_state = RessourceManager::StateManager::get<State>(this->getId());
+
+		std::shared_ptr<DialogueState> dialogueSetting = RessourceManager::StateManager::create<DialogueState>(
+			m_parent,
+			curr_state,
+			sf::Vector2f(0.45f, 0.20f),
+			sf::Vector2f(0.4, 0.2),
+			"media/data/dialogue/mainmenu_setting.txt",
+			*shader_param_ptr,
+			sf::Color::Red,
+			0.3f,
+			0.0f
+		);
+
+		std::vector<UI::LabelButton*> bttnsSetting;
+		UI::LabelButton* lbl_bttn_music = new UI::LabelButton("lbl_bttn_music", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, -0.15), "Music", 0.75f, sf::Color::White);
+		UI::LabelButton* lbl_bttn_sound = new UI::LabelButton("lbl_bttn_sound", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.55, -0.15), "Sound", 0.75f, sf::Color::White);
+		lbl_bttn_music->left = lbl_bttn_sound;
+		lbl_bttn_music->right = lbl_bttn_sound;
+
+		lbl_bttn_sound->left = lbl_bttn_music;
+		lbl_bttn_sound->right = lbl_bttn_music;
+
+		/* TODO 
+			EDIT: ACCIDENTAL CAPS LOCK
+
+			HERE IS BUTTON FOR MUSIC AND SOUND
+			ADD ANOTHER CALLED "NOTHING" QUI RAMÈNE AU MAINMEMU, MUSIC ET SOUND RAMENE AU MAINMENU EN CE MOMENT
+		
+		*/
+		lbl_bttn_music->connect(UI::Action::pressed, [&]()
+			{
+				std::shared_ptr<State> curr_state = RessourceManager::StateManager::get<State>(this->getId());
+
+				RessourceManager::MusicManager::setVolume(25);
+				std::cout << "Music volume set to 25." << std::endl;
+				m_parent->changeState(curr_state, true);
+
+			});
+
+		lbl_bttn_sound->connect(UI::Action::pressed, [&]() 
+			{
+			std::shared_ptr<State> curr_state = RessourceManager::StateManager::get<State>(this->getId());
+
+			RessourceManager::SoundManager::setVolume(100);
+			std::cout << "Sound volume set to 100." << std::endl;
+			m_parent->changeState(curr_state, true);
+
+			});
+
+		lbl_bttn_music->connect(UI::Action::crossed, [lbl_bttn_music]() {lbl_bttn_music->setFontColor(sf::Color::White); });
+		lbl_bttn_music->connect(UI::Action::hover, [lbl_bttn_music]() {lbl_bttn_music->setFontColor(sf::Color::Red); });
+
+		lbl_bttn_sound->connect(UI::Action::crossed, [lbl_bttn_sound]() {lbl_bttn_sound->setFontColor(sf::Color::White); });
+		lbl_bttn_sound->connect(UI::Action::hover, [lbl_bttn_sound]() {lbl_bttn_sound->setFontColor(sf::Color::Red); });
+
+		bttnsSetting = { lbl_bttn_music, lbl_bttn_sound };
+		dialogueSetting->addChoiceBox(bttnsSetting, 0, sf::Vector2f(0.4f, 0.35f), sf::Vector2f(0.3, 0.1));
+
+		m_parent->changeState(dialogueSetting, true);
+	});
+
 	lbl_bttn_1->connect(UI::Action::crossed, [lbl_bttn_1]() {lbl_bttn_1->setFontColor(sf::Color::White); });
 
 	lbl_bttn_1->connect(UI::Action::hover, [lbl_bttn_1]() {

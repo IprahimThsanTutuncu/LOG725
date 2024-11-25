@@ -21,6 +21,43 @@
 #include <thsan/gameObject/GameObjectFactory.h>
 #include <glm/gtx/string_cast.hpp>
 
+#include "gameObjects/plant/PlantFactory.h"
+#include <cstdlib> 
+#include <ctime> 
+
+void TestMapState::generatePlantsInRange(int n, float range, GameObject* player) {
+    PlantFactory pf(&scene);
+
+    Transform* playerTransform = player->getData<Transform>(DATA_TYPE::TRANSFORM);
+    if (!playerTransform) return;
+
+    glm::vec3 playerPosition = playerTransform->position;
+
+    static bool seeded = false;
+    if (!seeded) {
+        std::srand(static_cast<unsigned int>(std::time(0))); 
+        seeded = true;
+    }
+
+    for (int i = 0; i < n; ++i) 
+    {
+        float randomX = playerPosition.x + (rand() % static_cast<int>(range * 2)) - range;
+        float randomZ = playerPosition.z + (rand() % static_cast<int>(range * 2)) - range;
+
+        GameObject* plant = pf.createTrilleRouge(); 
+        Transform* plantTransform = plant->getData<Transform>(DATA_TYPE::TRANSFORM);
+        if (plantTransform) {
+            plantTransform->position = glm::vec3(randomX, plantTransform->position.y, randomZ);
+            plantTransform->scale = glm::vec2(0.1, 0.1);
+        }
+
+        PlantData* plant_data = plant->getData<PlantData>(DATA_TYPE::PLANT);
+        plant_data->hp = 100;
+        if (plant_data)
+            plant_data->current_state = PlantData::State::planted;
+    }
+}
+
 TestMapState::TestMapState(Game* parent) :
     State(parent),
     scene(this, "media/data/map/test_roll.json", VIEW_TYPE::DYNAMIC_VIEW)
@@ -32,48 +69,114 @@ std::string TestMapState::getType()
     return "hxh";
 }
 
+
+class BasicEnemyController : public NativeScriptComponent {
+private:
+    float speed = 0.1f;
+    glm::vec3 targetDirection;
+    float changeDirectionInterval = 2.0f;
+    float timeSinceLastDirectionChange = 0.0f;
+
+    glm::vec3 getRandomDirection()
+    {
+        float angle = static_cast<float>(rand()) / RAND_MAX * glm::two_pi<float>();
+        return glm::normalize(glm::vec3(cos(angle), 0.0f, sin(angle)));
+    }
+
+public:
+    void init(Scene& scene) override {
+        targetDirection = getRandomDirection();
+    }
+
+    void update(Scene& scene, const sf::Time& dt) override {
+        physicBodyData* physics = parent->getData<physicBodyData>(DATA_TYPE::PHYSIC_BODY);
+        Transform* transform = parent->getData<Transform>(DATA_TYPE::TRANSFORM);
+
+        if (physics && transform)
+        {
+            timeSinceLastDirectionChange += dt.asSeconds();
+            if (timeSinceLastDirectionChange >= changeDirectionInterval) {
+                targetDirection = getRandomDirection();
+                timeSinceLastDirectionChange = 0.0f;
+            }
+
+            // Update physics data
+            physics->force = speed * dt.asSeconds();
+            physics->direction = targetDirection;
+
+
+
+        }
+    }
+};
+
+GameObject* generateEnemy(Scene& scene, const glm::vec3& position)
+{
+    static int enemyId = 0;
+
+    std::string uniqueName = "motobug_" + std::to_string(enemyId++);
+
+    GameObject* enemy = scene.createGameObject(uniqueName);
+    scene.setGameObjectPhysicComponent<EnemyPhysicComponent>(enemy);
+    scene.setGameObjectRenderComponent<EnemyRenderComponent>(enemy);
+
+    Transform* transform = enemy->getData<Transform>(DATA_TYPE::TRANSFORM);
+    if (transform) {
+        transform->position = position;
+    }
+
+    enemy->setNativeScript<BasicEnemyController>();
+    return enemy;
+}
+
+GameObject* spawner(Scene& scene, GameObject* player, float minDistance, float maxDistance) {
+    if (minDistance > maxDistance) std::swap(minDistance, maxDistance);
+
+    Transform* playerTransform = player->getData<Transform>(DATA_TYPE::TRANSFORM);
+    if (!playerTransform) return nullptr;
+
+    glm::vec3 playerPos = playerTransform->position;
+
+    float angle = static_cast<float>(rand()) / RAND_MAX * glm::two_pi<float>();
+    glm::vec3 randomDirection = glm::normalize(glm::vec3(cos(angle), 0.f, sin(angle)));
+
+    float distance = minDistance + static_cast<float>(rand()) / RAND_MAX * (maxDistance - minDistance);
+
+    glm::vec3 spawnPosition = playerPos + randomDirection * distance;
+
+    return generateEnemy(scene, spawnPosition);
+}
+
+void TestMapState::spawnTrilleRougeWithPosition(float x, float z) {
+    PlantFactory pf(&scene);
+    GameObject* plant = pf.createTrilleRouge(); 
+
+    Transform* transform = plant->getData<Transform>(DATA_TYPE::TRANSFORM);
+    if (transform)
+    {
+        transform->position.x = x;
+        transform->position.z = z;
+
+        transform->scale = glm::vec2(0.1f, 0.1f);
+    }
+
+    PlantData* plant_data = plant->getData<PlantData>(DATA_TYPE::PLANT);
+    plant_data->hp = 100;
+    if (plant_data)
+        plant_data->current_state = PlantData::State::planted;
+}
+
+
+
 void TestMapState::init()
 {
+    PlantFactory pf(&scene);
+    GameObject* plant = pf.createTrilleRouge();
+
     GameObject* player = scene.createGameObject("player");
     scene.setGameObjectInputComponent<PlayerInputComponent>(player);
     scene.setGameObjectPhysicComponent<PlayerPhysicComponent>(player);
     scene.setGameObjectRenderComponent<PlayerSpriteRenderComponent>(player);
-
-    PlantData plant;
-    plant.name = "rouge fleur";
-    plant.hp = 105.f;
-
-    PlantData plant2;
-    plant2.name = "bleu fleur";
-    plant2.hp = 65.f;
-
-    PlantData plant3;
-    plant3.name = "vert fleur";
-    plant3.hp = 65.f;
-
-    PlantData plant4;
-    plant4.name = "mauve fleur";
-    plant4.hp = 65.f;
-
-    PlantData plant5;
-    plant5.name = "ma fleur";
-    plant5.hp = 65.f;
-
-    PlantData plant6;
-    plant6.name = "me fleur";
-    plant6.hp = 65.f;
-
-    PlantData plant7;
-    plant7.name = "mi fleur";
-    plant7.hp = 65.f;
-
-    player->getData<BagData>(DATA_TYPE::BAG)->addPlant(plant);
-    player->getData<BagData>(DATA_TYPE::BAG)->addPlant(plant2);
-    player->getData<BagData>(DATA_TYPE::BAG)->addPlant(plant3);
-    player->getData<BagData>(DATA_TYPE::BAG)->addPlant(plant4);
-    player->getData<BagData>(DATA_TYPE::BAG)->addPlant(plant5);
-    player->getData<BagData>(DATA_TYPE::BAG)->addPlant(plant6);
-    player->getData<BagData>(DATA_TYPE::BAG)->addPlant(plant7);
 
     Transform* player_t = player->getData<Transform>(DATA_TYPE::TRANSFORM);
     player_t->position = glm::vec3(0.f, player_t->position.y, 0.f);
@@ -83,54 +186,10 @@ void TestMapState::init()
     scene.setGameObjectPhysicComponent<FixedOnGroundPhysicComponent>(truc);
     scene.setGameObjectRenderComponent<OrangeCuteRenderComponent>(truc);
 
-    GameObject* mechant = scene.createGameObject("motobug");
-    scene.setGameObjectPhysicComponent<EnemyPhysicComponent>(mechant);
-    scene.setGameObjectRenderComponent<EnemyRenderComponent>(mechant);
+    generatePlantsInRange(20, 200, player);
 
-
-    class BasicEnemyController : public NativeScriptComponent {
-    private:
-        float speed = 0.0f;   
-        glm::vec3 targetDirection; 
-        float changeDirectionInterval = 2.0f;
-        float timeSinceLastDirectionChange = 0.0f;
-
-        glm::vec3 getRandomDirection() 
-        {
-            float angle = static_cast<float>(rand()) / RAND_MAX * glm::two_pi<float>();
-            return glm::normalize(glm::vec3(cos(angle), 0.0f, sin(angle)));
-        }
-
-    public:
-        void init(Scene& scene) override {
-            targetDirection = getRandomDirection();
-        }
-
-        void update(Scene& scene, const sf::Time& dt) override {
-            physicBodyData* physics = parent->getData<physicBodyData>(DATA_TYPE::PHYSIC_BODY);
-            Transform* transform = parent->getData<Transform>(DATA_TYPE::TRANSFORM);
-
-            if (physics && transform) 
-            {
-                timeSinceLastDirectionChange += dt.asSeconds();
-                if (timeSinceLastDirectionChange >= changeDirectionInterval) {
-                    targetDirection = getRandomDirection();
-                    timeSinceLastDirectionChange = 0.0f;
-                }
-
-                // Update physics data
-                physics->force = speed;
-                physics->direction = targetDirection;
-
-
-               
-            }
-        }
-    };
-
-
-    mechant->setNativeScript<BasicEnemyController>();
-
+    //put this in a methode where I can generate mechants object with a position on x and z
+    GameObject* mechant = generateEnemy(scene, glm::vec3(0, 0, 100));
     Transform* et = mechant->getData<Transform>(DATA_TYPE::TRANSFORM);
     et->position.z = 100;
 

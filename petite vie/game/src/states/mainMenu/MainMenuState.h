@@ -18,4 +18,7 @@ class MainMenuState : public State
 
     private:
         Scene* m_scene;
+
+        std::string id_dialogue;
+        std::string id_dialogue_setting;
 };

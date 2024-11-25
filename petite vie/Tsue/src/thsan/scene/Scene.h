@@ -15,6 +15,7 @@
 #include <SFML/Window/Event.hpp>
 
 #include "thsan/graphic/light/DirectionalLight.h"
+#include "thsan/CollisionEngine/CollisionEngine.h"
 
 namespace data
 {
@@ -40,7 +41,6 @@ class RendererPseudo3D;
 class PointLight;
 class VoxelTerrain;
 class PostProcess;
-class CollisionEngine;
 
 namespace Config
 {
@@ -111,6 +111,8 @@ class Scene
 
         template<typename T, typename... Args>
         void setGameObjectInputComponent(GameObject* go, Args... args) {
+            CollisionEngine::bind(this);
+
             static_assert(std::is_base_of<InputComponent, T>::value, "T must derive from InputComponent");
 
             InputComponent* inputComp = new T(args...);
@@ -133,6 +135,8 @@ class Scene
 
         template<typename T, typename... Args>
         void setGameObjectPhysicComponent(GameObject* go, Args... args) {
+            CollisionEngine::bind(this);
+
             static_assert(std::is_base_of<PhysicComponent, T>::value, "T must derive from PhysicComponent");
 
             PhysicComponent* physicComp = new T(args...);
@@ -155,6 +159,8 @@ class Scene
 
         template<typename T, typename... Args>
         void setGameObjectRenderComponent(GameObject* go, Args... args) {
+            CollisionEngine::bind(this);
+
             static_assert(std::is_base_of<RenderComponent, T>::value, "T must derive from RenderComponent");
 
             RenderComponent* renderComp = new T(args...);

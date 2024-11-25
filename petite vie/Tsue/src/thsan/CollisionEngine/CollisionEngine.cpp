@@ -199,6 +199,9 @@ std::vector<GameObject*> CollisionEngine::getAllOverlapingGameObjectWithGroups(c
 	if (is_closest_ordered) {
 		if (curr_scene)
 		{
+			if (name_volumes[curr_scene].count(name) == 0)
+				return overlapped;
+
 			Volume name_volume = name_volumes[curr_scene][name];
 			glm::vec3 origin = name_volume.transform->position + name_volume.hitBox->position;
 

@@ -30,9 +30,13 @@ void PlayerSpriteRenderComponent::init(Scene& scene)
         parent->setData(DATA_TYPE::BAG, new BagData());
     }
 
-    Transform* temp = parent->getData<Transform>(DATA_TYPE::TRANSFORM);
-    temp->scale.x = 0.45f;
-    temp->scale.y = 0.45f;
+    if (!parent->hasData(DATA_TYPE::CHARACTER_STAT)) {
+        parent->setData(DATA_TYPE::CHARACTER_STAT, new CharacterStatData());
+    }
+
+    player_transform = parent->getData<Transform>(DATA_TYPE::TRANSFORM);
+    player_transform->scale.x = 0.45f;
+    player_transform->scale.y = 0.45f;
 
     playerSprite.setShininess(32.f);
 
@@ -89,37 +93,44 @@ void PlayerSpriteRenderComponent::init(Scene& scene)
     playerSprite.addFrame("charging", sf::IntRect(218, 1067, 20, 22), sf::seconds(0.05f));
     playerSprite.addFrame("charging", sf::IntRect(246, 1068, 20, 20), sf::seconds(0.05f));
 
+    playerSprite.setCurrAnimation("punch");
+    playerSprite.addFrame("punch", sf::IntRect(14, 595, 24, 33), sf::seconds(0.1f));
+    playerSprite.addFrame("punch", sf::IntRect(43, 596, 24, 32), sf::seconds(0.05f));
+    playerSprite.addFrame("punch", sf::IntRect(72, 595, 39, 33), sf::seconds(0.05f));
+    playerSprite.addFrame("punch", sf::IntRect(116, 595, 37, 33), sf::seconds(0.1f));
+    playerSprite.addFrame("punch", sf::IntRect(158, 596, 28, 32), sf::seconds(0.05f));
+    playerSprite.addFrame("punch", sf::IntRect(191, 595, 21, 32), sf::seconds(0.05f));
+
 	//playerSprite.setDepthTexture("media/image/base0.png");
 
-    plantSprite = createSpriteAnimation("media/image/effect/slash_fire.png", "plantSprite");
+    plantSprite = createSpriteAnimation("media/image/effect/fx.png", "plantSprite");
 
     plantSprite->enableLoop(false);
-    plantSprite->setKeyColor(sf::Color(0, 0, 0, 0));
+    plantSprite->setKeyColor(sf::Color(42, 81, 114, 255));
+
     plantSprite->setCurrAnimation("plant");
-    plantSprite->addFrame("plant", sf::IntRect(0, 0, 1, 1), sf::seconds(0.1f));
+    plantSprite->setShininess(32);
+    plantSprite->addFrame("plant", sf::IntRect(12, 150, 22, 18), sf::seconds(0.05f));
+    plantSprite->addFrame("plant", sf::IntRect(41, 149, 24, 20), sf::seconds(0.08f));
+    plantSprite->addFrame("plant", sf::IntRect(72, 148, 26, 22), sf::seconds(0.09f));
+    plantSprite->addFrame("plant", sf::IntRect(106, 147, 28, 24), sf::seconds(0.1f));
 
     ////////////////////////////////////////////
     // set up hitbox and animation of attacks //
     //////////////////////////////////////////// 
 
-    slashSprite = createSpriteAnimation("media/image/effect/slash_fire.png", "slashSprite");
-    attack_hitbox_start.spheres.push_back(Sphere{ 50.f, glm::vec3(0.f) });
-    attack_hitbox_mid.spheres.push_back(Sphere{ 200.f, glm::vec3(0.f) });
-    player_hitbox.spheres.push_back(Sphere{ 24.f, glm::vec3(0.f) });
+    slashSprite = createSpriteAnimation("media/image/effect/fx.png", "slashSprite");
+    attack_hitbox_start.spheres.push_back(Sphere{ 10.f, glm::vec3(0.f) });
+    attack_hitbox_mid.spheres.push_back(Sphere{ 15.f, glm::vec3(0.f) });
+    player_hitbox.spheres.push_back(Sphere{ 16.f, glm::vec3(0.f) });
     slashSprite->enableLoop(false);
-    slashSprite->setKeyColor(sf::Color(0, 0, 0, 0));
+    slashSprite->setKeyColor(sf::Color(42, 81, 114, 255));
     slashSprite->setCurrAnimation("slash");
-    slashSprite->addFrame("slash", sf::IntRect(215, 201, 127, 119), sf::seconds(0.1f));
-    slashSprite->addFrame("slash", sf::IntRect(170 * 1, 172 * 1, 170 * 1, 172 * 1), sf::seconds(0.05f));
-    slashSprite->addFrame("slash", sf::IntRect(170 * 2, 172 * 1, 170 * 1, 172 * 1), sf::seconds(0.05f));
-    slashSprite->addFrame("slash", sf::IntRect(170 * 3, 172 * 1, 170 * 1, 172 * 1), sf::seconds(0.05f));
-    slashSprite->addFrame("slash", sf::IntRect(170 * 4, 172 * 1, 170 * 1, 172 * 1), sf::seconds(0.05f));
-    slashSprite->addFrame("slash", sf::IntRect(170 * 0, 172 * 2, 170 * 1, 172 * 1), sf::seconds(0.05f));
-    slashSprite->addFrame("slash", sf::IntRect(170 * 1, 172 * 2, 170 * 1, 172 * 1), sf::seconds(0.05f));
-    slashSprite->addFrame("slash", sf::IntRect(170 * 2, 172 * 2, 170 * 1, 172 * 1), sf::seconds(0.05f));
-    slashSprite->addFrame("slash", sf::IntRect(170 * 3, 172 * 2, 170 * 1, 172 * 1), sf::seconds(0.05f));
-
-    CollisionEngine::add("player_hitbox", temp, &player_hitbox);
+    slashSprite->setShininess(2.f);
+    slashSprite->addFrame("slash", sf::IntRect(14, 16, 9, 10), sf::seconds(0.1f));
+    slashSprite->addFrame("slash", sf::IntRect(34, 15, 13, 11), sf::seconds(0.1f));
+    slashSprite->addFrame("slash", sf::IntRect(55, 15, 13, 11), sf::seconds(0.1f));
+    slashSprite->addFrame("slash", sf::IntRect(75, 10, 20, 19), sf::seconds(0.1f));
 
     //make these line of code exist after the animation
     parent->addOnSpriteAnimationRenderEvent("slash", 0.2f, false, [&](GameObject& go, Scene& scene, const sf::Time& at) {
@@ -136,9 +147,10 @@ void PlayerSpriteRenderComponent::init(Scene& scene)
         glm::vec3 n = glm::normalize(glm::vec3(sin(camera_angle + pi / 2), 0.f, cos(camera_angle + pi / 2)));
         if (playerSprite.isFlipX())
             n = -n;
-        n *= 10.0f;
+        n *= 3.0f;
 
         attack_hitbox_start.position = n;
+        attack_hitbox_start.position.y += 5.f;
         
         CollisionEngine::add("player_attack_hitbox", tr_player, &attack_hitbox_start);
     });
@@ -160,6 +172,8 @@ void PlayerSpriteRenderComponent::init(Scene& scene)
         n *= 10.0f;
 
         attack_hitbox_mid.position = n;
+        attack_hitbox_start.position.y += 5.f;
+
         CollisionEngine::remove("player_attack_hitbox");
         CollisionEngine::add("player_attack_hitbox", tr_player, &attack_hitbox_mid);
     });
@@ -167,6 +181,11 @@ void PlayerSpriteRenderComponent::init(Scene& scene)
 
 void PlayerSpriteRenderComponent::update(Scene& scene, const sf::Time& dt, sf::RenderTarget& target, RendererPseudo3D& renderer)
 {
+    if (!isCollisionAdded)
+    {
+        CollisionEngine::add("player_hitbox", player_transform, &player_hitbox);
+        isCollisionAdded = true;
+    }
     //renderer.enableDebugRendering(Debug_rendering::debug_normal);
     Transform* temp = parent->getData<Transform>(DATA_TYPE::TRANSFORM);
     PlayerData* player_data = parent->getData<PlayerData>(DATA_TYPE::PLAYER);
@@ -245,7 +264,6 @@ void PlayerSpriteRenderComponent::update(Scene& scene, const sf::Time& dt, sf::R
         playerSprite.flipX();
         isLookingLeft = true;
     }
-    
     renderer.add(&playerSprite, sf::Vector3f(position.x, position.y, position.z), sf::Vector2f(temp->scale.x, temp->scale.y), 0);
 
     ///////////////////////////////
@@ -270,7 +288,7 @@ void PlayerSpriteRenderComponent::update(Scene& scene, const sf::Time& dt, sf::R
         if (playerSprite.isFlipX())
             n = -n;
         n *= 10.0f;
-        renderer.add(&*plantSprite, sf::Vector3f(position.x + n.x, position.y + n.y, position.z + n.z), sf::Vector2f(temp->scale.x, temp->scale.y), 0);
+        //renderer.add(&*plantSprite, sf::Vector3f(position.x + n.x, position.y + n.y, position.z + n.z), sf::Vector2f(temp->scale.x, temp->scale.y), 0);
     }
 
     /////////////////////////////
@@ -280,6 +298,7 @@ void PlayerSpriteRenderComponent::update(Scene& scene, const sf::Time& dt, sf::R
     static bool show_attack_animation = false;
 
     if (player_data->curr_state == PlayerData::State::attack) {
+        playerSprite.setCurrAnimation("punch");
         slashSprite->setCurrAnimation("slash");
         show_attack_animation = true;
     }
@@ -300,7 +319,7 @@ void PlayerSpriteRenderComponent::update(Scene& scene, const sf::Time& dt, sf::R
         if (playerSprite.isFlipX())
             n = -n;
         n *= 10.0f;
-        renderer.add(&*slashSprite, sf::Vector3f(position.x + n.x, position.y + n.y, position.z + n.z), sf::Vector2f(temp->scale.x, temp->scale.y), 0);
+        renderer.add(&*slashSprite, sf::Vector3f(position.x + n.x, position.y + n.y + 5.f, position.z + n.z), sf::Vector2f(temp->scale.x, temp->scale.y), 0);
     }
 
     renderer.trackSpriteWithTag(&playerSprite, parent->getName());

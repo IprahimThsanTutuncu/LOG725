@@ -308,12 +308,48 @@ float Scene::getRenderHeightOnPosition(sf::Vector2f position)
 
 float Scene::getPhysicalHeightOnPosition(sf::Vector2f position)
 {
-   return rendererPseudo3D->terrain->getPhysicalHeight(position);
+    auto p = position;
+    if (p.x > rendererPseudo3D->getHalfSize().x) {
+        p.x = rendererPseudo3D->getHalfSize().x - 1;
+    }
+    else if (p.x < -rendererPseudo3D->getHalfSize().x)
+    {
+        p.x = -rendererPseudo3D->getHalfSize().x + 1;
+    }
+
+    if (p.y > rendererPseudo3D->getHalfSize().y)
+    {
+        p.y = rendererPseudo3D->getHalfSize().y - 1;
+    }
+    else if (p.y < -rendererPseudo3D->getHalfSize().y)
+    {
+        p.y = -rendererPseudo3D->getHalfSize().y + 1;
+    }
+
+   return rendererPseudo3D->terrain->getPhysicalHeight(p);
 }
 
 sf::Vector3f Scene::getNormalOnPosition(sf::Vector2f position)
 {
-    sf::Vector3f normal = rendererPseudo3D->terrain->getNormal(position);
+    auto p = position;
+    if (p.x > rendererPseudo3D->getHalfSize().x) {
+        p.x = rendererPseudo3D->getHalfSize().x - 1;
+    }
+    else if (p.x < -rendererPseudo3D->getHalfSize().x)
+    {
+        p.x = -rendererPseudo3D->getHalfSize().x + 1;
+    }
+
+    if (p.y > rendererPseudo3D->getHalfSize().y)
+    {
+        p.y = rendererPseudo3D->getHalfSize().y - 1;
+    }
+    else if (p.y < -rendererPseudo3D->getHalfSize().y)
+    {
+        p.y = -rendererPseudo3D->getHalfSize().y + 1;
+    }
+
+    sf::Vector3f normal = rendererPseudo3D->terrain->getNormal(p);
     return normal;
 }
 

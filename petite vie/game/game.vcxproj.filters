@@ -43,6 +43,7 @@
     <ClCompile Include="src\states\test\testMapState.cpp" />
     <ClCompile Include="src\gameObjects\Enemy\EnemyRenderComponent.cpp" />
     <ClCompile Include="src\gameObjects\enemy\EnemyPhysicComponent.cpp" />
+    <ClCompile Include="src\gameObjects\healthbar\HealthBarRenderComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\states\choiceBox\ChoiceBoxState.h" />
@@ -86,6 +87,7 @@
     <ClInclude Include="src\states\test\testMapState.h" />
     <ClInclude Include="src\gameObjects\enemy\EnemyRenderComponent.h" />
     <ClInclude Include="src\gameObjects\enemy\EnemyPhysicComponent.h" />
+    <ClInclude Include="src\gameObjects\healthbar\HealthBarRenderComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="media\shader\postProcess\postprocess.frag" />

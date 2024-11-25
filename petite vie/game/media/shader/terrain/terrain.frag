@@ -490,7 +490,7 @@ void main()
             if(is_debug_none){
 			    gl_FragColor = vec4( fogColor.xyz*(1.0 - factor) + pixel.xyz * factor, 1.0);
                 if(has_sprite_emissionTexture){
-                    vec4 color = texture2D(sprite_emissionTexture, gl_TexCoord[0].xy);
+                    vec4 color = texture2D(sprite_emissionTexture, gl_TexCoord[0].xy) * gl_Color;
                     if(color != sprite_key_color)
                         gl_FragColor = vec4(color.rgb, 1.0);
                 }

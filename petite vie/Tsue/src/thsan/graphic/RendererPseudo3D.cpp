@@ -138,7 +138,12 @@ void RendererPseudo3D::add_on_top_without_perspective(sf::RectangleShape* rectan
 
 void RendererPseudo3D::trackSpriteWithTag(SpriteAnimation* spriteAnimation, const std::string& tag)
 {
-    tags.push_back(tag);
+    auto it = std::find(tags.begin(), tags.end(), tag);
+    if (it == tags.end())
+    {
+        tags.push_back(tag);
+    }
+
     spriteByTags[tag] = spriteAnimation;
 }
 
@@ -146,6 +151,12 @@ sf::FloatRect RendererPseudo3D::querySpriteRectAssociateWith(const std::string& 
 {
     SpriteAnimation* sa = spriteByTags[tag];
     return  sa->getGlobalBounds();
+}
+
+SpriteAnimation* RendererPseudo3D::querySpriteAssociateWith(const std::string& tag)
+{
+    SpriteAnimation* sa = spriteByTags[tag];
+    return sa;
 }
 
 const std::vector<std::string>* RendererPseudo3D::getAllTags() const
@@ -210,7 +221,6 @@ void RendererPseudo3D::clearSprites()
 
    custom_textures.clear();
 
-   spriteByTags.clear();
    tags.clear();
    rectangles_no_perspective.clear();
 }

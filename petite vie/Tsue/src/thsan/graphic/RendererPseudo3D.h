@@ -72,6 +72,7 @@ enum class EXPORT_IMAGE_TYPE {
 
         void trackSpriteWithTag(SpriteAnimation* spriteAnimation, const std::string& tag);
         sf::FloatRect querySpriteRectAssociateWith(const std::string& tag);
+        SpriteAnimation* querySpriteAssociateWith(const std::string& tag);
         const std::vector<std::string>* getAllTags() const;
 
         void enableDebugRendering(Debug_rendering debug_rendering);

@@ -6,6 +6,7 @@
 #include <glm/vec3.hpp>
 
 class HitBox;
+class CharacterStatData;
 
 class EnemyPhysicComponent : public PhysicComponent
 {
@@ -39,5 +40,7 @@ private:
     sf::Time double_jump_timer;
     sf::Time aim_timer;
     HitBox* hitbox;
+
+    CharacterStatData* charState;
 
 };

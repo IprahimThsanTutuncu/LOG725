@@ -47,7 +47,7 @@ void ChoiceBoxState::input(const sf::Time& deltaTime, std::vector<Config::InputA
 
 	for (Config::InputAction inputAction : inputActions)
 		if (inputAction == Config::InputAction::select) {
-			float h = m_parent->getHeight();
+		
 			if (getParent()->peekState()->getId() == getId()) {
 				if(parent_is_checkbox_to_be_removed)
 					getParent()->changeState(static_pointer_cast<ChoiceBoxState>(this->previous)->previous, false);

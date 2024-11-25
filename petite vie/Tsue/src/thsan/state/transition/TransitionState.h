@@ -127,11 +127,12 @@ private:
         std::cout << "init scene..." << std::endl;
 
         if (curr != next) {
+
             next->init();
-            next->update(sf::Time::Zero);
+            //next->update(sf::Time::Zero);
             sf::RenderTexture temp_rt;
             temp_rt.create(1, 1);
-            next->draw(temp_rt, sf::Time::Zero);
+            //next->draw(temp_rt, sf::Time::Zero);
         }
 
         isLoaded = true;

@@ -4,12 +4,12 @@
 #include <thsan/gameObject/data/DataType.h>
 #include <thsan/ressourceManager/StateManager.h>
 #include "../../states/postProcess/blackBar/BlackBarPostProcessState.h"
+#include "gameObjects/healthbar/HealthBarRenderComponent.h"
 
 
 PlayerInputComponent::PlayerInputComponent()
 {
 }
-
 
 void PlayerInputComponent::init(Scene& scene)
 {
@@ -34,7 +34,7 @@ void PlayerInputComponent::init(Scene& scene)
 		parent->setData(DATA_TYPE::CHARACTER_STAT, character_stat_data);
 	}
 	else {
-		character_stat_data = parent->getData<CharacterStatData>(DATA_TYPE::BAG);
+		character_stat_data = parent->getData<CharacterStatData>(DATA_TYPE::CHARACTER_STAT);
 	}
 
 	player_data->curr_state = PlayerData::State::idle;
@@ -42,11 +42,16 @@ void PlayerInputComponent::init(Scene& scene)
 	//load from BD...DTO
 	character_stat_data->hp = 100;
 	character_stat_data->mp = 10;
+	character_stat_data->atk = 5;
 	character_stat_data->curr.hp = 75;
 	character_stat_data->curr.mp = 5;
 
 	aim = new AimCommand();
 	stop_aim = new StopAimCommand();
+
+
+	healthBar = scene.createGameObject("healthbar_" + parent->getName());
+	scene.setGameObjectRenderComponent<HealthBarRenderComponent>(healthBar, parent->getName(), sf::Color::Red);
 }
 
 void PlayerInputComponent::update(Scene& scene,  const sf::Time& dt, std::vector<Config::InputAction> inputActions)

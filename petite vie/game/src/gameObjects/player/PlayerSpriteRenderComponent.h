@@ -31,9 +31,11 @@ class PlayerSpriteRenderComponent : public RenderComponent
         glm::vec3 sparklePosition;
 
 		bool isLookingLeft;
-
+        bool isCollisionAdded{ false };
         HitBox attack_hitbox_start;
         HitBox attack_hitbox_mid;
         HitBox player_hitbox;
+
+        Transform* player_transform;
 };
 

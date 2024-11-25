@@ -23,7 +23,7 @@ void EnemyPhysicComponent::init(Scene& scene)
         parent->setData(DATA_TYPE::HITBOX, new HitBox());
     }
 
-    CharacterStatData* charState = nullptr;
+    charState = nullptr;
     if (!parent->hasData(DATA_TYPE::CHARACTER_STAT)) {
         charState = new CharacterStatData();
         parent->setData(DATA_TYPE::CHARACTER_STAT, charState);
@@ -36,11 +36,13 @@ void EnemyPhysicComponent::init(Scene& scene)
 
     hitbox = parent->getData<HitBox>(DATA_TYPE::HITBOX);
     hitbox->position = glm::vec3(0, 0, 0);
+    hitbox->spheres.push_back(Sphere{10.f, glm::vec3()});
     hitbox->collision_object = Collision_object::real;
 
     charState->atk = 5.f;
     charState->def = 1.f;
-    charState->hp = 2.f;
+    charState->hp = 100.f;
+    charState->curr.hp = 100;
     charState->speed = 15.f;
 
     Transform* temp = parent->getData<Transform>(DATA_TYPE::TRANSFORM);
@@ -82,11 +84,11 @@ void EnemyPhysicComponent::update(Scene& scene, const sf::Time& dt)
 
     // Check terrain height
     float currentHeight = transform->position.y;
+
     float groundHeight = scene.getPhysicalHeightOnPosition(sf::Vector2f(transform->position.x, transform->position.z));
 
-    if (currentHeight < groundHeight) {
-        transform->position.y = groundHeight;
-    }
+    transform->position.y = groundHeight;
+    
 
     // Apply force
     transform->position.x += velocity.x;
@@ -97,6 +99,11 @@ void EnemyPhysicComponent::update(Scene& scene, const sf::Time& dt)
     if (physics->force <= 0.05f) {
         physics->force = 0.f;
         physics->direction = glm::vec3(0, 0, 0);
+    }
+
+    if (charState->curr.hp <= 0)
+    {
+        scene.delete_child(parent->getName());
     }
 }
 

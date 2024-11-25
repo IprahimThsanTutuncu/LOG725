@@ -14,5 +14,6 @@ public:
     ~EnemyRenderComponent();
 private:
     SpriteAnimation enemySprite;
+    GameObject* healthBar;
 };
 

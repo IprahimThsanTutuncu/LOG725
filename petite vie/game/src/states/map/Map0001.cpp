@@ -41,42 +41,6 @@ void Map0001::init()
 	m_scene->setGameObjectPhysicComponent<PlayerPhysicComponent>(player);
 	m_scene->setGameObjectRenderComponent<PlayerSpriteRenderComponent>(player);
 
-	PlantData plant;
-	plant.name = "rouge fleur";
-	plant.hp = 105.f;
-
-	PlantData plant2;
-	plant2.name = "bleu fleur";
-	plant2.hp = 65.f;
-
-	PlantData plant3;
-	plant3.name = "vert fleur";
-	plant3.hp = 65.f;
-
-	PlantData plant4;
-	plant4.name = "mauve fleur";
-	plant4.hp = 65.f;
-
-	PlantData plant5;
-	plant5.name = "ma fleur";
-	plant5.hp = 65.f;
-
-	PlantData plant6;
-	plant6.name = "me fleur";
-	plant6.hp = 65.f;
-
-	PlantData plant7;
-	plant7.name = "mi fleur";
-	plant7.hp = 65.f;
-
-	player->getData<BagData>(DATA_TYPE::BAG)->addPlant(plant);
-	player->getData<BagData>(DATA_TYPE::BAG)->addPlant(plant2);
-	player->getData<BagData>(DATA_TYPE::BAG)->addPlant(plant3);
-	player->getData<BagData>(DATA_TYPE::BAG)->addPlant(plant4);
-	player->getData<BagData>(DATA_TYPE::BAG)->addPlant(plant5);
-	player->getData<BagData>(DATA_TYPE::BAG)->addPlant(plant6);
-	player->getData<BagData>(DATA_TYPE::BAG)->addPlant(plant7);
-
 	GameObject* orange = m_scene->createGameObject("orangeCute_npc");
 	m_scene->setGameObjectInputComponent<SimpleDialogNPCInputComponent>(orange);
 	m_scene->setGameObjectPhysicComponent<FixedOnGroundPhysicComponent>(orange);

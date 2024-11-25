@@ -82,8 +82,37 @@ std::shared_ptr<State> UIFactory::createPlayerActionChoiceBox(GameObject& player
 			lbl_bttn_eat->setFontColor(sf::Color(255, 128, 0));
 		});
 
-	lbl_bttn_eat->connect(UI::Action::pressed, [&]() {
+	lbl_bttn_eat->connect(UI::Action::pressed, [&, plant]() {
+		//make sure the animationis set to be played
+		PlayerData* player_data{ nullptr };
+		CharacterStatData* char_data{ nullptr };
+		BagData* bag_data{ nullptr };
 
+		if (player.hasData(DATA_TYPE::PLAYER)) {
+			player_data = player.getData<PlayerData>(DATA_TYPE::PLAYER);
+		}
+		else
+			return;
+
+
+		if (player.hasData(DATA_TYPE::CHARACTER_STAT)) {
+			char_data = player.getData<CharacterStatData>(DATA_TYPE::CHARACTER_STAT);
+			char_data->curr.hp += 25;
+			if (char_data->curr.hp > 100)
+			{
+				char_data->curr.hp = 100;
+			}
+		}
+		else
+			return;
+
+		if (player.hasData(DATA_TYPE::BAG)) {
+			bag_data = player.getData<BagData>(DATA_TYPE::BAG);
+		}
+		else
+			return;
+
+		bag_data->removePlant(plant.getId());
 	});
 
 	// plant ////////////////////////////
@@ -127,7 +156,7 @@ std::shared_ptr<State> UIFactory::createPlayerActionChoiceBox(GameObject& player
 		plant_data->current_state = PlantData::State::planted;
 
 		tr_plant->position = tr_player->position;
-		tr_plant->scale = glm::vec2(0.25f, 0.25f);
+		tr_plant->scale = glm::vec2(0.1f, 0.1f);
 		bag_data->removePlant(plant.getId());
 	});
 

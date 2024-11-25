@@ -16,10 +16,13 @@ public:
     ~TestMapState() = default;
 
 private:
+    void spawnTrilleRougeWithPosition(float x, float z);
+    void generatePlantsInRange(int n, float range, GameObject* player);
+
     bool isInit{ false };
     Scene scene;
     std::shared_ptr<PostProcess> pp;
     GameObject* go_volume_pp;
-
+    std::vector<GameObject*> mechants;
 };
 
