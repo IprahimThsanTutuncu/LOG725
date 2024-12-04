@@ -7,6 +7,7 @@
 #include <thsan/ressourceManager/StateManager.h>
 #include <thsan/CollisionEngine/CollisionEngine.h>
 #include <glm/gtx/projection.hpp>
+#include "states/mainMenu/MainMenuState.h"
 
 PlayerPhysicComponent::PlayerPhysicComponent()
 {
@@ -322,6 +323,14 @@ void PlayerPhysicComponent::update(Scene& scene,  const sf::Time& dt)
 
 	if (pd->isAiming)
 		pd->curr_state = PlayerData::State::charge;
+
+
+	CharacterStatData* data = parent->getData<CharacterStatData>(DATA_TYPE::CHARACTER_STAT);
+	if (data->hp <= 0)
+	{
+		;// scene.getParent()->getParent()->changeState(RessourceManager::StateManager::create<MainMenuState>(), true);
+	}
+
 }
 
 PlayerPhysicComponent::~PlayerPhysicComponent()
