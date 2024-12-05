@@ -2,6 +2,8 @@
 
 #include <Thsan.h>
 
+class DialogueState;
+
 class MainMenuState : public State
 {
     public:
@@ -9,6 +11,7 @@ class MainMenuState : public State
 
         std::string getType() override;
         void init() override;
+        void start() override;
         void handleEvent(sf::Event event) override;
         void input(const sf::Time &deltaTime, std::vector<Config::InputAction> inputActions) override;
         void update(const sf::Time &deltaTime) override;
@@ -21,4 +24,6 @@ class MainMenuState : public State
 
         std::string id_dialogue;
         std::string id_dialogue_setting;
+
+        std::shared_ptr<DialogueState> dialogue;
 };

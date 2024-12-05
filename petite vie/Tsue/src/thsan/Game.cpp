@@ -34,9 +34,9 @@ sf::RenderWindow& Game::getWindow()
     return window;
 }
 
-void Game::changeState(std::shared_ptr<State> state, bool doesItRequireInit)
+void Game::changeState(std::shared_ptr<State> ns, bool doesItRequireInit)
 {
-    if (state) {
+    if (ns) {
 
         // if it passes by a transitionState where the constructor is created in parrallel,
         // it won't be added in the ressourceManager. This if statement kinda ensure it work.
@@ -45,20 +45,22 @@ void Game::changeState(std::shared_ptr<State> state, bool doesItRequireInit)
         // pointer. This is clearly a design mistake and a hack. A better solution has to be provided
         // as of now, my IQ is to low to think of anything.
 
-        if (!RessourceManager::StateManager::there_exists(state->getId())) 
+        if (!RessourceManager::StateManager::there_exists(ns->getId()))
         {
-            RessourceManager::StateManager::add(state);
+            RessourceManager::StateManager::add(ns);
         }
 
-        this->state = state;
+        this->state = ns;
         if (doesItRequireInit) {
-            state->init();
-            state->update(sf::Time::Zero);
+            ns->init();
+            ns->update(sf::Time::Zero);
             sf::RenderTexture temp_rt;
             temp_rt.create(1, 1);
-            state->draw(temp_rt, sf::Time::Zero);
+            ns->draw(temp_rt, sf::Time::Zero);
         }
-        RessourceManager::StateManager::removeUnused();
+        ns->start();
+        
+        hasChangedState = true;
     }
 }
 
@@ -123,7 +125,8 @@ void Game::run()
         }
 
         //while(timeSinceLastUpdate > timePerFrame){
-             if (state) {
+             if (state)
+             {
                 state->update(latest);
                 controlSetting->updateInput();
                 state->input(latest, controlSetting->getInput());
@@ -142,6 +145,12 @@ void Game::run()
         //}
 		
         window.display();
+        if (hasChangedState) 
+        {
+            RessourceManager::StateManager::removeUnused();
+            hasChangedState = false;
+        }
+
     }
 }
 

@@ -280,6 +280,10 @@ void TestMapState::init()
 
 }
 
+void TestMapState::start()
+{
+}
+
 void TestMapState::handleEvent(sf::Event event)
 {
 

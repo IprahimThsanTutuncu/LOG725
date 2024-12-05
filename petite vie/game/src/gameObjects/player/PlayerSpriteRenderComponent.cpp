@@ -3,13 +3,15 @@
 #include <thsan/gameObject/data/DataType.h>
 #include <thsan/graphic/RendererPseudo3D.h>
 #include <thsan/CollisionEngine/CollisionEngine.h>
+#include <thsan/scene/Scene.h>
+#include <thsan/ressourceManager/StateManager.h>
 
 #include <iostream>
 #include <SFML/Graphics/Glsl.hpp>
 #include <glm/glm.hpp>
+#include <states/mainMenu/MainMenuState.h>
 
 PlayerSpriteRenderComponent::PlayerSpriteRenderComponent():
-    playerSprite("media/image/character/sonic.png"),
     sparkleSprite("media/image/effect/sparkle_1.png"),
 	isLookingLeft(true)
 {
@@ -38,70 +40,89 @@ void PlayerSpriteRenderComponent::init(Scene& scene)
     player_transform->scale.x = 0.45f;
     player_transform->scale.y = 0.45f;
 
-    playerSprite.setShininess(32.f);
+    playerSprite = createSpriteAnimation("media/image/character/sonic.png", "player");
 
-	playerSprite.setKeyColor(sf::Color(0, 112, 112, 255));
-    playerSprite.setCurrAnimation("idle");
-    playerSprite.addFrame("idle", sf::IntRect(11, 14, 22, 32), sf::seconds(0.1f));
-    playerSprite.addFrame("idle", sf::IntRect(38, 12, 22, 34), sf::seconds(0.1f));
-    playerSprite.addFrame("idle", sf::IntRect(65, 11, 24, 35), sf::seconds(0.1f));
-    playerSprite.addFrame("idle", sf::IntRect(123, 14, 26, 32), sf::seconds(0.1f));
-    playerSprite.addFrame("idle", sf::IntRect(154, 15, 24, 31), sf::seconds(0.1f));
+    playerSprite->setShininess(32.f);
 
-    playerSprite.setCurrAnimation("jumping");
-    playerSprite.addFrame("jumping", sf::IntRect(9, 272, 22, 40), sf::seconds(0.1f));
-    playerSprite.addFrame("jumping", sf::IntRect(36, 272, 22, 40), sf::seconds(0.1f));
-    playerSprite.addFrame("jumping", sf::IntRect(63, 274, 24, 36), sf::seconds(0.1f));
-    playerSprite.addFrame("jumping", sf::IntRect(92, 277, 23, 34), sf::seconds(0.1f));
-    playerSprite.addFrame("jumping", sf::IntRect(120, 280, 22, 31), sf::seconds(0.1f));
+	playerSprite->setKeyColor(sf::Color(0, 112, 112, 255));
+    playerSprite->setCurrAnimation("idle");
+    playerSprite->addFrame("idle", sf::IntRect(11, 14, 22, 32), sf::seconds(0.1f));
+    playerSprite->addFrame("idle", sf::IntRect(38, 12, 22, 34), sf::seconds(0.1f));
+    playerSprite->addFrame("idle", sf::IntRect(65, 11, 24, 35), sf::seconds(0.1f));
+    playerSprite->addFrame("idle", sf::IntRect(123, 14, 26, 32), sf::seconds(0.1f));
+    playerSprite->addFrame("idle", sf::IntRect(154, 15, 24, 31), sf::seconds(0.1f));
 
-    playerSprite.setCurrAnimation("double-jumping");
-    playerSprite.addFrame("double-jumping", sf::IntRect(14, 413, 33, 33), sf::seconds(0.1f));
-    playerSprite.addFrame("double-jumping", sf::IntRect(52, 413, 33, 33), sf::seconds(0.1f));
-    playerSprite.addFrame("double-jumping", sf::IntRect(90, 414, 31, 31), sf::seconds(0.1f));
-    playerSprite.addFrame("double-jumping", sf::IntRect(126, 416, 29, 27), sf::seconds(0.1f));
-    playerSprite.addFrame("double-jumping", sf::IntRect(162, 414, 26, 31), sf::seconds(0.1f));
-    playerSprite.addFrame("double-jumping", sf::IntRect(194, 411, 26, 36), sf::seconds(0.1f));
-    playerSprite.addFrame("double-jumping", sf::IntRect(226, 410, 26, 36), sf::seconds(0.1f));
+    playerSprite->setCurrAnimation("jumping");
+    playerSprite->addFrame("jumping", sf::IntRect(9, 272, 22, 40), sf::seconds(0.1f));
+    playerSprite->addFrame("jumping", sf::IntRect(36, 272, 22, 40), sf::seconds(0.1f));
+    playerSprite->addFrame("jumping", sf::IntRect(63, 274, 24, 36), sf::seconds(0.1f));
+    playerSprite->addFrame("jumping", sf::IntRect(92, 277, 23, 34), sf::seconds(0.1f));
+    playerSprite->addFrame("jumping", sf::IntRect(120, 280, 22, 31), sf::seconds(0.1f));
 
-    playerSprite.setCurrAnimation("idle-to-run");
-    playerSprite.addFrame("idle-to-run", sf::IntRect(10, 101, 24, 33), sf::seconds(0.1f));
-    playerSprite.setCurrAnimation("run");
-    playerSprite.addFrame("run", sf::IntRect(45, 100, 31, 32), sf::seconds(0.1f));
-    playerSprite.addFrame("run", sf::IntRect(81, 101, 30, 32), sf::seconds(0.1f));
-    playerSprite.addFrame("run", sf::IntRect(116, 100, 23, 34), sf::seconds(0.1f));
-    playerSprite.addFrame("run", sf::IntRect(144, 99, 28, 35), sf::seconds(0.1f));
-    playerSprite.addFrame("run", sf::IntRect(177, 101, 30, 33), sf::seconds(0.1f));
-    playerSprite.addFrame("run", sf::IntRect(212, 101, 28, 33), sf::seconds(0.1f));
-    playerSprite.addFrame("run", sf::IntRect(245, 100, 23, 34), sf::seconds(0.1f));
-    playerSprite.addFrame("run", sf::IntRect(273, 99, 28, 35), sf::seconds(0.1f));
+    playerSprite->setCurrAnimation("double-jumping");
+    playerSprite->addFrame("double-jumping", sf::IntRect(14, 413, 33, 33), sf::seconds(0.1f));
+    playerSprite->addFrame("double-jumping", sf::IntRect(52, 413, 33, 33), sf::seconds(0.1f));
+    playerSprite->addFrame("double-jumping", sf::IntRect(90, 414, 31, 31), sf::seconds(0.1f));
+    playerSprite->addFrame("double-jumping", sf::IntRect(126, 416, 29, 27), sf::seconds(0.1f));
+    playerSprite->addFrame("double-jumping", sf::IntRect(162, 414, 26, 31), sf::seconds(0.1f));
+    playerSprite->addFrame("double-jumping", sf::IntRect(194, 411, 26, 36), sf::seconds(0.1f));
+    playerSprite->addFrame("double-jumping", sf::IntRect(226, 410, 26, 36), sf::seconds(0.1f));
 
-    playerSprite.setCurrAnimation("landing");
-    playerSprite.addFrame("landing", sf::IntRect(11, 370, 27, 30), sf::seconds(0.1f));
-    playerSprite.addFrame("landing", sf::IntRect(43, 370, 26, 30), sf::seconds(0.1f));
-    playerSprite.addFrame("landing", sf::IntRect(74, 370, 22, 30), sf::seconds(0.1f));
+    playerSprite->setCurrAnimation("idle-to-run");
+    playerSprite->addFrame("idle-to-run", sf::IntRect(10, 101, 24, 33), sf::seconds(0.1f));
+    playerSprite->setCurrAnimation("run");
+    playerSprite->addFrame("run", sf::IntRect(45, 100, 31, 32), sf::seconds(0.1f));
+    playerSprite->addFrame("run", sf::IntRect(81, 101, 30, 32), sf::seconds(0.1f));
+    playerSprite->addFrame("run", sf::IntRect(116, 100, 23, 34), sf::seconds(0.1f));
+    playerSprite->addFrame("run", sf::IntRect(144, 99, 28, 35), sf::seconds(0.1f));
+    playerSprite->addFrame("run", sf::IntRect(177, 101, 30, 33), sf::seconds(0.1f));
+    playerSprite->addFrame("run", sf::IntRect(212, 101, 28, 33), sf::seconds(0.1f));
+    playerSprite->addFrame("run", sf::IntRect(245, 100, 23, 34), sf::seconds(0.1f));
+    playerSprite->addFrame("run", sf::IntRect(273, 99, 28, 35), sf::seconds(0.1f));
 
-    playerSprite.setCurrAnimation("falling");
-    playerSprite.addFrame("falling", sf::IntRect(12, 325, 24, 34), sf::seconds(0.1f));
-    playerSprite.addFrame("falling", sf::IntRect(42, 323, 30, 36), sf::seconds(0.1f));
-    playerSprite.addFrame("falling", sf::IntRect(77, 321, 35, 39), sf::seconds(0.1f));
-    playerSprite.addFrame("falling", sf::IntRect(117, 320, 35, 40), sf::seconds(0.1f));
+    playerSprite->setCurrAnimation("landing");
+    playerSprite->addFrame("landing", sf::IntRect(11, 370, 27, 30), sf::seconds(0.1f));
+    playerSprite->addFrame("landing", sf::IntRect(43, 370, 26, 30), sf::seconds(0.1f));
+    playerSprite->addFrame("landing", sf::IntRect(74, 370, 22, 30), sf::seconds(0.1f));
 
-    playerSprite.setCurrAnimation("charging");
-    playerSprite.addFrame("charging", sf::IntRect(165, 1066, 20, 24), sf::seconds(0.05f));
-    playerSprite.addFrame("charging", sf::IntRect(191, 1065, 20, 25), sf::seconds(0.05f));
-    playerSprite.addFrame("charging", sf::IntRect(218, 1067, 20, 22), sf::seconds(0.05f));
-    playerSprite.addFrame("charging", sf::IntRect(246, 1068, 20, 20), sf::seconds(0.05f));
+    playerSprite->setCurrAnimation("falling");
+    playerSprite->addFrame("falling", sf::IntRect(12, 325, 24, 34), sf::seconds(0.1f));
+    playerSprite->addFrame("falling", sf::IntRect(42, 323, 30, 36), sf::seconds(0.1f));
+    playerSprite->addFrame("falling", sf::IntRect(77, 321, 35, 39), sf::seconds(0.1f));
+    playerSprite->addFrame("falling", sf::IntRect(117, 320, 35, 40), sf::seconds(0.1f));
 
-    playerSprite.setCurrAnimation("punch");
-    playerSprite.addFrame("punch", sf::IntRect(14, 595, 24, 33), sf::seconds(0.1f));
-    playerSprite.addFrame("punch", sf::IntRect(43, 596, 24, 32), sf::seconds(0.05f));
-    playerSprite.addFrame("punch", sf::IntRect(72, 595, 39, 33), sf::seconds(0.05f));
-    playerSprite.addFrame("punch", sf::IntRect(116, 595, 37, 33), sf::seconds(0.1f));
-    playerSprite.addFrame("punch", sf::IntRect(158, 596, 28, 32), sf::seconds(0.05f));
-    playerSprite.addFrame("punch", sf::IntRect(191, 595, 21, 32), sf::seconds(0.05f));
+    playerSprite->setCurrAnimation("charging");
+    playerSprite->addFrame("charging", sf::IntRect(165, 1066, 20, 24), sf::seconds(0.05f));
+    playerSprite->addFrame("charging", sf::IntRect(191, 1065, 20, 25), sf::seconds(0.05f));
+    playerSprite->addFrame("charging", sf::IntRect(218, 1067, 20, 22), sf::seconds(0.05f));
+    playerSprite->addFrame("charging", sf::IntRect(246, 1068, 20, 20), sf::seconds(0.05f));
 
-	//playerSprite.setDepthTexture("media/image/base0.png");
+    playerSprite->setCurrAnimation("punch");
+    playerSprite->addFrame("punch", sf::IntRect(14, 595, 24, 33), sf::seconds(0.1f));
+    playerSprite->addFrame("punch", sf::IntRect(43, 596, 24, 32), sf::seconds(0.05f));
+    playerSprite->addFrame("punch", sf::IntRect(72, 595, 39, 33), sf::seconds(0.05f));
+    playerSprite->addFrame("punch", sf::IntRect(116, 595, 37, 33), sf::seconds(0.1f));
+    playerSprite->addFrame("punch", sf::IntRect(158, 596, 28, 32), sf::seconds(0.05f));
+    playerSprite->addFrame("punch", sf::IntRect(191, 595, 21, 32), sf::seconds(0.05f));
+
+    playerSprite->setCurrAnimation("death");
+    playerSprite->addFrame("death", sf::IntRect(292, 1661, 33, 37), sf::seconds(0.3f));
+    playerSprite->addFrame("death", sf::IntRect(249, 1662, 37, 36), sf::seconds(0.3f));
+    playerSprite->addFrame("death", sf::IntRect(207, 1666, 37, 33), sf::seconds(0.25f));
+    playerSprite->addFrame("death", sf::IntRect(167, 1661, 33, 37), sf::seconds(0.2f));
+    playerSprite->addFrame("death", sf::IntRect(125, 1662, 37, 36), sf::seconds(0.15f));
+    playerSprite->addFrame("death", sf::IntRect(82, 1661, 37, 33), sf::seconds(0.1f));
+    playerSprite->addFrame("death", sf::IntRect(38, 1668, 34, 28), sf::seconds(0.1f));
+    playerSprite->addFrame("death", sf::IntRect(8, 1667, 25, 30), sf::seconds(0.1f));
+    playerSprite->addFrame("death", sf::IntRect(214, 1714, 36, 31), sf::seconds(0.1f));
+    playerSprite->addFrame("death", sf::IntRect(10, 1764, 34, 26), sf::seconds(0.1f));
+    playerSprite->addFrame("death", sf::IntRect(49, 1763, 36, 26), sf::seconds(0.1f));
+    playerSprite->addFrame("death", sf::IntRect(90, 1764, 38, 24), sf::seconds(0.1f));
+    playerSprite->addFrame("death", sf::IntRect(133, 1766, 36, 21), sf::seconds(0.1f));
+    playerSprite->addFrame("death", sf::IntRect(174, 1757, 33, 31), sf::seconds(0.1f));
+    playerSprite->addFrame("death", sf::IntRect(8, 1806, 34, 28), sf::seconds(0.1f));
+    playerSprite->addFrame("death", sf::IntRect(212, 1766, 35, 24), sf::seconds(1.f));
+	//playerSprite->setDepthTexture("media/image/base0.png");
 
     plantSprite = createSpriteAnimation("media/image/effect/fx.png", "plantSprite");
 
@@ -145,7 +166,7 @@ void PlayerSpriteRenderComponent::init(Scene& scene)
         const double pi = 3.14159265358979323846;
 
         glm::vec3 n = glm::normalize(glm::vec3(sin(camera_angle + pi / 2), 0.f, cos(camera_angle + pi / 2)));
-        if (playerSprite.isFlipX())
+        if (playerSprite->isFlipX())
             n = -n;
         n *= 3.0f;
 
@@ -167,15 +188,18 @@ void PlayerSpriteRenderComponent::init(Scene& scene)
         const double pi = 3.14159265358979323846;
 
         glm::vec3 n = glm::normalize(glm::vec3(sin(camera_angle + pi / 2), 0.f, cos(camera_angle + pi / 2)));
-        if (playerSprite.isFlipX())
+        if (playerSprite->isFlipX())
             n = -n;
         n *= 10.0f;
-
-        attack_hitbox_mid.position = n;
         attack_hitbox_start.position.y += 5.f;
 
         CollisionEngine::remove("player_attack_hitbox");
         CollisionEngine::add("player_attack_hitbox", tr_player, &attack_hitbox_mid);
+    });
+
+    parent->addOnSpriteAnimationRenderEvent("death", 0.9, true, [&](GameObject& go, Scene& scene, const sf::Time& at)
+    {
+        goBackToMenu = true;
     });
 }
 
@@ -185,6 +209,14 @@ void PlayerSpriteRenderComponent::update(Scene& scene, const sf::Time& dt, sf::R
     {
         CollisionEngine::add("player_hitbox", player_transform, &player_hitbox);
         isCollisionAdded = true;
+    }
+
+    if (goBackToMenu)
+    {
+        Game* game = scene.getParent()->getParent();
+        game->changeState(RessourceManager::StateManager::create<MainMenuState>(game), true);
+        goBackToMenu = false;
+        return;
     }
     //renderer.enableDebugRendering(Debug_rendering::debug_normal);
     Transform* temp = parent->getData<Transform>(DATA_TYPE::TRANSFORM);
@@ -196,51 +228,58 @@ void PlayerSpriteRenderComponent::update(Scene& scene, const sf::Time& dt, sf::R
 	static float t = 0;
 	t += dt.asSeconds();
 
-    playerSprite.update(dt);
-
+    playerSprite->update(dt);
 
     //set player spirte animation
 	glm::vec3 dir = glm::vec3(direction.x, direction.y, direction.z);
 
-    if (player_data->curr_state == PlayerData::State::charge) {
-        playerSprite.setCurrAnimation("charging");
-        playerSprite.enableLoop(true);
+    if (player_data->curr_state == PlayerData::State::death) {
+        if (playerSprite->getCurrAnimation() != "death")
+        {
+            playerSprite->setCurrAnimation("death");
+            playerSprite->enableLoop(false);
+        }
+    }
+
+    else if (player_data->curr_state == PlayerData::State::charge) {
+        playerSprite->setCurrAnimation("charging");
+        playerSprite->enableLoop(true);
     }
     else if (player_data->curr_state == PlayerData::State::jump) {
-        if (playerSprite.getCurrAnimation() != "jumping") {
-            playerSprite.setCurrAnimation("jumping");
-            playerSprite.resetCurrAnimation();
+        if (playerSprite->getCurrAnimation() != "jumping") {
+            playerSprite->setCurrAnimation("jumping");
+            playerSprite->resetCurrAnimation();
         }
-        playerSprite.enableLoop(false);
+        playerSprite->enableLoop(false);
     }
     else if (player_data->curr_state == PlayerData::State::double_jump) {
-        if (playerSprite.getCurrAnimation() != "double-jumping") {
-            playerSprite.setCurrAnimation("double-jumping");
-            playerSprite.resetCurrAnimation();
+        if (playerSprite->getCurrAnimation() != "double-jumping") {
+            playerSprite->setCurrAnimation("double-jumping");
+            playerSprite->resetCurrAnimation();
         }
-        playerSprite.enableLoop(false);
+        playerSprite->enableLoop(false);
     }
 
     else if (player_data->curr_state == PlayerData::State::fall) {
-        if (playerSprite.getCurrAnimation() != "falling") {
-            playerSprite.setCurrAnimation("falling");
-            playerSprite.resetCurrAnimation();
+        if (playerSprite->getCurrAnimation() != "falling") {
+            playerSprite->setCurrAnimation("falling");
+            playerSprite->resetCurrAnimation();
         }
-        playerSprite.enableLoop(false);
+        playerSprite->enableLoop(false);
     }
 
     else if (player_data->curr_state == PlayerData::State::land) {
-        playerSprite.setCurrAnimation("landing");
-        playerSprite.enableLoop(true);
-        float t = playerSprite.getCurrTimeReached().asSeconds() / playerSprite.getCurrTimeDuration().asSeconds();
+        playerSprite->setCurrAnimation("landing");
+        playerSprite->enableLoop(true);
+        float t = playerSprite->getCurrTimeReached().asSeconds() / playerSprite->getCurrTimeDuration().asSeconds();
 
         if (t >= 1.0f)
             player_data->curr_state = PlayerData::State::idle;
     }else if (glm::length(dir) != 0) {
-        playerSprite.setCurrAnimation("run");
+        playerSprite->setCurrAnimation("run");
     }
     else {
-        playerSprite.setCurrAnimation("idle");
+        playerSprite->setCurrAnimation("idle");
     }
 
 
@@ -257,14 +296,14 @@ void PlayerSpriteRenderComponent::update(Scene& scene, const sf::Time& dt, sf::R
     glm::vec3 n = glm::normalize(glm::vec3(sin(camera_angle + pi/2),0.f, cos(camera_angle + pi/2)));
     if (glm::dot(dir, n) < -std::numeric_limits<float>::epsilon() && isLookingLeft)
     {
-        playerSprite.flipX();
+        playerSprite->flipX();
         isLookingLeft = false;
     }
     else if (glm::dot(dir, n) > std::numeric_limits<float>::epsilon() && !isLookingLeft) {
-        playerSprite.flipX();
+        playerSprite->flipX();
         isLookingLeft = true;
     }
-    renderer.add(&playerSprite, sf::Vector3f(position.x, position.y, position.z), sf::Vector2f(temp->scale.x, temp->scale.y), 0);
+    renderer.add(playerSprite.get(), sf::Vector3f(position.x, position.y, position.z), sf::Vector2f(temp->scale.x, temp->scale.y), 0);
 
     ///////////////////////////////
     // Render planting Animation //
@@ -285,7 +324,7 @@ void PlayerSpriteRenderComponent::update(Scene& scene, const sf::Time& dt, sf::R
         plantSprite->update(dt);
 
         glm::vec3 n = glm::normalize(glm::vec3(sin(camera_angle + pi / 2), 0.f, cos(camera_angle + pi / 2)));
-        if (playerSprite.isFlipX())
+        if (playerSprite->isFlipX())
             n = -n;
         n *= 10.0f;
         //renderer.add(&*plantSprite, sf::Vector3f(position.x + n.x, position.y + n.y, position.z + n.z), sf::Vector2f(temp->scale.x, temp->scale.y), 0);
@@ -298,7 +337,7 @@ void PlayerSpriteRenderComponent::update(Scene& scene, const sf::Time& dt, sf::R
     static bool show_attack_animation = false;
 
     if (player_data->curr_state == PlayerData::State::attack) {
-        playerSprite.setCurrAnimation("punch");
+        playerSprite->setCurrAnimation("punch");
         slashSprite->setCurrAnimation("slash");
         show_attack_animation = true;
     }
@@ -316,11 +355,11 @@ void PlayerSpriteRenderComponent::update(Scene& scene, const sf::Time& dt, sf::R
         }
 
         glm::vec3 n = glm::normalize(glm::vec3(sin(camera_angle + pi / 2), 0.f, cos(camera_angle + pi / 2)));
-        if (playerSprite.isFlipX())
+        if (playerSprite->isFlipX())
             n = -n;
         n *= 10.0f;
         renderer.add(&*slashSprite, sf::Vector3f(position.x + n.x, position.y + n.y + 5.f, position.z + n.z), sf::Vector2f(temp->scale.x, temp->scale.y), 0);
     }
 
-    renderer.trackSpriteWithTag(&playerSprite, parent->getName());
+    renderer.trackSpriteWithTag(playerSprite.get(), parent->getName());
 }

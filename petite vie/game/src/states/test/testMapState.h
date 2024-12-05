@@ -8,6 +8,7 @@ public:
     TestMapState(Game* parent);
     std::string getType() override;
     void init() override;
+    void start() override;
     void handleEvent(sf::Event event) override;
     void input(const sf::Time& deltaTime, std::vector<Config::InputAction> inputActions) override;
     void update(const sf::Time& deltaTime) override;

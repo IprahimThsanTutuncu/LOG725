@@ -1,5 +1,4 @@
-#ifndef PLAYERINPUTCOMPONENT_H
-#define PLAYERINPUTCOMPONENT_H
+#pragma once
 
 #include <thsan/gameObject/component/InputComponent.h>
 #include "command/MoveDownCommand.h"
@@ -50,5 +49,3 @@ class PlayerInputComponent : public InputComponent
         CharacterStatData* character_stat_data;
         GameObject* healthBar;
 };
-
-#endif // PLAYERINPUTCOMPONENT_H

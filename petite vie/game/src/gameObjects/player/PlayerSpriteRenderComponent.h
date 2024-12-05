@@ -22,7 +22,7 @@ class PlayerSpriteRenderComponent : public RenderComponent
         ~PlayerSpriteRenderComponent() = default;
     private:
         glm::vec3 calculateVelocity(glm::vec3 position, glm::vec3 target, float speed);
-        SpriteAnimation playerSprite;
+        std::shared_ptr<SpriteAnimation> playerSprite;
         std::shared_ptr<SpriteAnimation> slashSprite;
         std::shared_ptr<SpriteAnimation> plantSprite;
 
@@ -35,6 +35,8 @@ class PlayerSpriteRenderComponent : public RenderComponent
         HitBox attack_hitbox_start;
         HitBox attack_hitbox_mid;
         HitBox player_hitbox;
+
+        bool goBackToMenu = false;
 
         Transform* player_transform;
 };

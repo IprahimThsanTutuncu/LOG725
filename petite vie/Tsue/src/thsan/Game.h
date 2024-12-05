@@ -27,6 +27,7 @@ class Game
         sf::ContextSettings getContextSettings();
 
     private:
+        bool hasChangedState;
         sf::RenderWindow window;
 
         sf::Font font;

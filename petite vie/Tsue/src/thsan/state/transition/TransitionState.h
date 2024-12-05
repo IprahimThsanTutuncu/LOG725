@@ -7,6 +7,19 @@
 #include "transition/Transition.h"
 #include "thsan/state/State.h"
 #include "thsan/Game.h"
+#include <thsan/ressourceManager/StateManager.h>
+
+/*
+* 
+* TODO in 2000 years, and consider,
+* 
+* Le StateMananger est seulement aware de l'existance du node en transition 
+* quand celui-ci sera loaded et le state courant, je peux pas appeller le stateManager ici
+* car celui-ci depend de cette class.
+* 
+* On peu pas transition dans un état qui fabrique d'autre state. Aka, mainmenu
+* 
+*/
 
 template <class T>
 class TransitionState : public State
@@ -122,8 +135,9 @@ private:
             return;
         }
         else
+        {
             next = state_construct_result;
-
+        }
         std::cout << "init scene..." << std::endl;
 
         if (curr != next) {

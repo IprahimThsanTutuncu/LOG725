@@ -77,7 +77,7 @@ void MainMenuState::init()
 
 	std::shared_ptr<State> curr_state = RessourceManager::StateManager::get<State>(this->getId());
 
-	std::shared_ptr<DialogueState> dialogue = RessourceManager::StateManager::create<DialogueState>(m_parent, curr_state, sf::Vector2f(0.45f, 0.20f), sf::Vector2f(0.4, 0.2), "media/data/dialogue/mainmenu.txt", *shader_param_ptr, sf::Color::Red, 0.3f, 0.0f);
+	dialogue = RessourceManager::StateManager::create<DialogueState>(m_parent, curr_state, sf::Vector2f(0.45f, 0.20f), sf::Vector2f(0.4, 0.2), "media/data/dialogue/mainmenu.txt", *shader_param_ptr, sf::Color::Red, 0.3f, 0.0f);
 
 	id_dialogue = dialogue->getId();
 
@@ -216,7 +216,6 @@ void MainMenuState::init()
 	bttns.push_back(lbl_bttn_2);
 
 	dialogue->addChoiceBox(bttns, 0, sf::Vector2f(0.4f, 0.35f), sf::Vector2f(0.3, 0.1));
-	m_parent->changeState(dialogue, true);
 
 	std::shared_ptr<PostProcess> pp = m_scene->getPostProcess();
 	pp->disable();
@@ -229,6 +228,11 @@ void MainMenuState::init()
 	pp->enable_effect(PostProcess::Effect::snowfall);
 	pp->bind_effect_to_layer(PostProcess::Effect::snowfall, 0);
 
+}
+
+void MainMenuState::start()
+{
+	m_parent->changeState(dialogue, true);
 }
 
 

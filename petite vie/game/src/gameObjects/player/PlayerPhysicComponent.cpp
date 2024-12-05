@@ -64,8 +64,14 @@ void PlayerPhysicComponent::update(Scene& scene,  const sf::Time& dt)
 
 			glm::vec3 distance = player_position->position - enemy_position->position;
 			CharacterStatData* character_stat_data = parent->getData<CharacterStatData>(DATA_TYPE::CHARACTER_STAT);
+			CharacterStatData* enemy_stat_data = overlapsed_go[0]->getData<CharacterStatData>(DATA_TYPE::CHARACTER_STAT);
 
-			character_stat_data->curr.hp -= 1.f;
+
+			float dammage = enemy_stat_data->atk - character_stat_data->def;
+			if (dammage < 1.f)
+				dammage = 1.f;
+
+			character_stat_data->curr.hp -= dammage;
 			glm::vec3 force_direction = glm::normalize(distance);
 
 			float knockback_strength = glm::length(distance) * 100.f * ( 1 / (1 - phy->friction));
@@ -326,9 +332,9 @@ void PlayerPhysicComponent::update(Scene& scene,  const sf::Time& dt)
 
 
 	CharacterStatData* data = parent->getData<CharacterStatData>(DATA_TYPE::CHARACTER_STAT);
-	if (data->hp <= 0)
+	if (data->curr.hp <= 0)
 	{
-		;// scene.getParent()->getParent()->changeState(RessourceManager::StateManager::create<MainMenuState>(), true);
+		pd->curr_state = PlayerData::State::death;
 	}
 
 }

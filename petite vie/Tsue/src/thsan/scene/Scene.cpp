@@ -204,7 +204,8 @@ void Scene::render(const sf::Time& dt) {
     for (int i = 0; i < m_renderComponents.size(); i++) {
         RenderComponent* renderComp = m_renderComponents[i];
         if (renderComp) 
-            if (renderComp->parent && renderComp->isActive()) {
+            if (renderComp->parent && renderComp->isActive()) 
+            {
                 renderComp->update(*this, dt, *m_pRenderTarget, *rendererPseudo3D);
                 renderComp->callEvent(*this, dt);
             }

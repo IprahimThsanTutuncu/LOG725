@@ -42,35 +42,43 @@ void RenderComponent::callEvent(Scene& scene, const sf::Time& dt)
 	for (auto& sa_pair : spriteAnimations) {
 		std::string sa_name = sa_pair.first;
 		std::shared_ptr<SpriteAnimation> sa = sa_pair.second;
-		auto& e = spriteAnimationEventContainer[sa_name];
-
-		for (auto& spriteAnimationEvent : e)
-			if (sa->getCurrAnimation() == spriteAnimationEvent.animation) {
-
-				float total = sa->getCurrTimeDuration().asSeconds();
-				float curr = sa->getCurrTimeReached().asSeconds();
-
-				float t = curr / total;
-				if (t > 1.0f)
-					t = 1.0f;
-				else if (t <= 0.0f)
-					t = 0.f;
-
-				if (t >= spriteAnimationEvent.at) {
-					spriteAnimationEvent.func(*parent, scene, dt);
-					spriteAnimationEvent.was_called = true;
-				}
+		if (sa)
+		{
+			std::vector<SpriteAnimationEvents> e;
+			auto it = spriteAnimationEventContainer.find(sa_name);
+			if (it != spriteAnimationEventContainer.end())
+			{
+				e = it->second;
 			}
 
-		if (e.size() != 0) {
-			auto it = std::remove_if(e.begin(), e.end(), [](const SpriteAnimationEvents& se) {
-				if (se.call_once && se.was_called)
-					return true;
-				else
-					return false;
-				});
+			for (auto& spriteAnimationEvent : e)
+				if (sa->getCurrAnimation() == spriteAnimationEvent.animation) {
 
-			e.erase(it, e.end());
+					float total = sa->getCurrTimeDuration().asSeconds();
+					float curr = sa->getCurrTimeReached().asSeconds();
+
+					float t = curr / total;
+					if (t > 1.0f)
+						t = 1.0f;
+					else if (t <= 0.0f)
+						t = 0.f;
+
+					if (t >= spriteAnimationEvent.at) {
+						spriteAnimationEvent.func(*parent, scene, dt);
+						spriteAnimationEvent.was_called = true;
+					}
+				}
+
+			if (e.size() != 0) {
+				auto it = std::remove_if(e.begin(), e.end(), [](const SpriteAnimationEvents& se) {
+					if (se.call_once && se.was_called)
+						return true;
+					else
+						return false;
+					});
+
+				e.erase(it, e.end());
+			}
 		}
 	}
 }

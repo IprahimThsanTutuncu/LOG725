@@ -22,6 +22,7 @@ class  State
         virtual std::string getType() = 0;
 
         virtual void init() = 0;
+        virtual void start() {};
 
         virtual void handleEvent(sf::Event event) = 0;
         virtual void input(const sf::Time &deltaTime, std::vector<Config::InputAction> inputActions) = 0;

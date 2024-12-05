@@ -39,7 +39,7 @@ void EnemyPhysicComponent::init(Scene& scene)
     hitbox->spheres.push_back(Sphere{10.f, glm::vec3()});
     hitbox->collision_object = Collision_object::real;
 
-    charState->atk = 5.f;
+    charState->atk = 3.f;
     charState->def = 1.f;
     charState->hp = 100.f;
     charState->curr.hp = 100;
