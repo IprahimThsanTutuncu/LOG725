@@ -3,6 +3,7 @@
 #include <thsan/state/State.h>
 
 class Scene;
+class GameObject;
 
 class MapState : public State
 {

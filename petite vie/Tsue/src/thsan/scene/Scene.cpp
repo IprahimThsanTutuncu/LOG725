@@ -509,6 +509,28 @@ void Scene::delete_child(const std::string& name)
     if (child_location != m_childrenMap.end()) {
         GameObject* go = m_childrenMap[name];
 
+        std::vector<std::string> allKeys;
+        for (const auto& entry : groups_map) {
+            allKeys.push_back(entry.first);
+        }
+
+        // Call removeFromGroups with all group names
+        for (const std::string& gr_name : allKeys) {
+
+            // Check si group name exists
+            if (map_for_groups_gameObject_index.count(gr_name) > 0 && groups_map.count(gr_name) > 0) {
+
+                // Check if the GameObject exists in the group (in map_for_groups_gameObject_index)
+                auto& gameObjectIndex = map_for_groups_gameObject_index[gr_name];
+                if (gameObjectIndex.find(go) != gameObjectIndex.end()) 
+                {
+                    groups_map[gr_name].erase(std::remove(groups_map[gr_name].begin(), groups_map[gr_name].end(), go), groups_map[gr_name].end());
+                    gameObjectIndex.erase(go);
+                    go->remove_group(gr_name);
+                }
+            }
+        }
+
         // Remove from component vectors
         m_inputComponents.erase(
             std::remove_if(

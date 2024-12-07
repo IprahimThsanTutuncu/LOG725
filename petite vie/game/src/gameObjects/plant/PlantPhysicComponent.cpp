@@ -24,6 +24,9 @@ void PlantPhysicComponent::init(Scene& scene)
 	if (!parent->hasData(DATA_TYPE::PHYSIC_BODY))
 		parent->setData(DATA_TYPE::PHYSIC_BODY, new physicBodyData());
 
+	if (!parent->hasData(DATA_TYPE::HITBOX))
+		parent->setData(DATA_TYPE::HITBOX, new HitBox());
+
 	timer = sf::Time::Zero;
 
 	isPhysicalObject = plant_data->current_state == PlantData::State::physical_item;
@@ -36,6 +39,15 @@ void PlantPhysicComponent::init(Scene& scene)
 	random_val = glm::linearRand<float>(0.5f, 1.0f);
 	random_sign = glm::linearRand<float>(-1.f, 1.0f);
 	random_sign = random_sign < 0.f ? -1.f : 1.f;
+
+	scene.addToGroups(parent, { "plant" });
+
+	hitbox = parent->getData<HitBox>(DATA_TYPE::HITBOX);
+	hitbox->position = glm::vec3(0, 0, 0);
+	hitbox->spheres.push_back(Sphere{ 10.f, glm::vec3() });
+	hitbox->collision_object = Collision_object::real;
+
+	CollisionEngine::add(parent, temp, hitbox);
 }
 
 void PlantPhysicComponent::update(Scene& scene, const sf::Time& dt)
@@ -44,7 +56,8 @@ void PlantPhysicComponent::update(Scene& scene, const sf::Time& dt)
 	/// Physic on falling ///
 	/////////////////////////
 
-	if (plant_data->current_state == PlantData::State::physical_item) {
+	if (plant_data->current_state == PlantData::State::physical_item) 
+	{
 
 		if (!isPhysicalObject) {
 			isPhysicalObject = true;
@@ -111,7 +124,8 @@ void PlantPhysicComponent::update(Scene& scene, const sf::Time& dt)
 				}
 			}
 			
-			if (isNearPlayer) {
+			if (isNearPlayer) 
+			{
 				Transform* transform_player = player->getData<Transform>(DATA_TYPE::TRANSFORM);
 				glm::vec3 position = player->getData<Transform>(DATA_TYPE::TRANSFORM)->position;
 				position.y += (scene.querySpriteRectAssociateWith("player").height / 2.f) * transform_player->scale.y;
@@ -129,7 +143,6 @@ void PlantPhysicComponent::update(Scene& scene, const sf::Time& dt)
 					bd->addPlant(*plant_data);
 					scene.delete_child(parent->getName());
 				}
-
 			}
 
 		}
@@ -140,7 +153,13 @@ void PlantPhysicComponent::update(Scene& scene, const sf::Time& dt)
 			temp->position.y = physical_height_min;
 	}
 
-	else if (plant_data->current_state == PlantData::State::planted) {
+	else if (plant_data->current_state == PlantData::State::planted)
+	{
+		Transform* temp = parent->getData<Transform>(DATA_TYPE::TRANSFORM);
+
+		float physical_height_min = scene.getPhysicalHeightOnPosition(sf::Vector2f(temp->position.x, temp->position.z));
+		temp->position.y = physical_height_min;
+
 		if (plant_data->current_stage == PlantData::Stage::seed)
 			plant_data->current_stage == PlantData::Stage::sprout;
 

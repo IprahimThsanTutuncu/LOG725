@@ -1,2 +1,10 @@
 %p timerPerChar(0.01) pause(0.0) clear
-	\color(255,255,255) Hey there, What oddities brings you here? \n 
+	\color(255,255,255) Hey there, What oddities brings you here?
+%p timerPerChar(0.01) pause(0.0) clear
+	\color(255,255,255) just so you know: \color(255,0,0) K \color(255,255,255) for hit 
+%p timerPerChar(0.01) pause(0.0) clear
+	\color(255,0,255) O \color(255,255,255) for charging on an enemy
+%p timerPerChar(0.01) pause(0.0) clear
+	\color(255,255,255) Also, press \color(0,255,0) L \color(255,255,255) to open the item menu,
+%p timerPerChar(0.01) pause(0.0) clear
+ 	\color(255,255,255) Press \color(0,255,0) Enter \color(255,255,255) to make a selection.

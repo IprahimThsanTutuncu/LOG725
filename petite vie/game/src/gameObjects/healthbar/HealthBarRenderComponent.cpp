@@ -85,6 +85,8 @@ void HealthBarRenderComponent::update(Scene& scene, const sf::Time& dt, sf::Rend
     int curr_hp = static_cast<int>(stat->curr.hp);
     if (curr_hp < 0)
         curr_hp = 0;
+    if (curr_hp > 100)
+        curr_hp = 100;
     foreground.setCurrAnimation(std::to_string(curr_hp));
 
     background.setColor(bg_color);
@@ -93,7 +95,22 @@ void HealthBarRenderComponent::update(Scene& scene, const sf::Time& dt, sf::Rend
     background.update(dt);
     foreground.update(dt);
 
-    renderer.add(&background, position);
-    renderer.add(&foreground, position);
+    //renderer.add(&background, position);
+    int alive = 0;
+    auto objects = scene.getAllGameObjectFromGroup("enemy");
+    if (objects.size() > 0) {
+        for (auto go : objects)
+        {
+            if (go) {
+                auto stat = go->getData<CharacterStatData>(DATA_TYPE::CHARACTER_STAT);
+                if (stat->curr.hp > 0)
+                {
+                    alive++;
+                }
+            }
+        }
+    }
+    if(alive > 0)
+        renderer.add(&foreground, position);
 }
 

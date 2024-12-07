@@ -141,6 +141,11 @@ void SpriteAnimation::addFrame(std::string name, sf::IntRect frameRect, sf::Time
 
 sf::IntRect SpriteAnimation::getCurrFrameRect()
 {
+    if (animations.find(currAnimation) == animations.end())
+    {
+        return sf::IntRect();
+    }
+
     return animations[currAnimation].getCurrentFrameRect();
 }
 

@@ -1,0 +1,17 @@
+%p timerPerChar(0.01) pause(0.0)
+	\color(255,0,255) Impressive,
+
+%p timerPerChar(0.5) pause(0.25)
+	\color(255,255,255) ...
+
+%p timerPerChar(0.01) pause(0.0) clear
+	\color(255,255,255) you know,
+
+%p timerPerChar(0.01) pause(0.0) clear
+	\color(255,255,255) these beast, are native
+
+%p timerPerChar(0.01) pause(0.0) clear
+	\color(255,255,255) they will spawn back lol
+ 
+%p timerPerChar(0.01) pause(0.0) clear
+	\color(255,255,255) Anyway, What oddities brings you here? \n 

@@ -7,6 +7,7 @@
 class Scene;
 class GameObject;
 class PlantData;
+class HitBox;
 
 class PlantPhysicComponent : public PhysicComponent
 {
@@ -27,6 +28,8 @@ private:
     GameObject* player{ nullptr };
     PlantData* plant_data{ nullptr };
     sf::Time timer{ sf::Time::Zero };
+    HitBox* hitbox;
+
 
 
 };

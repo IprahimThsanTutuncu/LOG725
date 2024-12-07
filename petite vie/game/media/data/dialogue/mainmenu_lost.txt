@@ -1,0 +1,8 @@
+%p timerPerChar(0.01) pause(0.0)
+	\color(255,255,255) oh, you've
+%p timerPerChar(0.1) pause(0.0) clear
+	\color(255,255,255) ... died?
+%p timerPerChar(0.01) pause(0.0) clear
+	\color(255,255,255) Don't rush it next time haha
+%p timerPerChar(0.01) pause(0.0) clear
+	\color(255,255,255) Anyway friend, What brings you here? \n 

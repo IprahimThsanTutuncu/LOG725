@@ -1,190 +1,226 @@
 #include "Map0000.h"
+#include <thsan/ressourceManager/ShaderManager.h>
+#include <thsan/gameObject/component/NativeScriptComponent.h>
 
-#include "../../gameObjects/camera/FollowCameraPhysicComponent.h"
-#include "../../gameObjects/camera/CameraRenderComponent.h"
+#include "gameObjects/camera/FollowCameraPhysicComponent.h"
+#include "gameObjects/camera/CameraRenderComponent.h"
 
-#include "../../gameObjects/player/PlayerInputComponent.h"
-#include "../../gameObjects/player/PlayerPhysicComponent.h"
-#include "../../gameObjects/player/PlayerSpriteRenderComponent.h"
+#include "gameObjects/player/PlayerInputComponent.h"
+#include "gameObjects/player/PlayerPhysicComponent.h"
+#include "gameObjects/player/PlayerSpriteRenderComponent.h"
 
-#include "../../gameObjects/NPC/SimpleDialogNPCInputComponent.h"
-#include "../../gameObjects/NPC/FixedOnGroundPhysicComponent.h"
-#include "../../gameObjects/NPC/OrangeCuteRenderComponent.h"
+#include "gameObjects/NPC/OrangeCuteRenderComponent.h"
+#include "gameObjects/NPC/FixedOnGroundPhysicComponent.h"
+#include "gameObjects/NPC/SimpleDialogNPCInputComponent.h"
 
-#include "../dialogue/DialogueState.h"
-#include "../choiceBox/ChoiceBoxState.h"
+#include "gameObjects/enemy/EnemyRenderComponent.h"
+#include "gameObjects/enemy/EnemyPhysicComponent.h"
 
-#include <thsan/state/transition/TransitionState.h>
-#include <thsan/state/transition/transition/Transition.h>
-#include <thsan/ressourceManager/StateManager.h>
-#include <thsan/ressourceManager/ThemeManager.h>
-#include <thsan/util/helper.h>
-#include "../test/TestMapState.h"
+#include "gameObjects/bar/BarRenderComponent.h"
 
+#include <thsan/gameObject/GameObjectFactory.h>
+#include <glm/gtx/string_cast.hpp>
 
-Map0000::Map0000(Game* parent):
-	MapState(parent)
-{
+#include "gameObjects/plant/PlantFactory.h"
+#include "gameObjects/enemy/EnemyFactory.h"
 
+#include "gameObjects/gameCleared/GameClearedRenderComponent.h"
+
+#include <cstdlib> 
+#include <ctime> 
+
+void Map0000::generatePlantsInRange(int n, float range, GameObject* player) {
+    PlantFactory pf(m_scene);
+
+    Transform* playerTransform = player->getData<Transform>(DATA_TYPE::TRANSFORM);
+    if (!playerTransform) return;
+
+    glm::vec3 playerPosition = playerTransform->position;
+
+    static bool seeded = false;
+    if (!seeded) {
+        std::srand(static_cast<unsigned int>(std::time(0)));
+        seeded = true;
+    }
+
+    for (int i = 0; i < n; ++i)
+    {
+        float randomX = playerPosition.x + (rand() % static_cast<int>(range * 2)) - range;
+        float randomZ = playerPosition.z + (rand() % static_cast<int>(range * 2)) - range;
+
+        GameObject* plant = pf.createTrilleRouge();
+        Transform* plantTransform = plant->getData<Transform>(DATA_TYPE::TRANSFORM);
+        if (plantTransform) {
+            plantTransform->position = glm::vec3(randomX, plantTransform->position.y, randomZ);
+            plantTransform->scale = glm::vec2(0.1, 0.1);
+        }
+
+        PlantData* plant_data = plant->getData<PlantData>(DATA_TYPE::PLANT);
+        plant_data->hp = 100;
+        if (plant_data)
+            plant_data->current_state = PlantData::State::planted;
+    }
 }
+
+void Map0000::spawnTrilleRougeWithPosition(float x, float z) {
+    PlantFactory pf(m_scene);
+    GameObject* plant = pf.createTrilleRouge();
+
+    Transform* transform = plant->getData<Transform>(DATA_TYPE::TRANSFORM);
+    if (transform)
+    {
+        transform->position.x = x;
+        transform->position.z = z;
+
+        transform->scale = glm::vec2(0.1f, 0.1f);
+    }
+
+    PlantData* plant_data = plant->getData<PlantData>(DATA_TYPE::PLANT);
+    plant_data->hp = 100;
+    if (plant_data)
+        plant_data->current_state = PlantData::State::planted;
+}
+
+
+Map0000::Map0000(Game* parent) :
+    MapState(parent)
+{
+    m_scene = new Scene(this, "media/data/map/map0000.json", VIEW_TYPE::DYNAMIC_VIEW);
+}
+
 
 void Map0000::init()
 {
-	m_scene = new Scene(this, "media/data/map/winter.json", VIEW_TYPE::FIXED_VIEW);
+    PlantFactory pf(m_scene);
+    GameObject* plant = pf.createTrilleRouge();
 
-	GameObject* player = m_scene->createGameObject("player");
-	m_scene->setGameObjectInputComponent<PlayerInputComponent>(player);
-	m_scene->setGameObjectPhysicComponent<PlayerPhysicComponent>(player);
-	m_scene->setGameObjectRenderComponent<PlayerSpriteRenderComponent>(player);
+    GameObject* player = m_scene->createGameObject("player");
+    m_scene->setGameObjectInputComponent<PlayerInputComponent>(player);
+    m_scene->setGameObjectPhysicComponent<PlayerPhysicComponent>(player);
+    m_scene->setGameObjectRenderComponent<PlayerSpriteRenderComponent>(player);
 
-	GameObject* orange = m_scene->createGameObject("orangeCute_npc");
-	m_scene->setGameObjectInputComponent<SimpleDialogNPCInputComponent>(orange);
-	m_scene->setGameObjectPhysicComponent<FixedOnGroundPhysicComponent>(orange);
-	m_scene->setGameObjectRenderComponent<OrangeCuteRenderComponent>(orange);
+    Transform* player_t = player->getData<Transform>(DATA_TYPE::TRANSFORM);
+    player_t->position = glm::vec3(0.f, player_t->position.y, 0.f);
 
-	
-	auto tr = orange->getData<Transform>(DATA_TYPE::TRANSFORM);
-	tr->position.x -= 28.f;
-	
-	/*
-	GameObject* go = scene.createGameObject("camera");
-	scene.setGameObjectInputComponent<CameraInputComponent>(go);
-	scene.setGameObjectPhysicComponent<FollowCameraPhysicComponent>(go, player);
-	scene.setGameObjectRenderComponent<CameraRenderComponent>(go);
+    GameObject* truc = m_scene->createGameObject("victory sign");
+    m_scene->setGameObjectRenderComponent<GameClearedRenderComponent>(truc);
 
-	class CameraController : public NativeScriptComponent {
+    generatePlantsInRange(20, 200, player);
 
-		void init(Scene& scene) override {
-			CameraData* cd = parent->getData<CameraData>(DATA_TYPE::CAMERA);
+    //put this in a methode where I can generate mechants object with a position on x and z
+    EnemyFactory ef(m_scene);
 
-			cd->offset.y = 15.f;
-			cd->angle = 0.f;
-			cd->offset_distance = 70.f;
-			cd->isPolar = true;
-		};
-		void update(Scene& scene, const sf::Time& dt) override {
+    for (int i = 0; i < 20; i++) 
+    {
+        GameObject* mechant = ef.spawner(player, 100.f, 800.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(1024.f, 1000.f, 1024.f));
+    }
+    GameObject* go = m_scene->createGameObject("camera");
+    m_scene->setGameObjectPhysicComponent<FollowCameraPhysicComponent>(go, player);
+    m_scene->setGameObjectRenderComponent<CameraRenderComponent>(go);
 
-		};
+    GameObject* bars = m_scene->createGameObject("bars");
+    m_scene->setGameObjectRenderComponent<BarRenderComponent>(bars);
 
-		void onDelete(Scene& scene) override {
+    GameObjectFactory go_fact(m_scene);
 
-		};
-	};
+    HitBox hb;
+    AABB box;
+    box.max = glm::vec3(100.f, 2000.f, 2000.f);
+    box.min = glm::vec3(-100.f, -2000.f, -2000.f);
+    box.position = glm::vec3(-100.f, 0.f, 0.f);
+    hb.position = glm::vec3(-100.f, 0.f, 0.f);
+    hb.AABBs.push_back(box);
 
-	go->setNativeScript<CameraController>();
-	*/
-	UI::ShaderUIparam shader_param;
-	shader_param.borderSize[0] = 0.25f;
-	shader_param.borderSize[1] = 0.25f;
-	shader_param.borderSize[2] = 0.25f;
-	shader_param.borderSize[3] = 0.25f;
-	shader_param.colorBg[0] = sf::Color(0, 0, 168);
-	shader_param.colorBg[1] = sf::Color(0, 0, 128);
-	shader_param.colorBg[2] = sf::Color::Black;
-	shader_param.colorBg[3] = sf::Color(0, 0, 128);
-	shader_param.colorBorder = sf::Color(220, 220, 220);
-	shader_param.colorBorderBorders = sf::Color(255,0,0, 128);
-	shader_param.cornerRadius[0] = 0.05f;
-	shader_param.cornerRadius[1] = 0.05f;
-	shader_param.cornerRadius[2] = 0.05f;
-	shader_param.cornerRadius[3] = 0.05f;
-	shader_param.type = UI::Type::fill;
-	shader_param.enableImage = true;
-	shader_param.p_texture = RessourceManager::TextureManager::get("media/image/1024/terrain.png");
+    VolumetricPostProcessData vppd;
+    vppd.ease = Ease::None;
+    vppd.interpolation = InterpolationType::linear;
+    vppd.in_interpolation_duration = sf::seconds(0.75);
+    vppd.out_interpolation_duration = sf::seconds(0.75f);
 
+    vppd.effects_and_opacity[PostProcess::Effect::letterbox] = 1.0f;
+    vppd.effects_and_opacity[PostProcess::Effect::snowfall] = 1.0f;
 
-	std::shared_ptr<UI::ShaderUIparam> shader_param_ptr = RessourceManager::ThemeManager::get("media/data/theme/FF7.json");
+    go_volume_pp = go_fact.createVolumetricPostProcess("volume_pp", truc, hb, vppd);
 
-	std::shared_ptr<State> curr_state = RessourceManager::StateManager::get<State>(this->getId());
+    class CameraController : public NativeScriptComponent {
 
-	std::shared_ptr<DialogueState> dialogue = RessourceManager::StateManager::create<DialogueState>(m_parent, curr_state, sf::Vector2f(0.15f, 0.35f), sf::Vector2f(0.4, 0.2), "media/data/dialogue/test.txt", *shader_param_ptr, sf::Color::Red, 0.3f, 0.0f);
-	
-	std::vector<UI::LabelButton*> bttns;
-	UI::LabelButton* lbl_bttn_1 = new UI::LabelButton("lbl_bttn_1", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, -0.35), "oui", 1.0f, sf::Color::White);
-	UI::LabelButton* lbl_bttn_2 = new UI::LabelButton("lbl_bttn_2", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.55, -0.35), "non", 1.0f, sf::Color::White);
-	lbl_bttn_1->left = lbl_bttn_2;
-	lbl_bttn_1->right = lbl_bttn_2;
+        void init(Scene& scene) override {
+            CameraData* cd = parent->getData<CameraData>(DATA_TYPE::CAMERA);
 
-	lbl_bttn_2->left = lbl_bttn_1;
-	lbl_bttn_2->right = lbl_bttn_1;
+            cd->offset.y = 15.f;
+            cd->angle = 0.f;
+            cd->offset_distance = 70.f;
+            cd->isPolar = true;
+        };
+        void update(Scene& scene, const sf::Time& dt) override {
+        };
 
-	lbl_bttn_2->connect(UI::Action::pressed, [&]() {m_scene->createPointLight(sf::Vector3f(100.f, 100.f, 75.f)); });
-	lbl_bttn_1->connect(UI::Action::crossed, [lbl_bttn_1]() {lbl_bttn_1->setFontColor(sf::Color::White); });
+        void onDelete(Scene& scene) override {
 
-	lbl_bttn_1->connect(UI::Action::hover, [lbl_bttn_1]() {
-		if(lbl_bttn_1)
-			lbl_bttn_1->setFontColor(sf::Color::Cyan);
-	});
+        };
+    };
 
-
-	lbl_bttn_1->connect(UI::Action::pressed, [&]() {
-		std::shared_ptr<State> peek = this->getParent()->peekState();
-		
-		sf::Vector2u resolution = sf::Vector2u(this->getParent()->getWidth(), this->getParent()->getHeight());
-		//PostProcess::Letterbox_param::Bar, sf::Color, Ease, InterpolationType
-		std::unique_ptr<Transition> transition = std::make_unique<Transition>(
-			sf::seconds(1.0f),
-			sf::seconds(2.0f),
-			Transition::Type::fade_to_color,
-			Transition::Type::fade_to_color,
-			Transition::Fade_type::step,
-			Transition::Fade_type::step,
-			sf::Color::Black,
-			sf::Color::Cyan,
-			sf::Color::Black,
-			sf::Color::Black
-		);
-
-		auto current = RessourceManager::StateManager::get<State>(this->getId());
-		std::shared_ptr<TransitionState<TestMapState>> interpolate = RessourceManager::StateManager::create_transition<TestMapState>(this->getParent(), current, transition);
-		//auto interpolate = RessourceManager::StateManager::create_transition(this->getParent(), current, hxhstate, transition);
-		this->getParent()->changeState(interpolate, true);
-	});
-
-	lbl_bttn_2->connect(UI::Action::crossed, [lbl_bttn_2]() {lbl_bttn_2->setFontColor(sf::Color::White); });
-	lbl_bttn_2->connect(UI::Action::hover, [lbl_bttn_2]() {lbl_bttn_2->setFontColor(sf::Color::Red); });
-
-	bttns.push_back(lbl_bttn_1);
-	bttns.push_back(lbl_bttn_2);
-	
-	dialogue->addChoiceBox(bttns, 1, sf::Vector2f(0.4f, 0.5f), sf::Vector2f(0.2, 0.1));
-	m_parent->changeState(dialogue, true);
+    go->setNativeScript<CameraController>();
 
 	std::shared_ptr<PostProcess> pp = m_scene->getPostProcess();
 	pp->enable();
 	pp->snowfall_param.bg_layers = 2.f;
-	pp->snowfall_param.fg_layers = 2.f;
+	pp->snowfall_param.fg_layers = 1.f;
 	pp->snowfall_param.layer_gap = 1.f;
 	pp->snowfall_param.size_rate = 0.1f;
-	pp->snowfall_param.wind_direction = sf::Glsl::Vec2(0.2, 0.4);
+	pp->snowfall_param.speed = sf::Glsl::Vec2(-2.f, -2.f);
+	pp->snowfall_param.wind_direction = sf::Glsl::Vec2(-0.2, -0.4);
+
+	pp->letterbox_param.bar_screen_ratio_top = 0.0f;
+	pp->letterbox_param.bar_screen_ratio_bottom = 0.0f;
+
+	pp->letterbox_param.fading_range_top = 0.1f;
+	pp->letterbox_param.fading_range_bottom = 0.1f;
+
+	pp->letterbox_param.type = PostProcess::Letterbox_param::Type::smoothstep;
+	pp->letterbox_param.top_bar_color = m_scene->getDirectionalLightProperties().ambient;
+	pp->letterbox_param.bottom_bar_color = m_scene->getDirectionalLightProperties().ambient;
+
+	pp->letterbox_param.blend = PostProcess::Blend::additive;
 
 	pp->enable_effect(PostProcess::Effect::snowfall);
 	pp->bind_effect_to_layer(PostProcess::Effect::snowfall, 0);
 
-	m_scene->setDirLight_ambient(sf::Color::Black);
+	pp->enable_effect(PostProcess::Effect::letterbox);
+	pp->bind_effect_to_layer(PostProcess::Effect::letterbox, 1);
+
+    //m_scene->setDirLight_ambient(sf::Color(64, 64, 64));
+    //m_scene->setDirLight_direction(sf::Vector3f(0, 0, -1));
+    //m_scene->setDirLight_diffuse(sf::Color(128, 64, 32));
+
 }
 
 void Map0000::handleEvent(sf::Event event)
 {
+
 }
 
-void Map0000::input(const sf::Time& deltaTime, std::vector<Config::InputAction> inputActions)
-{
-	m_scene->input(deltaTime, inputActions);
+void Map0000::input(const sf::Time& deltaTime, std::vector<Config::InputAction> inputActions) {
+    m_scene->input(deltaTime, inputActions);
 }
 
 void Map0000::update(const sf::Time& deltaTime)
 {
-	m_scene->update(deltaTime);
-	static float t = 0;
-	t += deltaTime.asSeconds();
+    glm::vec3 position = m_scene->get_child("player")->getData<Transform>(DATA_TYPE::TRANSFORM)->position;
+
+    static float t = 0;
+    t += deltaTime.asSeconds();
+    float d = sqrt(cos(t) * cos(t) + -sin(t) * sin(t));
+    //m_scene->setDirLight_direction(sf::Vector3f(cos(t)/d, -0.5/d, sin(t)/d));
+    m_scene->update(deltaTime);
 
 }
 
 void Map0000::draw(sf::RenderTarget& target, const sf::Time& deltaTime)
 {
-	m_scene->setRenderTarget(&target);
-	LightProperties dir = m_scene->getDirectionalLightProperties();
-	target.clear(dir.ambient);
-	m_scene->render(deltaTime);
+    //m_scene->enableDebugRendering(Debug_rendering::debug_normal);
+    LightProperties dir = m_scene->getDirectionalLightProperties();
+    target.clear(dir.ambient);
+    m_scene->setRenderTarget(&target);
+    m_scene->render(deltaTime);
 }

@@ -1,0 +1,794 @@
+{
+    "image_static": [
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_1depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_1_0",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_1.png",
+            "position": {
+                "x": -491.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": 0.0,
+            "scale": 0.44999998807907104
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_2depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_2_1",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_2.png",
+            "position": {
+                "x": 520.0,
+                "y": 0.0,
+                "z": 530.0
+            },
+            "rotation": 0.0,
+            "scale": 0.5
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_3_2",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3.png",
+            "position": {
+                "x": -264.0,
+                "y": 0.0,
+                "z": 412.0
+            },
+            "rotation": 0.0,
+            "scale": 0.5
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_5depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_5_3",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_5.png",
+            "position": {
+                "x": 1.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": 0.0,
+            "scale": 1.0
+        },
+        {
+            "depth_factor": 0.6010000109672546,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_4depth.png",
+            "emission_path": "",
+            "flip_x": true,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_4_4",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_4.png",
+            "position": {
+                "x": 68.0,
+                "y": 0.0,
+                "z": 66.0
+            },
+            "rotation": 0.0,
+            "scale": 0.5
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_3_5",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3.png",
+            "position": {
+                "x": 15.0,
+                "y": 0.0,
+                "z": -254.0
+            },
+            "rotation": 0.0,
+            "scale": 0.5
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_3_6",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3.png",
+            "position": {
+                "x": 400.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": 0.0,
+            "scale": 0.5
+        },
+        {
+            "depth_factor": 0.3009999990463257,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_2depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_2_7",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_2.png",
+            "position": {
+                "x": -372.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": 0.0,
+            "scale": 0.5
+        },
+        {
+            "depth_factor": 0.8009999990463257,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_3_8",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3.png",
+            "position": {
+                "x": -256.0,
+                "y": 0.0,
+                "z": 216.0
+            },
+            "rotation": 0.0,
+            "scale": 0.5
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_1depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_1_9",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_1.png",
+            "position": {
+                "x": -374.0,
+                "y": 0.0,
+                "z": 114.0
+            },
+            "rotation": 0.0,
+            "scale": 0.5
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_4depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_4_10",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_4.png",
+            "position": {
+                "x": 177.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": 0.0,
+            "scale": 0.5
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_5depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_5_11",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_5.png",
+            "position": {
+                "x": -434.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": 0.0,
+            "scale": 0.5
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_3_12",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3.png",
+            "position": {
+                "x": -230.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": 0.0,
+            "scale": 0.6000000238418579
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_4depth.png",
+            "emission_path": "",
+            "flip_x": true,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_4_13",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_4.png",
+            "position": {
+                "x": -349.0,
+                "y": 0.0,
+                "z": -157.0
+            },
+            "rotation": 0.0,
+            "scale": 0.44999998807907104
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_1depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_1_14",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_1.png",
+            "position": {
+                "x": -301.0,
+                "y": 0.0,
+                "z": 206.0
+            },
+            "rotation": 0.0,
+            "scale": 0.4000000059604645
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_5depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_5_15",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_5.png",
+            "position": {
+                "x": -162.0,
+                "y": 0.0,
+                "z": 245.0
+            },
+            "rotation": 0.0,
+            "scale": 0.5
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_3_16",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3.png",
+            "position": {
+                "x": -308.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": 0.0,
+            "scale": 0.6000000238418579
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_2depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_2_17",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_2.png",
+            "position": {
+                "x": -306.0,
+                "y": 0.0,
+                "z": 200.0
+            },
+            "rotation": 0.0,
+            "scale": 0.3400000035762787
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_4depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_4_18",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_4.png",
+            "position": {
+                "x": -160.0,
+                "y": 0.0,
+                "z": 96.0
+            },
+            "rotation": 0.0,
+            "scale": 0.6000000238418579
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3depth.png",
+            "emission_path": "",
+            "flip_x": true,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_3_19",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3.png",
+            "position": {
+                "x": -230.0,
+                "y": 0.0,
+                "z": -55.0
+            },
+            "rotation": 0.0,
+            "scale": 0.5
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_2depth.png",
+            "emission_path": "",
+            "flip_x": true,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_2_20",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_2.png",
+            "position": {
+                "x": -312.0,
+                "y": 0.0,
+                "z": 411.0
+            },
+            "rotation": 0.0,
+            "scale": 0.5
+        },
+        {
+            "depth_factor": 0.7009999752044678,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_5depth.png",
+            "emission_path": "",
+            "flip_x": true,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_5_21",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_5.png",
+            "position": {
+                "x": -124.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": 0.0,
+            "scale": 0.800000011920929
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_1depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_1_22",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_1.png",
+            "position": {
+                "x": -274.0,
+                "y": 0.0,
+                "z": -139.0
+            },
+            "rotation": 0.0,
+            "scale": 0.6000000238418579
+        },
+        {
+            "depth_factor": 0.6000000238418579,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_1depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_1_23",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_1.png",
+            "position": {
+                "x": -413.0,
+                "y": 0.0,
+                "z": -181.0
+            },
+            "rotation": 0.0,
+            "scale": 0.5
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_1depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_1_24",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_1.png",
+            "position": {
+                "x": -404.0,
+                "y": 0.0,
+                "z": -247.0
+            },
+            "rotation": 0.0,
+            "scale": 0.6000000238418579
+        },
+        {
+            "depth_factor": 1.0,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3depth.png",
+            "emission_path": "",
+            "flip_x": true,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_3_25",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_3.png",
+            "position": {
+                "x": -505.0,
+                "y": 0.0,
+                "z": -64.0
+            },
+            "rotation": 0.0,
+            "scale": 0.800000011920929
+        },
+        {
+            "depth_factor": 0.6000000238418579,
+            "depth_path": "media\\image\\decoration\\arbre\\tree_mid_leaves_4depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_4_26",
+            "path": "media\\image\\decoration\\arbre\\tree_mid_leaves_4.png",
+            "position": {
+                "x": -512.0,
+                "y": 0.0,
+                "z": -131.0
+            },
+            "rotation": 0.0,
+            "scale": 0.699999988079071
+        }
+    ],
+    "lights": [
+        {
+            "ambient": {
+                "a": 255,
+                "b": 44,
+                "g": 2,
+                "r": 12
+            },
+            "attenuationConstant": 0.0,
+            "attenuationLinear": 0.0,
+            "attenuationQuadratic": 0.0,
+            "diffuse": {
+                "a": 255,
+                "b": 254,
+                "g": 254,
+                "r": 255
+            },
+            "direction": {
+                "x": -0.09243709594011307,
+                "y": 0.1483190655708313,
+                "z": -0.984611988067627
+            },
+            "isCursor": false,
+            "isDirection": true,
+            "isEnable": false,
+            "isPoint": false,
+            "isSpot": false,
+            "name": "directional",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "specular": {
+                "a": 255,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            }
+        },
+        {
+            "ambient": {
+                "a": 255,
+                "b": 0,
+                "g": 255,
+                "r": 255
+            },
+            "attenuationConstant": 1.0,
+            "attenuationLinear": 18.0,
+            "attenuationQuadratic": 600.0,
+            "diffuse": {
+                "a": 255,
+                "b": 0,
+                "g": 255,
+                "r": 255
+            },
+            "direction": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isCursor": false,
+            "isDirection": false,
+            "isEnable": true,
+            "isPoint": true,
+            "isSpot": false,
+            "name": "pointLight",
+            "position": {
+                "x": 0.0,
+                "y": 146.0,
+                "z": 0.0
+            },
+            "specular": {
+                "a": 255,
+                "b": 255,
+                "g": 255,
+                "r": 255
+            }
+        },
+        {
+            "ambient": {
+                "a": 255,
+                "b": 3,
+                "g": 3,
+                "r": 157
+            },
+            "attenuationConstant": 1.0,
+            "attenuationLinear": 18.0,
+            "attenuationQuadratic": 600.0,
+            "diffuse": {
+                "a": 255,
+                "b": 0,
+                "g": 0,
+                "r": 255
+            },
+            "direction": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isCursor": false,
+            "isDirection": false,
+            "isEnable": true,
+            "isPoint": true,
+            "isSpot": false,
+            "name": "ointLight",
+            "position": {
+                "x": 582.0,
+                "y": 57.0,
+                "z": 9.0
+            },
+            "specular": {
+                "a": 255,
+                "b": 255,
+                "g": 255,
+                "r": 255
+            }
+        },
+        {
+            "ambient": {
+                "a": 255,
+                "b": 159,
+                "g": 159,
+                "r": 0
+            },
+            "attenuationConstant": 1.0,
+            "attenuationLinear": 0.0,
+            "attenuationQuadratic": 200.0,
+            "diffuse": {
+                "a": 255,
+                "b": 0,
+                "g": 0,
+                "r": 162
+            },
+            "direction": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isCursor": false,
+            "isDirection": false,
+            "isEnable": true,
+            "isPoint": true,
+            "isSpot": false,
+            "name": "intLight",
+            "position": {
+                "x": 3.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "specular": {
+                "a": 255,
+                "b": 255,
+                "g": 255,
+                "r": 255
+            }
+        }
+    ],
+    "seed": [],
+    "sprite_static": [],
+    "version": 0.353,
+    "voxel_terrain": {
+        "FOV": 1024,
+        "LOD": 4.0,
+        "LOD_startAt": 300.0,
+        "SpriteRenderDistance": 400.0,
+        "angle": 5.132999897003174,
+        "blur_type": 3,
+        "height": 20.0,
+        "horizon": 300.0,
+        "isViewTypeFixed": false,
+        "normal_blur_iteration": 2,
+        "normal_blurr": {
+            "x": 0.009999999776482582,
+            "y": 0.009999999776482582
+        },
+        "offsetCameraPosition": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "position": {
+            "x": -302.0,
+            "y": 66.0,
+            "z": 173.0
+        },
+        "scaleHeight": 512.0,
+        "screen_height": 768.0,
+        "screen_width": 1024.0,
+        "shininess": 32.0,
+        "terrainRenderDistance": 400.0,
+        "terrain_collision_height_path": "media/image/map/map0002/terrain.png",
+        "terrain_collision_mask_path": "media/image/map/map0002/terrain_mask.png",
+        "terrain_color_path": "media/image/map/map0002/terrain_color.png",
+        "terrain_height_path": "media/image/map/map0002/terrain_height.png"
+    }
+}

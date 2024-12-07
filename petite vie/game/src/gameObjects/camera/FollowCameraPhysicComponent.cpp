@@ -121,22 +121,26 @@ void FollowCameraPhysicComponent::update(Scene& scene, const sf::Time& dt)
 
 				if (tag == player_data->target_name) {
 					is_following = true;
-					glm::vec3 target_position = scene.get_child(player_data->target_name)->getData<Transform>(DATA_TYPE::TRANSFORM)->position;
-					if (!curr_angle || t_angle >= CAMERA_ANGLE_INTERPOLATION_TIME) {
-						setBeginAngle(cd);
+					if (scene.get_child(player_data->target_name))
+					{
+						glm::vec3 target_position = scene.get_child(player_data->target_name)->getData<Transform>(DATA_TYPE::TRANSFORM)->position;
+					
+						if (!curr_angle || t_angle >= CAMERA_ANGLE_INTERPOLATION_TIME) {
+							setBeginAngle(cd);
+						}
+
+						if (!curr_horizon || t_horizon >= CAMERA_HORIZON_INTERPOLATION_TIME) {
+							setBeginHorizon(vt->horizon);
+						}
+
+						setEndAngle(target_position, player_position, 50.f, cd);
+				
+						auto player_rect = scene.querySpriteRectAssociateWith(target->getName());
+						auto target_rect = scene.querySpriteRectAssociateWith(player_data->target_name);
+						float screen_height = (target_rect.top + target_rect.height / 2.f) + (player_rect.top + player_rect.height / 2.f);
+						screen_height /= 2.f;
+						setEndHorizon(middle + (middle - screen_height/2), vt);
 					}
-
-					if (!curr_horizon || t_horizon >= CAMERA_HORIZON_INTERPOLATION_TIME) {
-						setBeginHorizon(vt->horizon);
-					}
-
-					setEndAngle(target_position, player_position, 50.f, cd);
-
-					auto player_rect = scene.querySpriteRectAssociateWith(target->getName());
-					auto target_rect = scene.querySpriteRectAssociateWith(player_data->target_name);
-					float screen_height = (target_rect.top + target_rect.height / 2.f) + (player_rect.top + player_rect.height / 2.f);
-					screen_height /= 2.f;
-					setEndHorizon(middle + (middle - screen_height/2), vt);
 
 				}
 

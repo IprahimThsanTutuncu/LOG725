@@ -53,53 +53,137 @@ void EnemyPhysicComponent::init(Scene& scene)
 
 void EnemyPhysicComponent::update(Scene& scene, const sf::Time& dt)
 {
-    Transform* transform = parent->getData<Transform>(DATA_TYPE::TRANSFORM);
-    physicBodyData* physics = parent->getData<physicBodyData>(DATA_TYPE::PHYSIC_BODY);
-    PlayerData* playerData = parent->getData<PlayerData>(DATA_TYPE::PLAYER);
+	Transform* temp = parent->getData<Transform>(DATA_TYPE::TRANSFORM);
+	physicBodyData* phy = parent->getData<physicBodyData>(DATA_TYPE::PHYSIC_BODY);
 
-    physics->friction = 0.95f; // si j'ai un masque, j'utiliserais le masque
-    physics->masse = 0.29f;
+	phy->friction = 0.95; // avoir une carte de terrain pour determiner les biomes
+	const float g = 12.5f; // devrait être offert par la scene
+	static float t = 0.f;
+	static bool isMoving{ false };
 
-    glm::vec3 direction = physics->direction;
+	phy->acceleration.x = 0.1f;
+	phy->acceleration.z = 0.1f;
 
-    if (glm::length(direction) != 0.f) {
-        direction = glm::normalize(direction);
+	float weight;
+	phy->masse = 0.29f;
 
-        //acceleration
-        velocity.x += direction.x * physics->force;
-        velocity.z += direction.z * physics->force;
+	if (!onGround) {
+		if (t < sf::seconds(3.f).asSeconds())
+			t += dt.asSeconds();
+		weight = phy->masse * g * t;
+	}
+	else
+	{
+		t = 0.f;
+		weight = phy->masse * g;
+	}
 
-        // Cap velocity
-        float max_speed = max_walking_speed;
-        if (glm::length(velocity) > max_speed) 
-        {
-            velocity = glm::normalize(velocity) * max_speed;
-        }
-    }
-    else 
-    {
-        // Apply friction
-        velocity *= physics->friction;
-    }
+	float physical_height_min = scene.getPhysicalHeightOnPosition(sf::Vector2f(temp->position.x, temp->position.z));
 
-    // Check terrain height
-    float currentHeight = transform->position.y;
+	glm::vec3 f_dir = phy->direction;
 
-    float groundHeight = scene.getPhysicalHeightOnPosition(sf::Vector2f(transform->position.x, transform->position.z));
+	if (glm::length(f_dir) != 0) {}
 
-    transform->position.y = groundHeight;
-    
+	glm::vec3 f_direction = glm::vec3(0.f);
+	if (glm::length(f_dir) != 0) {
+		isMoving = true;
+		f_dir = glm::normalize(f_dir);
+		f_direction = f_dir;
+		f_dir *= velocity;
+	}
+	else
+		isMoving = false;
 
-    // Apply force
-    transform->position.x += velocity.x;
-    transform->position.z += velocity.z;
 
-    // Update physics force on reset la direction if force is negligible
-    physics->force *= physics->friction;
-    if (physics->force <= 0.05f) {
-        physics->force = 0.f;
-        physics->direction = glm::vec3(0, 0, 0);
-    }
+	if (isMoving) {
+		velocity.x += phy->acceleration.x * phy->force;
+		velocity.z += phy->acceleration.z * phy->force;
+
+		if (glm::length(velocity) > max_running_speed) 
+		{
+			velocity = glm::normalize(velocity) * max_running_speed;
+		}
+	}
+
+	// verify if the next position isn't
+	// a wall, that is his his normal isn't near one
+	// and significantly higher.
+	// usually would workout, but if it moves by more than 1 pixel
+	// it'll just walk on a roof (flat surface)
+	// so that's a fix. O(n) btw.
+
+	float next_height = 0;
+	float curr_height = 0;
+
+	if (glm::length(f_dir) != 0.f) {
+		bool isNextWayHigher = true;
+		float tolerated_height_gap = 5.f; // should be specified by the player_data
+		do {
+			next_height = scene.getPhysicalHeightOnPosition(sf::Vector2f(temp->position.x + f_dir.x, temp->position.z + f_dir.z));
+			curr_height = temp->position.y;
+
+			if (next_height > curr_height + tolerated_height_gap) {
+				f_dir -= f_direction;
+				isNextWayHigher = true;
+			}
+			else
+				isNextWayHigher = false;
+
+		} while (isNextWayHigher);
+
+	}
+
+	sf::Vector3f terrain_normal_1 = scene.getNormalOnPosition(sf::Vector2f(temp->position.x + f_dir.x, temp->position.z + f_dir.z));
+	sf::Vector3f terrain_normal_2 = scene.getNormalOnPosition(sf::Vector2f(temp->position.x + f_dir.x + 2, temp->position.z + f_dir.z));
+	sf::Vector3f terrain_normal_3 = scene.getNormalOnPosition(sf::Vector2f(temp->position.x + f_dir.x - 2, temp->position.z + f_dir.z));
+	sf::Vector3f terrain_normal_4 = scene.getNormalOnPosition(sf::Vector2f(temp->position.x + f_dir.x, temp->position.z + f_dir.z + 2));
+	sf::Vector3f terrain_normal_5 = scene.getNormalOnPosition(sf::Vector2f(temp->position.x + f_dir.x, temp->position.z + f_dir.z - 2));
+	sf::Vector3f terrain_normal =
+		terrain_normal_1 * 0.2f
+		+ terrain_normal_2 * 0.2f
+		+ terrain_normal_3 * 0.2f
+		+ terrain_normal_4 * 0.2f
+		+ terrain_normal_5 * 0.2f;
+
+	glm::vec3 n = glm::normalize(glm::vec3(terrain_normal.x, terrain_normal.y, terrain_normal.z));
+
+	glm::vec3 f_w = glm::vec3(0.f, -1.f, 0.f) * weight;
+	glm::vec3 f = f_dir + f_w;
+
+	glm::vec3 r = glm::cross(glm::cross(n, f), n);
+	//haha, r_force comme dans vrak tv :D
+	glm::vec3 r_force;
+
+	if (temp->position.y > physical_height_min) {
+		r_force = f_w + f_dir * (1.f / glm::length((f_w + 1.f)));
+		onGround = false;
+	}
+	else {
+		onGround = true;
+		r_force = f_w - glm::proj(f, n) + f_dir; // ;
+	}
+
+	temp->position.x += r_force.x;
+	temp->position.z += r_force.z;
+	
+	physical_height_min = scene.getPhysicalHeightOnPosition(sf::Vector2f(temp->position.x, temp->position.z));
+
+
+	phy->force *= phy->friction;
+
+	if (phy->force <= 0.05) {
+		phy->force = 0.f;
+		phy->direction = glm::vec3(0, 0, 0);
+	}
+
+	temp->position.y = physical_height_min;
+
+
+	if (temp->position.y < physical_height_min)
+	{
+		temp->position.y = physical_height_min;
+		phy->onGround = true;
+	}
 
     if (charState->curr.hp <= 0)
     {

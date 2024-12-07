@@ -44,6 +44,8 @@
     <ClCompile Include="src\gameObjects\Enemy\EnemyRenderComponent.cpp" />
     <ClCompile Include="src\gameObjects\enemy\EnemyPhysicComponent.cpp" />
     <ClCompile Include="src\gameObjects\healthbar\HealthBarRenderComponent.cpp" />
+    <ClCompile Include="src\gameObjects\enemy\EnemyFactory.cpp" />
+    <ClCompile Include="src\gameObjects\gameCleared\GameClearedRenderComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\states\choiceBox\ChoiceBoxState.h" />
@@ -88,6 +90,8 @@
     <ClInclude Include="src\gameObjects\enemy\EnemyRenderComponent.h" />
     <ClInclude Include="src\gameObjects\enemy\EnemyPhysicComponent.h" />
     <ClInclude Include="src\gameObjects\healthbar\HealthBarRenderComponent.h" />
+    <ClInclude Include="src\gameObjects\enemy\EnemyFactory.h" />
+    <ClInclude Include="src\gameObjects\gameCleared\GameClearedRenderComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="media\shader\postProcess\postprocess.frag" />

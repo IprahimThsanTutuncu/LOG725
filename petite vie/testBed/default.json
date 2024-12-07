@@ -37,9 +37,9 @@
     "screen_width": 1024.0,
     "shininess": 32.0,
     "terrainRenderDistance": 705.0,
-    "terrain_collision_height_path": "media/image/map/2048/terrain_height.png",
-    "terrain_collision_mask_path": "media/image/map/2048/terrain_mask.png",
-    "terrain_color_path": "media/image/map/2048/terrain_color.png",
-    "terrain_height_path": "media/image/map/2048/terrain_height.png"
+    "terrain_collision_height_path": "media/image/map/map0002/terrain.png",
+    "terrain_collision_mask_path": "media/image/map/map0002/terrain_mask.png",
+    "terrain_color_path": "media/image/map/map0002/terrain_color.png",
+    "terrain_height_path": "media/image/map/map0002/terrain_height.png"
   }
 }

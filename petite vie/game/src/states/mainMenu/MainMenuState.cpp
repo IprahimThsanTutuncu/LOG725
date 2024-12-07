@@ -26,10 +26,13 @@
 
 #include "gameObjects/bar/BarRenderComponent.h"
 #include <states/test/TestMapState.h>
+#include <states/map/Map0000.h>
 
 
-MainMenuState::MainMenuState(Game* parent) :
-	State(parent)
+MainMenuState::MainMenuState(Game* parent, std::string dialogue_path, int playAtParagrapheNum) :
+	State(parent),
+	begin_dialogue_path(dialogue_path),
+	playAtParagrapheNum(playAtParagrapheNum)
 {
     std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
     for (std::size_t i = 0; i < modes.size(); ++i)
@@ -76,8 +79,7 @@ void MainMenuState::init()
 	std::shared_ptr<UI::ShaderUIparam> shader_param_ptr = RessourceManager::ThemeManager::get("media/data/theme/FF7.json");
 
 	std::shared_ptr<State> curr_state = RessourceManager::StateManager::get<State>(this->getId());
-
-	dialogue = RessourceManager::StateManager::create<DialogueState>(m_parent, curr_state, sf::Vector2f(0.45f, 0.20f), sf::Vector2f(0.4, 0.2), "media/data/dialogue/mainmenu.txt", *shader_param_ptr, sf::Color::Red, 0.3f, 0.0f);
+	dialogue = RessourceManager::StateManager::create<DialogueState>(m_parent, curr_state, sf::Vector2f(0.45f, 0.20f), sf::Vector2f(0.4, 0.2), begin_dialogue_path, *shader_param_ptr, sf::Color::Red, 0.3f, 0.0f);
 
 	id_dialogue = dialogue->getId();
 
@@ -149,6 +151,13 @@ void MainMenuState::init()
 			{
 				std::shared_ptr<State> curr_state = RessourceManager::StateManager::get<State>(this->getId());
 
+				std::shared_ptr<MainMenuState> main_menu_state = std::dynamic_pointer_cast<MainMenuState>(curr_state);
+
+				if (main_menu_state)
+				{
+					main_menu_state->playAtParagrapheNum = 0;
+					main_menu_state->begin_dialogue_path = "media/data/dialogue/mainmenu.txt";
+				}
 				RessourceManager::MusicManager::setVolume(25);
 				std::cout << "Music volume set to 25." << std::endl;
 				m_parent->changeState(curr_state, true);
@@ -158,7 +167,13 @@ void MainMenuState::init()
 		lbl_bttn_sound->connect(UI::Action::pressed, [&]() 
 			{
 			std::shared_ptr<State> curr_state = RessourceManager::StateManager::get<State>(this->getId());
+			std::shared_ptr<MainMenuState> main_menu_state = std::dynamic_pointer_cast<MainMenuState>(curr_state);
 
+			if (main_menu_state)
+			{
+				main_menu_state->playAtParagrapheNum = 0;
+				main_menu_state->begin_dialogue_path = "media/data/dialogue/mainmenu.txt";
+			}
 			RessourceManager::SoundManager::setVolume(100);
 			std::cout << "Sound volume set to 100." << std::endl;
 			m_parent->changeState(curr_state, true);
@@ -186,6 +201,48 @@ void MainMenuState::init()
 
 
 	lbl_bttn_1->connect(UI::Action::pressed, [&]() {
+		startGameState = true;
+	});
+
+	lbl_bttn_2->connect(UI::Action::crossed, [lbl_bttn_2]() {lbl_bttn_2->setFontColor(sf::Color::White); });
+	lbl_bttn_2->connect(UI::Action::hover, [lbl_bttn_2]() {lbl_bttn_2->setFontColor(sf::Color::Red); });
+
+	bttns.push_back(lbl_bttn_1);
+	bttns.push_back(lbl_bttn_2);
+
+	dialogue->addChoiceBox(bttns, playAtParagrapheNum, sf::Vector2f(0.4f, 0.35f), sf::Vector2f(0.3, 0.1));
+
+	std::shared_ptr<PostProcess> pp = m_scene->getPostProcess();
+	pp->disable();
+	pp->snowfall_param.bg_layers = 2.f;
+	pp->snowfall_param.fg_layers = 2.f;
+	pp->snowfall_param.layer_gap = 1.f;
+	pp->snowfall_param.size_rate = 0.1f;
+	pp->snowfall_param.wind_direction = sf::Glsl::Vec2(0.2, 0.4);
+
+	pp->enable_effect(PostProcess::Effect::snowfall);
+	pp->bind_effect_to_layer(PostProcess::Effect::snowfall, 0);
+
+	m_parent->changeState(dialogue, true);
+}
+
+void MainMenuState::start()
+{
+}
+
+
+void MainMenuState::handleEvent(sf::Event event)
+{
+
+}
+
+void MainMenuState::input(const sf::Time &deltaTime, std::vector<Config::InputAction> inputActions)
+{
+	m_scene->input(deltaTime, inputActions);
+
+
+	if (startGameState == true)
+	{
 		std::shared_ptr<State> peek = this->getParent()->peekState();
 
 		sf::Vector2u resolution = sf::Vector2u(this->getParent()->getWidth(), this->getParent()->getHeight());
@@ -204,47 +261,12 @@ void MainMenuState::init()
 		);
 
 		auto current = RessourceManager::StateManager::get<State>(this->getId());
-		std::shared_ptr<TransitionState<TestMapState>> interpolate = RessourceManager::StateManager::create_transition<TestMapState>(this->getParent(), current, transition);
+		std::shared_ptr<TransitionState<Map0000>> interpolate = RessourceManager::StateManager::create_transition<Map0000>(this->getParent(), current, transition);
 
 		this->getParent()->changeState(interpolate, true);
-	});
+		startGameState = false;
 
-	lbl_bttn_2->connect(UI::Action::crossed, [lbl_bttn_2]() {lbl_bttn_2->setFontColor(sf::Color::White); });
-	lbl_bttn_2->connect(UI::Action::hover, [lbl_bttn_2]() {lbl_bttn_2->setFontColor(sf::Color::Red); });
-
-	bttns.push_back(lbl_bttn_1);
-	bttns.push_back(lbl_bttn_2);
-
-	dialogue->addChoiceBox(bttns, 0, sf::Vector2f(0.4f, 0.35f), sf::Vector2f(0.3, 0.1));
-
-	std::shared_ptr<PostProcess> pp = m_scene->getPostProcess();
-	pp->disable();
-	pp->snowfall_param.bg_layers = 2.f;
-	pp->snowfall_param.fg_layers = 2.f;
-	pp->snowfall_param.layer_gap = 1.f;
-	pp->snowfall_param.size_rate = 0.1f;
-	pp->snowfall_param.wind_direction = sf::Glsl::Vec2(0.2, 0.4);
-
-	pp->enable_effect(PostProcess::Effect::snowfall);
-	pp->bind_effect_to_layer(PostProcess::Effect::snowfall, 0);
-
-}
-
-void MainMenuState::start()
-{
-	m_parent->changeState(dialogue, true);
-}
-
-
-void MainMenuState::handleEvent(sf::Event event)
-{
-
-}
-
-void MainMenuState::input(const sf::Time &deltaTime, std::vector<Config::InputAction> inputActions)
-{
-	m_scene->input(deltaTime, inputActions);
-
+	}
 }
 
 void MainMenuState::update(const sf::Time &deltaTime)

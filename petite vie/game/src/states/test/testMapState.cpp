@@ -60,7 +60,7 @@ void TestMapState::generatePlantsInRange(int n, float range, GameObject* player)
 
 TestMapState::TestMapState(Game* parent) :
     State(parent),
-    scene(this, "media/data/map/test_roll.json", VIEW_TYPE::DYNAMIC_VIEW)
+    scene(this, "media/data/map/map0000.json", VIEW_TYPE::DYNAMIC_VIEW)
 {
 }
 

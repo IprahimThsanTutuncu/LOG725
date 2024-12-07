@@ -1,6 +1,9 @@
 #pragma once
 
 #include "MapState.h"
+#include <glm/vec3.hpp>
+
+class PostProcess;
 
 class Map0000 : public MapState
 {
@@ -15,6 +18,12 @@ public:
     ~Map0000() = default;
 
 private:
-    std::vector<std::shared_ptr<State>> decorative;
+    void spawnTrilleRougeWithPosition(float x, float z);
+    void generatePlantsInRange(int n, float range, GameObject* player);
+
+    bool isInit{ false };
+    std::shared_ptr<PostProcess> pp;
+    GameObject* go_volume_pp;
+    std::vector<GameObject*> mechants;
 };
 

@@ -57,9 +57,13 @@ void PlayerInputComponent::init(Scene& scene)
 void PlayerInputComponent::update(Scene& scene,  const sf::Time& dt, std::vector<Config::InputAction> inputActions)
 {
 	physicBodyData* phy = parent->getData<physicBodyData>(DATA_TYPE::PHYSIC_BODY);
+	PlayerData* player_data = parent->getData<PlayerData>(DATA_TYPE::PLAYER);
 
 	if(phy)
 		phy->direction = glm::vec3(0, 0, 0);
+
+	if (player_data->curr_state == PlayerData::State::death)
+		return;
 
     std::vector<Command*> commands = handleInput(inputActions);
 

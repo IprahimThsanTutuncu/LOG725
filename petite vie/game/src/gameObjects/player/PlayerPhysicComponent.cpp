@@ -8,6 +8,7 @@
 #include <thsan/CollisionEngine/CollisionEngine.h>
 #include <glm/gtx/projection.hpp>
 #include "states/mainMenu/MainMenuState.h"
+#include "gameObjects/plant/PlantFactory.h"
 
 PlayerPhysicComponent::PlayerPhysicComponent()
 {
@@ -65,7 +66,6 @@ void PlayerPhysicComponent::update(Scene& scene,  const sf::Time& dt)
 			glm::vec3 distance = player_position->position - enemy_position->position;
 			CharacterStatData* character_stat_data = parent->getData<CharacterStatData>(DATA_TYPE::CHARACTER_STAT);
 			CharacterStatData* enemy_stat_data = overlapsed_go[0]->getData<CharacterStatData>(DATA_TYPE::CHARACTER_STAT);
-
 
 			float dammage = enemy_stat_data->atk - character_stat_data->def;
 			if (dammage < 1.f)
@@ -285,11 +285,25 @@ void PlayerPhysicComponent::update(Scene& scene,  const sf::Time& dt)
 		temp->position.x += -dir.x * t * 20.f;
 		temp->position.z += -dir.z * t * 20.f;
 
-		if (longeur <= 20.f) {
+		if (longeur <= 20.f) 
+		{
 			isAiming = false;
 			phy->isJump = true;
-		}
 
+			if (target_aim->hasData(DATA_TYPE::CHARACTER_STAT)) 
+			{
+				CharacterStatData* pcd = parent->getData<CharacterStatData>(DATA_TYPE::CHARACTER_STAT);
+				CharacterStatData* cd = target_aim->getData<CharacterStatData>(DATA_TYPE::CHARACTER_STAT);
+				cd->curr.hp -= pcd->atk * 18.f - cd->def;
+			}
+
+
+			if (target_aim->hasData(DATA_TYPE::PLANT))
+			{
+				PlantData* plant = target_aim->getData<PlantData>(DATA_TYPE::PLANT);
+				plant->current_state = PlantData::State::physical_item;
+			}
+		}
 	}
 
 	///
@@ -301,10 +315,27 @@ void PlayerPhysicComponent::update(Scene& scene,  const sf::Time& dt)
 	if (p->curr_state == PlayerData::State::attack) {
 		std::vector<GameObject*> overlapsed_go = CollisionEngine::getAllOverlapingGameObjectWithGroups("player_attack_hitbox", { "plant" });
 
-		if (overlapsed_go.size() > 0) {
-			for (GameObject* go : overlapsed_go) {
-				if (go->hasData(DATA_TYPE::PLANT)) {
+		if (overlapsed_go.size() > 0)
+		{
+			for (GameObject* go : overlapsed_go)
+			{
+				if (go->hasData(DATA_TYPE::PLANT)) 
+				{
 					PlantData* data = go->getData<PlantData>(DATA_TYPE::PLANT);
+
+					if (data->current_state != PlantData::State::physical_item && data->current_stage == PlantData::Stage::ripping)
+					{
+						PlantFactory pf(&scene);
+						GameObject* p = pf.createTrilleRouge();
+						PlantData* plantData = p->getData<PlantData>(DATA_TYPE::PLANT);
+						plantData->current_state = PlantData::State::physical_item;
+
+						Transform* transformData = p->getData<Transform>(DATA_TYPE::TRANSFORM);
+						Transform* goTransformData = go->getData<Transform>(DATA_TYPE::TRANSFORM);
+						transformData->position = goTransformData->position + glm::vec3(0.5, 0.0, 0.5);
+						transformData->scale = goTransformData->scale;
+					}
+
 					data->current_state = PlantData::State::physical_item;
 				}
 			}

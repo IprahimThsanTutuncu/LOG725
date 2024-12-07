@@ -30,18 +30,19 @@ GameObject* PlantFactory::createTrilleRouge()
     target->setGameObjectPhysicComponent<PlantPhysicComponent>(go);
     target->setGameObjectRenderComponent<PlantRenderComponent>(go, "media/image/plant/fleur/fleur_1_test.json");
 
-    target->addToGroups(go, { "plant" });
-
     class FlowerBehaviour : public NativeScriptComponent {
 
-        void init(Scene& scene) override {
+        void init(Scene& scene) override
+        {
 
         };
-        void update(Scene& scene, const sf::Time& dt) override {
+        void update(Scene& scene, const sf::Time& dt) override
+        {
 
         };
 
-        void onDelete(Scene& scene) override {
+        void onDelete(Scene& scene) override 
+        {
 
         };
     };

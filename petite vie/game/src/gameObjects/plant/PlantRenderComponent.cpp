@@ -59,11 +59,13 @@ void PlantRenderComponent::init(Scene& scene)
 
     std::vector<json> frames;
 
-    for (auto& [key, value] : j["frames"].items()) {
+    for (auto& [key, value] : j["frames"].items()) 
+    {
         frames.push_back(value);
     }
 
-    for (auto& [key, value] : j["meta"]["frameTags"].items()) {
+    for (auto& [key, value] : j["meta"]["frameTags"].items()) 
+    {
         std::string name = value["name"];
         int begin = value["from"];
         int end = value["to"];
@@ -72,7 +74,8 @@ void PlantRenderComponent::init(Scene& scene)
         spriteAnimation.setCurrAnimation(name);
         //std::cout << name << "begin: " << begin << ", end" << end << std::endl;
 
-        for (int i = begin; i <= end; i++) {
+        for (int i = begin; i <= end; i++) 
+        {
             auto& frame = frames[i]["frame"];
             auto& duration = frames[i]["duration"];
             //std::cout << " x : " << frame["x"] << ", y: " << frame["y"] << ", w : " << frame["w"] << ",h : " << frame["h"] << std::endl;
@@ -84,23 +87,19 @@ void PlantRenderComponent::init(Scene& scene)
     editableSpriteAnimationData->key_color = sf::Color(0, 0, 0, 0);
     spriteAnimation.setKeyColor(editableSpriteAnimationData->key_color);
 
-
     editableSpriteAnimationData->path = spriteSheetMetaDataPath;
     editableSpriteAnimationData->flipY = false;
     editableSpriteAnimationData->flipX = false;
-
 
     if (hasEmissionMap)
         spriteAnimation.setEmissionTexture(parent_path.parent_path().string() + "\\" + img_path.substr(0, img_path.size() - 4) + "emission.png");
     if (hasDepthMap)
         spriteAnimation.setDepthTexture(parent_path.parent_path().string() + "\\" + img_path.substr(0, img_path.size() - 4) + "depth.png");
 
-
     editableSpriteAnimationData->has_emission = spriteAnimation.hasEmissionTexture();
     editableSpriteAnimationData->has_depth = spriteAnimation.hasDepthTexture();
 
     isPhysicalObject = plant_data->current_state == PlantData::State::physical_item;
-
 }
 
 void PlantRenderComponent::update(Scene& scene, const sf::Time& dt, sf::RenderTarget& target, RendererPseudo3D& renderer)
@@ -108,7 +107,8 @@ void PlantRenderComponent::update(Scene& scene, const sf::Time& dt, sf::RenderTa
     if (plant_data->current_state == PlantData::State::planted) {
         isPhysicalObject = false;
 
-        if (editableSpriteAnimationData->current_animation != plant_animation_map[plant_data->current_stage]) {
+        if (editableSpriteAnimationData->current_animation != plant_animation_map[plant_data->current_stage])
+        {
             editableSpriteAnimationData->current_animation = plant_animation_map[plant_data->current_stage];
             spriteAnimation.setCurrAnimation(editableSpriteAnimationData->current_animation);
         }
@@ -134,7 +134,6 @@ void PlantRenderComponent::update(Scene& scene, const sf::Time& dt, sf::RenderTa
         float rotation = transform->rotation;
         position.x = int(position.x + 0.5);
         position.z = int(position.z + 0.5);
-        position.y = scene.getRenderHeightOnPosition(sf::Vector2f(position.x, position.z)); // ajouter un += pour chapeau a height de 104
 
         spriteAnimation.setDepthFactor(editableSpriteAnimationData->depth_factor);
 

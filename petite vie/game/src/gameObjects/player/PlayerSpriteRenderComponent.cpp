@@ -141,8 +141,8 @@ void PlayerSpriteRenderComponent::init(Scene& scene)
     //////////////////////////////////////////// 
 
     slashSprite = createSpriteAnimation("media/image/effect/fx.png", "slashSprite");
-    attack_hitbox_start.spheres.push_back(Sphere{ 10.f, glm::vec3(0.f) });
-    attack_hitbox_mid.spheres.push_back(Sphere{ 15.f, glm::vec3(0.f) });
+    attack_hitbox_start.spheres.push_back(Sphere{ 20.f, glm::vec3(0.f) });
+    attack_hitbox_mid.spheres.push_back(Sphere{ 30.f, glm::vec3(0.f) });
     player_hitbox.spheres.push_back(Sphere{ 16.f, glm::vec3(0.f) });
     slashSprite->enableLoop(false);
     slashSprite->setKeyColor(sf::Color(42, 81, 114, 255));
@@ -169,8 +169,8 @@ void PlayerSpriteRenderComponent::init(Scene& scene)
         if (playerSprite->isFlipX())
             n = -n;
         n *= 3.0f;
-
-        attack_hitbox_start.position = n;
+        attack_hitbox_start.position = tr_player->position;
+        attack_hitbox_start.position += n;
         attack_hitbox_start.position.y += 5.f;
         
         CollisionEngine::add("player_attack_hitbox", tr_player, &attack_hitbox_start);
@@ -191,6 +191,8 @@ void PlayerSpriteRenderComponent::init(Scene& scene)
         if (playerSprite->isFlipX())
             n = -n;
         n *= 10.0f;
+        attack_hitbox_start.position = tr_player->position;
+        attack_hitbox_start.position += n;
         attack_hitbox_start.position.y += 5.f;
 
         CollisionEngine::remove("player_attack_hitbox");
@@ -214,7 +216,7 @@ void PlayerSpriteRenderComponent::update(Scene& scene, const sf::Time& dt, sf::R
     if (goBackToMenu)
     {
         Game* game = scene.getParent()->getParent();
-        game->changeState(RessourceManager::StateManager::create<MainMenuState>(game), true);
+        game->changeState(RessourceManager::StateManager::create<MainMenuState>(game, "media/data/dialogue/mainmenu_lost.txt", 2), true);
         goBackToMenu = false;
         return;
     }

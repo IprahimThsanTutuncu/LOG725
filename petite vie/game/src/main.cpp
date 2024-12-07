@@ -24,7 +24,7 @@ int main()
     controlSetting.add(sf::Keyboard::K, Config::InputState::isPressedNoRepeat, Config::InputAction::attack);
 
     Game game(1024, 768);
-    game.changeState(RessourceManager::StateManager::create<MainMenuState>(&game), true);
+    game.changeState(RessourceManager::StateManager::create<MainMenuState>(&game, "media/data/dialogue/mainmenu.txt", 0), true);
     game.setControlSettings(&controlSetting);
     game.run();
 

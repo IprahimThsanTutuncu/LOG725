@@ -18,10 +18,6 @@ public:
     ~EnemyPhysicComponent();
 private:
     bool onGround{ true };
-    bool isJumping{ false };
-    bool isDoubleJumping{ false };
-    bool isAiming{ false };
-    bool isReachingTarget{ false };
     float y0{ 0.f };
     float y01{ 0.f };
     float x0{ 0.f };
