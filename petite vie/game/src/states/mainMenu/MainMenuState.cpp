@@ -321,9 +321,9 @@ void MainMenuState::init()
 {
 	m_scene = new Scene(this, "media/data/map/shop-1.json", VIEW_TYPE::DYNAMIC_VIEW);
 
-	RessourceManager::SoundManager::setVolume(50);
+	//RessourceManager::SoundManager::setVolume(50);
 	RessourceManager::MusicManager::stop();
-	RessourceManager::MusicManager::setVolume(25);
+	//RessourceManager::MusicManager::setVolume(25);
 	RessourceManager::MusicManager::play("media/music/shop.mp3");
 
 	UI::ShaderUIparam shader_param;
