@@ -27,6 +27,10 @@ public:
     std::string begin_dialogue_path;
 
 private:
+    void createSettingsMenu();
+    void createMusicMenu();
+    void createSoundMenu();
+
     bool startGameState{ false };
 
     Scene* m_scene;
