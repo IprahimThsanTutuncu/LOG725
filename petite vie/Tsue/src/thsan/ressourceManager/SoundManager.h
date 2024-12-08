@@ -14,7 +14,12 @@ namespace RessourceManager {
         static void stop();
         static void setVolume(float volume);
 
+        static float getVolume();
+
     private:
+
+        static float volume;
+
         static std::shared_ptr<sf::SoundBuffer> get(const std::string& soundPath);
 
         static std::unordered_map<std::string, std::shared_ptr<sf::SoundBuffer>> soundBuffers;

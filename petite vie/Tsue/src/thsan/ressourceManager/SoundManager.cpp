@@ -7,6 +7,8 @@ namespace RessourceManager {
     std::unordered_map<std::string, std::shared_ptr<sf::SoundBuffer>> SoundManager::soundBuffers;
     std::unordered_map<std::string, std::shared_ptr<sf::Sound>> SoundManager::activeSounds;
 
+    float SoundManager::volume = 0.f;
+
     std::shared_ptr<sf::SoundBuffer> SoundManager::get(const std::string& soundPath)
     {
         auto it = soundBuffers.find(soundPath);
@@ -31,6 +33,7 @@ namespace RessourceManager {
         }
 
         auto sound = std::make_shared<sf::Sound>(*buffer);
+        sound->setVolume(volume);
         sound->play();
         activeSounds[soundPath] = sound;
     }
@@ -52,11 +55,13 @@ namespace RessourceManager {
         activeSounds.clear();
     }
 
-    void SoundManager::setVolume(float volume) 
+    void SoundManager::setVolume(float vol) 
     {
-        for (auto& pair : activeSounds)
-        {
-            pair.second->setVolume(volume);
-        }
+        volume = vol;
+    }
+
+    float SoundManager::getVolume()
+    {
+        return volume;
     }
 }
