@@ -66,9 +66,9 @@ void MainMenuState::createSettingsMenu() {
 		);
 
 		std::vector<UI::LabelButton*> bttnsSetting;
-		UI::LabelButton* lbl_bttn_music = new UI::LabelButton("lbl_bttn_music", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, -0.15), "Music", 0.75f, sf::Color::White);
-		UI::LabelButton* lbl_bttn_sound = new UI::LabelButton("lbl_bttn_sound", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.55, -0.15), "Sound", 0.75f, sf::Color::White);
-			UI::LabelButton* lbl_bttn_menu = new UI::LabelButton("lbl_bttn_menu", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.13, 0.65), "Back to menu", 0.95f, sf::Color::White);
+		UI::LabelButton* lbl_bttn_music = new UI::LabelButton("lbl_bttn_music", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, -0.15), "Music", 0.47f, sf::Color::White);
+		UI::LabelButton* lbl_bttn_sound = new UI::LabelButton("lbl_bttn_sound", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.55, -0.15), "Sound", 0.47f, sf::Color::White);
+		UI::LabelButton* lbl_bttn_menu = new UI::LabelButton("lbl_bttn_menu", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.19, 0.25), "Back to menu", 0.47f, sf::Color::White);
 
 		lbl_bttn_music->left = lbl_bttn_sound;
 		lbl_bttn_music->right = lbl_bttn_sound;
@@ -80,13 +80,6 @@ void MainMenuState::createSettingsMenu() {
         lbl_bttn_sound->down = lbl_bttn_menu;
         lbl_bttn_music->down = lbl_bttn_menu;
 
-		/* TODO
-			EDIT: ACCIDENTAL CAPS LOCK
-
-			HERE IS BUTTON FOR MUSIC AND SOUND
-			ADD ANOTHER CALLED "NOTHING" QUI RAM�NE AU MAINMEMU, MUSIC ET SOUND RAMENE AU MAINMENU EN CE MOMENT
-
-		*/
 		lbl_bttn_music->connect(UI::Action::pressed, [&]()
 			{
 				std::shared_ptr<State> curr_state = RessourceManager::StateManager::get<State>(this->getId());
@@ -100,7 +93,6 @@ void MainMenuState::createSettingsMenu() {
 				}
 				RessourceManager::MusicManager::setVolume(25);
 				std::cout << "Music volume set to 25." << std::endl;
-				//m_parent->changeState(curr_state, true);
 				createMusicMenu();
 
 			});
@@ -117,7 +109,6 @@ void MainMenuState::createSettingsMenu() {
 			}
 			RessourceManager::SoundManager::setVolume(100);
 			std::cout << "Sound volume set to 100." << std::endl;
-			//m_parent->changeState(curr_state, true);
             createSoundMenu();
 			});
 
@@ -134,11 +125,11 @@ void MainMenuState::createSettingsMenu() {
 		lbl_bttn_sound->connect(UI::Action::hover, [lbl_bttn_sound]() {lbl_bttn_sound->setFontColor(sf::Color::Red); });
 
 		lbl_bttn_menu->connect(UI::Action::crossed, [lbl_bttn_menu]() {lbl_bttn_menu->setFontColor(sf::Color::White); });
-        	lbl_bttn_menu->connect(UI::Action::hover, [lbl_bttn_menu]() {lbl_bttn_menu->setFontColor(sf::Color::Magenta); });
+        lbl_bttn_menu->connect(UI::Action::hover, [lbl_bttn_menu]() {lbl_bttn_menu->setFontColor(sf::Color::Magenta); });
 
         bttnsSetting = { lbl_bttn_music, lbl_bttn_sound , lbl_bttn_menu };
 
-		dialogueSetting->addChoiceBox(bttnsSetting, 0, sf::Vector2f(0.4f, 0.35f), sf::Vector2f(0.3, 0.1));
+		dialogueSetting->addChoiceBox(bttnsSetting, 0, sf::Vector2f(0.4f, 0.35f), sf::Vector2f(0.28, 0.16));
 
 		m_parent->changeState(dialogueSetting, true);
 }
@@ -158,9 +149,9 @@ void MainMenuState::createMusicMenu() {
 		0.3f,
 		0.0f
 	);
-	UI::LabelButton* lbl_music_up = new UI::LabelButton("lbl_music_up", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, -0.65), "More", 0.75f, sf::Color::White);
-	UI::LabelButton* lbl_music_down = new UI::LabelButton("lbl_music_down", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, -0.15), "Less", 0.75f, sf::Color::White);
-	UI::LabelButton* lbl_menu = new UI::LabelButton("lbl_menu", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, 0.45), "Back to setting", 0.75f, sf::Color::White);
+	UI::LabelButton* lbl_music_up = new UI::LabelButton("lbl_music_up", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, -0.12), "More", 0.37f, sf::Color::White);
+	UI::LabelButton* lbl_music_down = new UI::LabelButton("lbl_music_down", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, 0.15), "Less", 0.37f, sf::Color::White);
+	UI::LabelButton* lbl_menu = new UI::LabelButton("lbl_menu", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, 0.45), "Back to setting", 0.37f, sf::Color::White);
 
 	lbl_music_up->up = lbl_menu;
 	lbl_music_up->down = lbl_music_down;
@@ -215,10 +206,10 @@ void MainMenuState::createMusicMenu() {
 
 
 	lbl_music_up->connect(UI::Action::crossed, [lbl_music_up]() {lbl_music_up->setFontColor(sf::Color::White); });
-	lbl_music_up->connect(UI::Action::hover, [lbl_music_up]() {lbl_music_up->setFontColor(sf::Color::Magenta); });
+	lbl_music_up->connect(UI::Action::hover, [lbl_music_up]() {lbl_music_up->setFontColor(sf::Color::Red); });
 
 	lbl_music_down->connect(UI::Action::crossed, [lbl_music_down]() {lbl_music_down->setFontColor(sf::Color::White); });
-	lbl_music_down->connect(UI::Action::hover, [lbl_music_down]() {lbl_music_down->setFontColor(sf::Color::Magenta); });
+	lbl_music_down->connect(UI::Action::hover, [lbl_music_down]() {lbl_music_down->setFontColor(sf::Color::Red); });
 
 	lbl_menu->connect(UI::Action::crossed, [lbl_menu]() {lbl_menu->setFontColor(sf::Color::White); });
 	lbl_menu->connect(UI::Action::hover, [lbl_menu]() {lbl_menu->setFontColor(sf::Color::Magenta); });
@@ -226,7 +217,7 @@ void MainMenuState::createMusicMenu() {
 
 	std::vector<UI::LabelButton*> bttnsSettingMusicSound = { lbl_music_up, lbl_music_down , lbl_menu };
 
-	dialogueMusic->addChoiceBox(bttnsSettingMusicSound, 0, sf::Vector2f(0.4f, 0.35f), sf::Vector2f(0.5, 0.1));
+	dialogueMusic->addChoiceBox(bttnsSettingMusicSound, 0, sf::Vector2f(0.4f, 0.35f), sf::Vector2f(0.3, 0.2));
 
 	m_parent->changeState(dialogueMusic, true);
 }
@@ -246,9 +237,9 @@ void MainMenuState::createSoundMenu() {
 		0.3f,
 		0.0f
 	);
-	UI::LabelButton* lbl_music_up = new UI::LabelButton("lbl_music_up", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, -0.65), "More", 0.75f, sf::Color::White);
-	UI::LabelButton* lbl_music_down = new UI::LabelButton("lbl_music_down", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, -0.15), "Less", 0.75f, sf::Color::White);
-	UI::LabelButton* lbl_menu = new UI::LabelButton("lbl_menu", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, 0.45), "Back to setting", 0.75f, sf::Color::White);
+	UI::LabelButton* lbl_music_up = new UI::LabelButton("lbl_music_up", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, -0.12), "More", 0.37f, sf::Color::White);
+	UI::LabelButton* lbl_music_down = new UI::LabelButton("lbl_music_down", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, 0.15), "Less", 0.37f, sf::Color::White);
+	UI::LabelButton* lbl_menu = new UI::LabelButton("lbl_menu", "media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf", sf::Vector2f(0.15, 0.45), "Back to setting", 0.37f, sf::Color::White);
 
 	lbl_music_up->up = lbl_menu;
 	lbl_music_up->down = lbl_music_down;
@@ -301,10 +292,10 @@ void MainMenuState::createSoundMenu() {
 
 
 	lbl_music_up->connect(UI::Action::crossed, [lbl_music_up]() {lbl_music_up->setFontColor(sf::Color::White); });
-	lbl_music_up->connect(UI::Action::hover, [lbl_music_up]() {lbl_music_up->setFontColor(sf::Color::Magenta); });
+	lbl_music_up->connect(UI::Action::hover, [lbl_music_up]() {lbl_music_up->setFontColor(sf::Color::Red); });
 
 	lbl_music_down->connect(UI::Action::crossed, [lbl_music_down]() {lbl_music_down->setFontColor(sf::Color::White); });
-	lbl_music_down->connect(UI::Action::hover, [lbl_music_down]() {lbl_music_down->setFontColor(sf::Color::Magenta); });
+	lbl_music_down->connect(UI::Action::hover, [lbl_music_down]() {lbl_music_down->setFontColor(sf::Color::Red); });
 
 	lbl_menu->connect(UI::Action::crossed, [lbl_menu]() {lbl_menu->setFontColor(sf::Color::White); });
 	lbl_menu->connect(UI::Action::hover, [lbl_menu]() {lbl_menu->setFontColor(sf::Color::Magenta); });
@@ -312,7 +303,7 @@ void MainMenuState::createSoundMenu() {
 
 	std::vector<UI::LabelButton*> bttnsSettingMusicSound = { lbl_music_up, lbl_music_down , lbl_menu };
 
-	dialogueSound->addChoiceBox(bttnsSettingMusicSound, 0, sf::Vector2f(0.4f, 0.35f), sf::Vector2f(0.5, 0.1));
+	dialogueSound->addChoiceBox(bttnsSettingMusicSound, 0, sf::Vector2f(0.4f, 0.35f), sf::Vector2f(0.3, 0.2));
 
 	m_parent->changeState(dialogueSound, true);
 }
@@ -359,28 +350,6 @@ void MainMenuState::init()
 
 	lbl_bttn_2->left = lbl_bttn_1;
 	lbl_bttn_2->right = lbl_bttn_1;
-
-	/*	TODO
-
-		for yulia:
-		->add a setting window which will ask if you want to modify sound or music
-			note:there's a dialogue in media/data/dialogue/mainmenu_setting.txt for the shopkeeper
-
-		le sound mixer faut que tu le fasse toi m�me dans un
-		pour le sound y'a "RessourceManager::SoundManager::setVolume(100);"
-		pour la music y'a "RessourceManager::MusicManager::setVolume(25);"
-
-		Faudra faire un "std::shared_ptr<DialogueState> dialogueSetting = RessourceManager::StateManager::create<DialogueState>(...);
-"			lbl_bttn_2->connect(UI::Action::pressed, [&]() { m_parent->changeState(dialogueSetting, true); });
-
-		sois cr�atif I guess pour le UI
-
-		aaah, also, les position sont tous �tre 0 et 1, c'�est relatif au panel parent.
-		si t'as un panel a position x 0.5, bah c'est 50% de l'ecran.
-		Si ton text est a 0.25, bien c'est size du panel parent multiplier par 0.25
-		confusing to work with, I hate it. Dans le new engine ca existe pas.
-
-	*/
 
 	lbl_bttn_2->connect(UI::Action::pressed, [&]()
 		{
