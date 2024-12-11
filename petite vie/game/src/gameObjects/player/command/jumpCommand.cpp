@@ -1,4 +1,5 @@
 #include "jumpCommand.h"
+#include <thsan/ressourceManager/SoundManager.h>
 
 JumpCommand::JumpCommand()
 {
@@ -14,6 +15,8 @@ void JumpCommand::execute(GameObject& parent, Scene& scene, const sf::Time& dt)
 	if (phy->onGround) {
 		phy->isJump = true;
 		phy->onGround = false;
+		RessourceManager::SoundManager::play("media/sound/jump.ogg");
+
 	}
 	else {
 		phy->isDoubleJump = true;
