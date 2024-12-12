@@ -15,6 +15,7 @@
 #include "command/AttackCommand.h"
 #include "command/RunCommand.h"
 #include "command/StopRunCommand.h"
+#include "command/PauseCommand.h"
 
 class PlayerInputComponent : public InputComponent
 {
@@ -42,6 +43,7 @@ class PlayerInputComponent : public InputComponent
         Command* stop_run{ new StopRunCommand() };
         Command* action{ new ActionCommand() };
         Command* attack{ new AttackCommand() };
+        Command* pause{ new PauseCommand() };
         std::vector<Command*> historyInput;
 
         PlayerData* player_data;

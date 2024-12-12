@@ -21,6 +21,8 @@ public:
 	std::shared_ptr<State> createPlayerActionChoiceBox(GameObject& player, Scene& scene, BagData::Item item);
 	std::shared_ptr<State> createPlayerActionChoiceBox(GameObject& player, Scene& scene, BagData::Gear gear);
 	std::shared_ptr<State> createPlayerListChoiceBox(GameObject& player, Scene& scene);
+	std::shared_ptr<State> createPlayerPause(GameObject& player, Scene& scene);
+	std::shared_ptr<State> createPlayerActionChoiceBox(GameObject& player, Scene& scene);
 
 private:
 	std::shared_ptr<State> current;

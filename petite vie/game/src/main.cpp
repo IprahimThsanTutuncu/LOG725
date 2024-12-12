@@ -22,6 +22,7 @@ int main()
     controlSetting.add(sf::Keyboard::Enter, Config::InputState::isPressedNoRepeat, Config::InputAction::select);
     controlSetting.add(sf::Keyboard::L, Config::InputState::isPressedNoRepeat, Config::InputAction::action);
     controlSetting.add(sf::Keyboard::K, Config::InputState::isPressedNoRepeat, Config::InputAction::attack);
+    controlSetting.add(sf::Keyboard::Escape, Config::InputState::isPressedNoRepeat, Config::InputAction::pause);
 
     Game game(1024, 768);
     game.changeState(RessourceManager::StateManager::create<MainMenuState>(&game, "media/data/dialogue/mainmenu.txt", 0), true);

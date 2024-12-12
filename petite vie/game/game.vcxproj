@@ -181,6 +181,7 @@
     <ClCompile Include="src\gameObjects\player\command\MoveLeftCommand.cpp" />
     <ClCompile Include="src\gameObjects\player\command\MoveRightCommand.cpp" />
     <ClCompile Include="src\gameObjects\player\command\MoveUpCommand.cpp" />
+    <ClCompile Include="src\gameObjects\player\command\PauseCommand.cpp" />
     <ClCompile Include="src\gameObjects\player\command\PlantCommand.cpp" />
     <ClCompile Include="src\gameObjects\player\command\RunCommand.cpp" />
     <ClCompile Include="src\gameObjects\player\command\StopRunCommand.cpp" />
@@ -228,6 +229,7 @@
     <ClInclude Include="src\gameObjects\player\command\MoveLeftCommand.h" />
     <ClInclude Include="src\gameObjects\player\command\MoveRightCommand.h" />
     <ClInclude Include="src\gameObjects\player\command\MoveUpCommand.h" />
+    <ClInclude Include="src\gameObjects\player\command\PauseCommand.h" />
     <ClInclude Include="src\gameObjects\player\command\PlantCommand.h" />
     <ClInclude Include="src\gameObjects\player\command\RunCommand.h" />
     <ClInclude Include="src\gameObjects\player\command\StopRunCommand.h" />

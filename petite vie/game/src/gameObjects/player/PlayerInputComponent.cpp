@@ -108,6 +108,8 @@ std::vector<Command*> PlayerInputComponent::handleInput(std::vector<Config::Inpu
 			commands.push_back(action);
 		if (inputAction == Config::InputAction::attack)
 			commands.push_back(attack);
+		if (inputAction == Config::InputAction::pause)
+			commands.push_back(pause);
 	}
 
 	return commands;
@@ -127,4 +129,5 @@ PlayerInputComponent::~PlayerInputComponent()
 	delete rotateRight;
 	delete action;
 	delete attack;
+	delete pause;
 }

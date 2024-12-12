@@ -38,7 +38,8 @@ namespace Config {
 		aim,
 		stop_aim,
 		plant,
-		attack
+		attack,
+		pause
 	};
 
 	struct  InputCode {

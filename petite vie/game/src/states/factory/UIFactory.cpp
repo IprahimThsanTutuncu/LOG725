@@ -1,6 +1,7 @@
 #include "UIFactory.h"
 #include "states/choiceBox/ChoiceBoxState.h"
 #include "gameObjects/plant/PlantFactory.h"
+#include "states/mainMenu/MainMenuState.h"
 
 #include <thsan/scene/Scene.h>
 #include <thsan/gameObject/GameObject.h>
@@ -19,6 +20,118 @@ UIFactory::UIFactory(std::shared_ptr<State> current):
 {
 
 }
+
+std::shared_ptr<State> UIFactory::createPlayerPause(GameObject& player, Scene& scene)
+{
+	// Verify that the player is the actual player
+	if (player.getName() != "player" || !player.hasData(DATA_TYPE::PLAYER))
+		return nullptr;
+
+	// Initialize values required for the ChoiceBox
+	std::shared_ptr<UI::ShaderUIparam> shader_param_ptr = RessourceManager::ThemeManager::get("media/data/theme/FF7.json");
+
+	sf::FloatRect player_rect = scene.querySpriteRectAssociateWith("player", true);
+	sf::Vector2f position = sf::Vector2f(player_rect.left + 0.10f + player_rect.width / 1.618f, player_rect.top - 0.10f);
+
+	////////////////////////////////////
+	//  Declaration of label buttons  //
+	////////////////////////////////////
+
+	std::vector<UI::LabelButton*> bttns;
+
+	// Create Pause button
+	UI::LabelButton* lbl_bttn_resume = new UI::LabelButton(
+		"lbl_bttn_resume",
+		"media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf",
+		sf::Vector2f(0.15, -0.15),
+		"Resume",
+		0.6f,
+		sf::Color::White
+	);
+
+	// Create Quit button
+	UI::LabelButton* lbl_bttn_quit = new UI::LabelButton(
+		"lbl_bttn_quit",
+		"media/font/Final_Fantasy_VII/Final_Fantasy_VII.ttf",
+		sf::Vector2f(0.55, -0.15),
+		"Quit",
+		0.6f,
+		sf::Color::White
+	);
+
+	///////////////////////////////////
+	//  Set label buttons direction  //
+	///////////////////////////////////
+
+	lbl_bttn_resume->left = lbl_bttn_quit;
+	lbl_bttn_resume->right = lbl_bttn_quit;
+
+	lbl_bttn_quit->left = lbl_bttn_resume;
+	lbl_bttn_quit->right = lbl_bttn_resume;
+
+	//////////////////////////////////
+	//  Connect label buttons event //
+	//////////////////////////////////
+
+	// Pause button actions
+	lbl_bttn_resume->connect(UI::Action::crossed, [lbl_bttn_resume]() {
+		lbl_bttn_resume->setFontColor(sf::Color::White);
+		});
+
+	lbl_bttn_resume->connect(UI::Action::hover, [lbl_bttn_resume]() {
+		lbl_bttn_resume->setFontColor(sf::Color::Yellow);
+		});
+
+	lbl_bttn_resume->connect(UI::Action::pressed, [&scene]() {
+		//UIFactory factory(scene.getParent()->getParent()->peekState());
+		//std::shared_ptr<State> state = factory.createPlayerActionChoiceBox(player, scene);
+		//scene.getParent()->getParent()->changeState(state, true);
+		});
+
+	// Quit button actions
+	lbl_bttn_quit->connect(UI::Action::crossed, [lbl_bttn_quit]() {
+		lbl_bttn_quit->setFontColor(sf::Color::White);
+		});
+
+	lbl_bttn_quit->connect(UI::Action::hover, [lbl_bttn_quit]() {
+		lbl_bttn_quit->setFontColor(sf::Color::Red);
+		});
+
+	lbl_bttn_quit->connect(UI::Action::pressed, [&scene]() {
+		Game* game = scene.getParent()->getParent();
+		game->changeState(RessourceManager::StateManager::create<MainMenuState>(
+			game,
+			"media/data/dialogue/mainmenu.txt",
+			0
+		), true);
+		});
+
+	/////////////////////////////////////
+	//  Pack label buttons for ChoiceBox //
+	/////////////////////////////////////
+
+	bttns.push_back(lbl_bttn_resume);
+	bttns.push_back(lbl_bttn_quit);
+
+	////////////////////////////////////////
+	//  Create and return ChoiceBox state //
+	////////////////////////////////////////
+
+	std::shared_ptr<State> actual_curr = scene.getParent()->getParent()->peekState();
+	std::shared_ptr<State> pauseMenu = RessourceManager::StateManager::create<ChoiceBoxState>(
+		actual_curr->getParent(),
+		actual_curr,
+		position,
+		sf::Vector2f(0.2, 0.10),
+		*shader_param_ptr,
+		bttns,
+		sf::Color::White,
+		true
+	);
+
+	return pauseMenu;
+}
+
 
 std::shared_ptr<State> UIFactory::createPlayerActionChoiceBox(GameObject& player, Scene& scene, PlantData plant)
 {
@@ -225,6 +338,11 @@ std::shared_ptr<State> UIFactory::createPlayerActionChoiceBox(GameObject& player
 }
 
 std::shared_ptr<State> UIFactory::createPlayerActionChoiceBox(GameObject& player, Scene& scene, BagData::Gear gear)
+{
+	return std::shared_ptr<State>();
+}
+
+std::shared_ptr<State> UIFactory::createPlayerActionChoiceBox(GameObject& player, Scene& scene)
 {
 	return std::shared_ptr<State>();
 }

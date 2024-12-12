@@ -46,6 +46,7 @@
     <ClCompile Include="src\gameObjects\healthbar\HealthBarRenderComponent.cpp" />
     <ClCompile Include="src\gameObjects\enemy\EnemyFactory.cpp" />
     <ClCompile Include="src\gameObjects\gameCleared\GameClearedRenderComponent.cpp" />
+    <ClCompile Include="src\gameObjects\player\command\PauseCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\states\choiceBox\ChoiceBoxState.h" />
@@ -92,6 +93,7 @@
     <ClInclude Include="src\gameObjects\healthbar\HealthBarRenderComponent.h" />
     <ClInclude Include="src\gameObjects\enemy\EnemyFactory.h" />
     <ClInclude Include="src\gameObjects\gameCleared\GameClearedRenderComponent.h" />
+    <ClInclude Include="src\gameObjects\player\command\PauseCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="media\shader\postProcess\postprocess.frag" />
