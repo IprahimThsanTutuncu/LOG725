@@ -243,6 +243,7 @@ std::shared_ptr<State> UIFactory::createPlayerActionChoiceBox(GameObject& player
 		//make sure the animationis set to be played
 		PlayerData* player_data{ nullptr };
 		BagData* bag_data{ nullptr };
+		RessourceManager::SoundManager::play("media/sound/crop.ogg");
 
 		if (player.hasData(DATA_TYPE::PLAYER)) {
 			player_data = player.getData<PlayerData>(DATA_TYPE::PLAYER);

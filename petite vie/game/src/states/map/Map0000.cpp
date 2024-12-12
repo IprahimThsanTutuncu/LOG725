@@ -28,6 +28,7 @@
 
 #include <cstdlib> 
 #include <ctime> 
+#include <thsan/ressourceManager/MusicManager.h>
 
 void Map0000::generatePlantsInRange(int n, float range, GameObject* player) {
     PlantFactory pf(m_scene);
@@ -91,6 +92,10 @@ Map0000::Map0000(Game* parent) :
 
 void Map0000::init()
 {
+    RessourceManager::MusicManager::stop();
+    //RessourceManager::MusicManager::setVolume(25);
+    RessourceManager::MusicManager::play("media/music/forest.mp3");
+
     PlantFactory pf(m_scene);
     GameObject* plant = pf.createTrilleRouge();
 
