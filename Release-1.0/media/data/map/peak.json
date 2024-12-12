@@ -1,0 +1,220 @@
+{
+    "image_static": [
+        {
+            "depth_factor": 1.0,
+            "depth_path": "",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "house_1",
+            "path": "media\\image\\house.png",
+            "position": {
+                "x": 533.0,
+                "y": 0.0,
+                "z": 186.0
+            },
+            "rotation": 0.0,
+            "scale": 0.20
+        },
+        {
+            "depth_factor": 14.8100004196167,
+            "depth_path": "media\\image\\arbre\\tree_mid_leaves_1depth.png",
+            "emission_path": "",
+            "flip_x": false,
+            "flip_y": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "tree_mid_leaves_1_5",
+            "path": "media\\image\\arbre\\tree_mid_leaves_1.png",
+            "position": {
+                "x": 649.0,
+                "y": 0.0,
+                "z": 143.0
+            },
+            "rotation": 0.0,
+            "scale": 1.0
+        }
+    ],
+    "lights": [
+        {
+            "ambient": {
+                "a": 255,
+                "b": 156,
+                "g": 127,
+                "r": 65
+            },
+            "attenuationConstant": 0.0,
+            "attenuationLinear": 0.0,
+            "attenuationQuadratic": 0.0,
+            "diffuse": {
+                "a": 255,
+                "b": 55,
+                "g": 203,
+                "r": 203
+            },
+            "direction": {
+                "x": -0.741771399974823,
+                "y": -0.2748381197452545,
+                "z": -0.6117516756057739
+            },
+            "isCursor": false,
+            "isDirection": true,
+            "isEnable": false,
+            "isPoint": false,
+            "isSpot": false,
+            "name": "directional",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "specular": {
+                "a": 255,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            }
+        }
+    ],
+    "seed": [],
+    "sprite_static": [
+        {
+            "current_animation": "flowering",
+            "depth_factor": 1.0,
+            "flip_x": false,
+            "flip_y": false,
+            "has_depth": false,
+            "has_emission": false,
+            "key_color": {
+                "a": 4648075455260262400,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "fleur_1_test._0",
+            "path": "media\\image\\plant\\fleur\\fleur_1_test.json",
+            "position": {
+                "x": 483.0,
+                "y": 0.0,
+                "z": 202.0
+            },
+            "rotation": 0.0,
+            "scale": 0.200
+        },
+        {
+            "current_animation": "flowering",
+            "depth_factor": 1.0,
+            "flip_x": false,
+            "flip_y": false,
+            "has_depth": false,
+            "has_emission": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "fleur_1_test._2",
+            "path": "media\\image\\plant\\fleur\\fleur_1_test.json",
+            "position": {
+                "x": 466.0,
+                "y": 0.0,
+                "z": 233.0
+            },
+            "rotation": 0.0,
+            "scale": 0.20
+        },
+        {
+            "current_animation": "flowering",
+            "depth_factor": 1.0,
+            "flip_x": false,
+            "flip_y": false,
+            "has_depth": false,
+            "has_emission": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "fleur_1_test._3",
+            "path": "media\\image\\plant\\fleur\\fleur_1_test.json",
+            "position": {
+                "x": 600.0,
+                "y": 0.0,
+                "z": 202.0
+            },
+            "rotation": 0.0,
+            "scale": 0.200
+        },
+        {
+            "current_animation": "flowering",
+            "depth_factor": 1.0,
+            "flip_x": false,
+            "flip_y": false,
+            "has_depth": false,
+            "has_emission": false,
+            "key_color": {
+                "a": 0,
+                "b": 0,
+                "g": 0,
+                "r": 0
+            },
+            "name": "fleur_1_test._4",
+            "path": "media\\image\\plant\\fleur\\fleur_1_test.json",
+            "position": {
+                "x": 616.0,
+                "y": 0.0,
+                "z": 210.0
+            },
+            "rotation": 0.0,
+            "scale": 0.2000
+        }
+    ],
+    "version": 0.353,
+    "voxel_terrain": {
+        "FOV": 1024,
+        "LOD": 0.1,
+        "LOD_startAt": 0.0,
+        "SpriteRenderDistance": 300.0,
+        "angle": 0.0,
+        "blur_type": 2,
+        "height": 20.0,
+        "horizon": 447.0,
+        "isViewTypeFixed": true,
+        "normal_blur_iteration": 6,
+        "normal_blurr": {
+            "x": 10.0,
+            "y": 0.10000
+        },
+        "offsetCameraPosition": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "position": {
+            "x": 553.0,
+            "y": 234.0,
+            "z": 357.0
+        },
+        "scaleHeight": 512.0,
+        "screen_height": 768.0,
+        "screen_width": 1024.0,
+        "shininess": 32.0,
+        "terrainRenderDistance": 300.0,
+        "terrain_collision_height_path": "media/image/fissure/terrain_height.png",
+        "terrain_collision_mask_path": "media/image/fissure/terrain_mask.png",
+        "terrain_color_path": "media/image/fissure/terrain_color.png",
+        "terrain_height_path": "media/image/fissure/terrain.png"
+    }
+}

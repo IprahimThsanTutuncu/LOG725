@@ -1,0 +1,19 @@
+{
+	"borderSize" : [ 0.25, 0.25, 0.25, 0.25],
+	"colorBg" : [
+		{"r":35, "g":23, "b":9, "a":255},
+		{"r":55, "g":36, "b":14, "a":255},
+		{"r":76, "g":50, "b":19, "a":255},
+		{"r":35, "g":23, "b":9, "a":255}
+	],
+	"colorBorder" : {"r":128, "g":220, "b":220, "a":255},
+	"colorBorderBorders" : {"r":30, "g":128, "b":128, "a":128},
+	"cornerRadius" : [0.05, 0.05, 0.05, 0.05],
+	"type" : "fill",
+	"enableImage" : false,
+	"direction" : {"x": 0.0, "y":0.0, "z":0.0},
+	"iteration" : 5,
+	"density"	: 8,
+	"p_texture" : "media/image/1024/terrain.png",
+	"speed"		: 1.0
+}

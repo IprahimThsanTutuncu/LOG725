@@ -79,7 +79,7 @@ std::shared_ptr<State> UIFactory::createPlayerPause(GameObject& player, Scene& s
 		});
 
 	lbl_bttn_resume->connect(UI::Action::hover, [lbl_bttn_resume]() {
-		lbl_bttn_resume->setFontColor(sf::Color::Yellow);
+		lbl_bttn_resume->setFontColor(sf::Color::Red);
 		});
 
 	lbl_bttn_resume->connect(UI::Action::pressed, [&scene]() {
@@ -113,14 +113,10 @@ std::shared_ptr<State> UIFactory::createPlayerPause(GameObject& player, Scene& s
 	bttns.push_back(lbl_bttn_resume);
 	bttns.push_back(lbl_bttn_quit);
 
-	////////////////////////////////////////
-	//  Create and return ChoiceBox state //
-	////////////////////////////////////////
 
-	std::shared_ptr<State> actual_curr = scene.getParent()->getParent()->peekState();
 	std::shared_ptr<State> pauseMenu = RessourceManager::StateManager::create<ChoiceBoxState>(
-		actual_curr->getParent(),
-		actual_curr,
+		current->getParent(),
+		current,
 		position,
 		sf::Vector2f(0.2, 0.10),
 		*shader_param_ptr,

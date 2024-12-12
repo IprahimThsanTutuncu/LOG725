@@ -1,0 +1,2 @@
+%p timerPerChar(0.01) pause(0.0) clear
+	\color(255,255,255) Something’s bothering you? \n

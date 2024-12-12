@@ -1,0 +1,2 @@
+%p timerPerChar(0.01) pause(0.0) 
+	\color(255,255,255) which crop are you interested in starting with? \n

@@ -11,7 +11,7 @@ void PauseCommand::execute(GameObject& parent, Scene& scene, const sf::Time& dt)
 	if (current) {
 		UIFactory uiFactory(current);
 
-		std::shared_ptr<State> playerlistChoiceBox = uiFactory.createPlayerPause(parent, scene);
-		current->getParent()->changeState(playerlistChoiceBox, true);
+		std::shared_ptr<State> playerPause = uiFactory.createPlayerPause(parent, scene);
+		current->getParent()->changeState(playerPause, true);
 	}
 }

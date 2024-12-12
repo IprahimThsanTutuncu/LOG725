@@ -109,7 +109,7 @@ std::vector<Command*> PlayerInputComponent::handleInput(std::vector<Config::Inpu
 		if (inputAction == Config::InputAction::attack)
 			commands.push_back(attack);
 		if (inputAction == Config::InputAction::pause)
-			commands.push_back(pause);
+			;// commands.push_back(pause);
 	}
 
 	return commands;

@@ -1,0 +1,9 @@
+%p timerPerChar(0.01) pause(0.3) 
+	\color(255,255,255) Hey,\n	
+
+%p timerPerChar(0.01) pause(0) clear
+	\color(255,255,255) du text \color(0,255,255) autre couleur \color(255,0,0) .\n
+	\color(255,255,255) plus de \color(255,255,0) text \color(255,255,255) .
+
+%p timerPerChar(0.01) pause(0) clear
+	Next \color(0,255,255) state \color(255,255,255) ?
