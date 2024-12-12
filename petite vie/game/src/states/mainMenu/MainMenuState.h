@@ -6,6 +6,7 @@ class DialogueState;
 
 class MainMenuState : public State
 {
+
 public:
     MainMenuState(Game* parent, std::string begin_dialogue_path, int playAtParagrapheNum);
 
